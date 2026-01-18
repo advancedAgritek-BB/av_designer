@@ -345,11 +345,12 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/standards/components/RuleEditor.tsx`
-- [ ] Add condition builder UI
-- [ ] Add expression editor
-- [ ] Support create and edit modes
-- [ ] Write tests in `tests/features/standards/components/RuleEditor.test.tsx`
+- [x] Create `src/features/standards/components/RuleEditor.tsx`
+- [x] Add condition builder UI with dimension, operator, value fields
+- [x] Add expression editor textarea
+- [x] Support create and edit modes with pre-population
+- [x] Add form validation with error messages
+- [x] Write tests in `tests/features/standards/components/RuleEditor.test.tsx`
 
 ### Task 4.7: Export Standards Feature
 
