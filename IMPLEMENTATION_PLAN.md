@@ -651,11 +651,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/quoting/bom-generator.ts`
-- [ ] Implement generateBOM function from room's placed equipment
-- [ ] Add equipment grouping by category
-- [ ] Add quantity aggregation for duplicate items
-- [ ] Write tests in `tests/features/quoting/bom-generator.test.ts`
+- [x] Create `src/features/quoting/bom-generator.ts`
+- [x] Implement generateBOM function from room's placed equipment
+- [x] Add equipment grouping by category
+- [x] Add quantity aggregation for duplicate items
+- [x] Write tests in `tests/features/quoting/bom-generator.test.ts`
 
 ### Task 7.5: Create Pricing Rules Engine
 
