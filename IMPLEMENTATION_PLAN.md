@@ -532,11 +532,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src-tauri/src/drawings/mod.rs`
-- [ ] Create `src-tauri/src/drawings/electrical.rs`
-- [ ] Implement Tauri command for generating electrical diagrams
-- [ ] Add signal flow analysis from room equipment data
-- [ ] Write Rust tests in `src-tauri/src/drawings/electrical.rs`
+- [x] Create `src-tauri/src/drawings/mod.rs`
+- [x] Create `src-tauri/src/drawings/electrical.rs`
+- [x] Implement Tauri command for generating electrical diagrams
+- [x] Add signal flow analysis from room equipment data
+- [x] Write Rust tests in `src-tauri/src/drawings/electrical.rs`
 
 ### Task 6.5: Create Drawing Canvas Component
 
