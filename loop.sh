@@ -13,8 +13,11 @@ set -e
 # Configuration
 CONTEXT_FILES=("ARCHITECTURE.md" "CLAUDE.md" "AGENTS.md")
 MAX_CONSECUTIVE_FAILURES=3
+MAX_CLAUDE_RETRIES=3
 SLEEP_BETWEEN_ITERATIONS=2
+RETRY_BACKOFF_BASE=30
 LOG_PREFIX=".ralph_iteration"
+AUTO_RESTART=true
 
 # Colors for output
 RED='\033[0;31m'
@@ -154,6 +157,84 @@ check_rate_limit() {
     return 1  # No rate limit
 }
 
+# Function to check for Claude errors (transient failures)
+check_claude_error() {
+    local output=$1
+    local exit_code=$2
+
+    # Check for known transient errors
+    if echo "$output" | grep -qi "No messages returned"; then
+        echo -e "${YELLOW}>>> Claude returned no messages (transient error)${NC}"
+        return 0  # Is an error
+    fi
+
+    if echo "$output" | grep -qi "ECONNRESET\|ETIMEDOUT\|ENOTFOUND"; then
+        echo -e "${YELLOW}>>> Network error detected${NC}"
+        return 0  # Is an error
+    fi
+
+    if echo "$output" | grep -qi "500\|502\|503\|504"; then
+        echo -e "${YELLOW}>>> Server error detected${NC}"
+        return 0  # Is an error
+    fi
+
+    if [[ $exit_code -ne 0 ]] && [[ -z "$output" ]]; then
+        echo -e "${YELLOW}>>> Claude exited with code $exit_code and no output${NC}"
+        return 0  # Is an error
+    fi
+
+    return 1  # No error
+}
+
+# Function to run Claude with retries
+run_claude_with_retry() {
+    local context=$1
+    local log_file=$2
+    local retry_count=0
+    local output=""
+    local exit_code=0
+
+    while [[ $retry_count -lt $MAX_CLAUDE_RETRIES ]]; do
+        echo -e "${BLUE}>>> Running Claude (attempt $((retry_count + 1))/$MAX_CLAUDE_RETRIES)...${NC}"
+
+        set +e
+        output=$(echo "$context" | claude -p --dangerously-skip-permissions 2>&1 | tee "$log_file")
+        exit_code=$?
+        set -e
+
+        # Check for rate limit first
+        if check_rate_limit "$output"; then
+            # Rate limit handled, retry immediately
+            continue
+        fi
+
+        # Check for transient errors
+        if check_claude_error "$output" "$exit_code"; then
+            retry_count=$((retry_count + 1))
+            if [[ $retry_count -lt $MAX_CLAUDE_RETRIES ]]; then
+                local backoff=$((RETRY_BACKOFF_BASE * retry_count))
+                echo -e "${YELLOW}>>> Retrying in ${backoff}s...${NC}"
+                sleep $backoff
+                continue
+            else
+                echo -e "${RED}>>> Max retries ($MAX_CLAUDE_RETRIES) exceeded${NC}"
+                CLAUDE_OUTPUT=""
+                CLAUDE_EXIT_CODE=1
+                return 1
+            fi
+        fi
+
+        # Success
+        CLAUDE_OUTPUT="$output"
+        CLAUDE_EXIT_CODE=$exit_code
+        return 0
+    done
+
+    CLAUDE_OUTPUT=""
+    CLAUDE_EXIT_CODE=1
+    return 1
+}
+
 # Function to check for completion signal
 check_completion() {
     local output=$1
@@ -210,9 +291,18 @@ while true; do
     if [[ $CONSECUTIVE_FAILURES -ge $MAX_CONSECUTIVE_FAILURES ]]; then
         echo -e "${RED}================================================${NC}"
         echo -e "${RED}  Too many consecutive failures ($CONSECUTIVE_FAILURES)${NC}"
-        echo -e "${RED}  Stopping loop.${NC}"
-        echo -e "${RED}================================================${NC}"
-        exit 1
+        if [[ "$AUTO_RESTART" == "true" ]]; then
+            echo -e "${YELLOW}  Auto-restart enabled - resetting and continuing...${NC}"
+            echo -e "${RED}================================================${NC}"
+            CONSECUTIVE_FAILURES=0
+            echo -e "${YELLOW}>>> Sleeping 60s before restart...${NC}"
+            sleep 60
+            continue
+        else
+            echo -e "${RED}  Stopping loop.${NC}"
+            echo -e "${RED}================================================${NC}"
+            exit 1
+        fi
     fi
 
     echo -e "${CYAN}=== Iteration $ITERATION $(date +%H:%M:%S) ===${NC}"
@@ -228,20 +318,16 @@ while true; do
     CONTEXT=$(build_context)
     LOG_FILE="${LOG_PREFIX}_${ITERATION}.log"
 
-    echo -e "${BLUE}>>> Running Claude...${NC}"
-
-    # Run Claude with context piped in
-    # Using --dangerously-skip-permissions for autonomous operation
-    set +e
-    OUTPUT=$(echo "$CONTEXT" | claude -p --dangerously-skip-permissions 2>&1 | tee "$LOG_FILE")
-    CLAUDE_EXIT=$?
-    set -e
-
-    # Check for rate limit
-    if check_rate_limit "$OUTPUT"; then
-        ITERATION=$((ITERATION - 1))  # Don't count this iteration
+    # Run Claude with automatic retry on transient failures
+    if ! run_claude_with_retry "$CONTEXT" "$LOG_FILE"; then
+        echo -e "${RED}>>> Claude failed after all retries${NC}"
+        CONSECUTIVE_FAILURES=$((CONSECUTIVE_FAILURES + 1))
+        echo -e "${YELLOW}>>> Consecutive failures: $CONSECUTIVE_FAILURES${NC}"
+        sleep $SLEEP_BETWEEN_ITERATIONS
         continue
     fi
+
+    OUTPUT="$CLAUDE_OUTPUT"
 
     # Check for completion signal
     if [[ "$CHECK_COMPLETE" == "true" ]] && check_completion "$OUTPUT"; then
