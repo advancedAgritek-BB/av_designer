@@ -32,49 +32,51 @@ VALIDATE_AFTER=true
 CHECK_COMPLETE=true
 MAX_ITERATIONS=0  # 0 = unlimited
 
-# Mode selection
-case "${1:-build}" in
-    plan)
-        MODE="plan"
-        PROMPT_FILE="PROMPT_plan.md"
-        VALIDATE_BEFORE=false
-        VALIDATE_AFTER=false
-        CHECK_COMPLETE=false
-        shift
-        ;;
-    research)
-        MODE="research"
-        PROMPT_FILE="PROMPT_research.md"
-        VALIDATE_BEFORE=false
-        VALIDATE_AFTER=false
-        CHECK_COMPLETE=false
-        shift
-        ;;
-    research-*)
-        MODE="$1"
-        PROMPT_FILE="PROMPT_${1}.md"
-        VALIDATE_BEFORE=false
-        VALIDATE_AFTER=false
-        CHECK_COMPLETE=false
-        shift
-        ;;
-    build)
-        shift
-        ;;
-    [0-9]*)
-        # First arg is a number, use as max iterations
-        MAX_ITERATIONS=$1
-        shift
-        ;;
-    *)
-        # Custom mode
-        if [[ -f "PROMPT_${1}.md" ]]; then
+# Mode selection (only process if we have arguments)
+if [[ $# -gt 0 ]]; then
+    case "$1" in
+        plan)
+            MODE="plan"
+            PROMPT_FILE="PROMPT_plan.md"
+            VALIDATE_BEFORE=false
+            VALIDATE_AFTER=false
+            CHECK_COMPLETE=false
+            shift
+            ;;
+        research)
+            MODE="research"
+            PROMPT_FILE="PROMPT_research.md"
+            VALIDATE_BEFORE=false
+            VALIDATE_AFTER=false
+            CHECK_COMPLETE=false
+            shift
+            ;;
+        research-*)
             MODE="$1"
             PROMPT_FILE="PROMPT_${1}.md"
+            VALIDATE_BEFORE=false
+            VALIDATE_AFTER=false
+            CHECK_COMPLETE=false
             shift
-        fi
-        ;;
-esac
+            ;;
+        build)
+            shift
+            ;;
+        [0-9]*)
+            # First arg is a number, use as max iterations
+            MAX_ITERATIONS=$1
+            shift
+            ;;
+        *)
+            # Custom mode
+            if [[ -f "PROMPT_${1}.md" ]]; then
+                MODE="$1"
+                PROMPT_FILE="PROMPT_${1}.md"
+                shift
+            fi
+            ;;
+    esac
+fi
 
 # Check for max iterations argument
 if [[ "${1:-}" =~ ^[0-9]+$ ]]; then
