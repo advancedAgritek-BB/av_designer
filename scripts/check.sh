@@ -145,10 +145,10 @@ echo -e "${BLUE}[3/5] Lint check (ESLint)...${NC}"
 
 if [[ -f ".eslintrc.js" ]] || [[ -f ".eslintrc.json" ]] || [[ -f "eslint.config.js" ]] || [[ -f ".eslintrc.cjs" ]]; then
     if [[ "$FIX" == "true" ]]; then
-        npx eslint src --fix --ext .ts,.tsx,.js,.jsx 2>/dev/null || true
+        npx eslint . --fix 2>/dev/null || true
         echo -e "${GREEN}  ✓ Lint fixes applied${NC}"
     else
-        if npx eslint src --ext .ts,.tsx,.js,.jsx 2>/dev/null; then
+        if npx eslint . 2>/dev/null; then
             echo -e "${GREEN}  ✓ Lint OK${NC}"
         else
             echo -e "${RED}  ✗ Lint errors found${NC}"
@@ -174,8 +174,15 @@ fi
 # ============================================================================
 echo -e "${BLUE}[4/5] Tests...${NC}"
 
-if grep -q '"test"' package.json 2>/dev/null; then
-    if npm test 2>/dev/null; then
+if grep -q '"test:run"' package.json 2>/dev/null; then
+    if npm run test:run 2>/dev/null; then
+        echo -e "${GREEN}  ✓ Tests OK${NC}"
+    else
+        echo -e "${RED}  ✗ Tests failed${NC}"
+        FAILED=true
+    fi
+elif grep -q '"test"' package.json 2>/dev/null; then
+    if npm run test:run 2>/dev/null || npm test -- --run 2>/dev/null; then
         echo -e "${GREEN}  ✓ Tests OK${NC}"
     else
         echo -e "${RED}  ✗ Tests failed${NC}"

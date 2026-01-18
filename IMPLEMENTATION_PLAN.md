@@ -76,12 +76,12 @@
 
 ### Task 1.7: Set Up ESLint and Prettier
 
-- [ ] Install ESLint with TypeScript and React plugins
-- [ ] Install Prettier
-- [ ] Create `.eslintrc.cjs` with rules
-- [ ] Create `.prettierrc` with configuration
-- [ ] Add `lint` and `format` scripts to `package.json`
-- [ ] Verify `./scripts/check.sh` runs successfully
+- [x] Install ESLint with TypeScript and React plugins
+- [x] Install Prettier
+- [x] Create `eslint.config.js` with flat config (ESLint 9)
+- [x] Create `.prettierrc` with configuration
+- [x] Add `lint` and `format` scripts to `package.json`
+- [x] Verify `./scripts/check.sh` runs successfully
 
 ### Task 1.8: Initialize Rust Backend Structure
 
@@ -250,6 +250,12 @@
   - jsdom environment for component tests
   - Initial App component tests passing
   - npm test scripts configured
+
+- **Task 1.7: Set Up ESLint and Prettier** (2026-01-17)
+  - ESLint 9 with flat config
+  - TypeScript and React plugins
+  - Prettier for code formatting
+  - scripts/check.sh passes all validations
 
 ---
 

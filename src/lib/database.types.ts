@@ -90,7 +90,7 @@ export interface Database {
             columns: ['project_id'];
             referencedRelation: 'projects';
             referencedColumns: ['id'];
-          }
+          },
         ];
       };
       equipment: {
@@ -187,7 +187,7 @@ export interface Database {
             columns: ['equipment_id'];
             referencedRelation: 'equipment';
             referencedColumns: ['id'];
-          }
+          },
         ];
       };
       standards: {
@@ -275,14 +275,14 @@ export interface Database {
             columns: ['room_id'];
             referencedRelation: 'rooms';
             referencedColumns: ['id'];
-          }
+          },
         ];
       };
     };
-    Views: {};
-    Functions: {};
-    Enums: {};
-    CompositeTypes: {};
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }
 
