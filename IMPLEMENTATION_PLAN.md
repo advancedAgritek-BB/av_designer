@@ -52,12 +52,12 @@
 
 → Skills: `@superpowers:test-driven-development`, `@pg:design-postgres-tables`
 
-- [ ] Install `@supabase/supabase-js`
-- [ ] Create `.env.example` with Supabase placeholder variables
-- [ ] Create `src/lib/supabase.ts` with typed client
-- [ ] Create `src/lib/database.types.ts` with initial schema types
-- [ ] Update `vite.config.ts` to resolve `@/` path alias
-- [ ] Add `.env.local` to `.gitignore`
+- [x] Install `@supabase/supabase-js`
+- [x] Create `.env.example` with Supabase placeholder variables
+- [x] Create `src/lib/supabase.ts` with typed client
+- [x] Create `src/lib/database.types.ts` with initial schema types
+- [x] Verify `vite.config.ts` resolves `@/` path alias (already configured)
+- [x] Verify `.env.local` in `.gitignore` (already configured)
 
 ### Task 1.5: Set Up State Management (Zustand)
 
@@ -232,6 +232,12 @@
   - Backend directories: commands, database
   - Core type definitions with all domain models
   - Test directories ready
+
+- **Task 1.4: Configure Supabase Client** (2026-01-17)
+  - Supabase JS client with typed database
+  - Environment variable configuration
+  - Database types for all core tables
+  - Vite client types added to tsconfig
 
 ---
 
