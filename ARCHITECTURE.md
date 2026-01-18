@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 2 - Design System & Core Components (Complete)
+**Phase:** 3 - Equipment Database (Complete)
 
 ### Implemented
 
@@ -59,7 +59,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ### In Progress
 
-- Phase 4: Standards Engine (not started)
+- Phase 4: Standards Engine (next)
 
 ---
 
@@ -107,9 +107,16 @@ av_designer/
 │   │   │   ├── equipment-service.ts  # CRUD operations via Supabase
 │   │   │   ├── use-equipment.ts      # React Query hooks
 │   │   │   ├── components/
-│   │   │   │   ├── EquipmentCard.tsx     # Equipment catalog card
+│   │   │   │   │   ├── EquipmentCard.tsx     # Equipment catalog card
 │   │   │   │   ├── EquipmentList.tsx     # List with filters/search
-│   │   │   │   └── EquipmentForm.tsx     # Create/edit form
+│   │   │   │   ├── EquipmentForm.tsx     # Create/edit form (composer)
+│   │   │   │   ├── EquipmentFormBasicInfo.tsx     # Basic info section
+│   │   │   │   ├── EquipmentFormPricing.tsx       # Pricing section
+│   │   │   │   ├── EquipmentFormPhysicalSpecs.tsx # Physical specs section
+│   │   │   │   ├── EquipmentFormElectrical.tsx    # Electrical section
+│   │   │   │   ├── EquipmentFormCertifications.tsx # Certifications section
+│   │   │   │   ├── equipment-form-types.ts        # Form types and state
+│   │   │   │   └── equipment-form-validation.ts   # Validation logic
 │   │   │   └── index.ts              # Public feature exports
 │   │   ├── room-builder/         # Room design canvas (planned)
 │   │   ├── standards/            # Standards engine (planned)
@@ -126,8 +133,24 @@ av_designer/
 │   ├── types/                    # Global types
 │   │   ├── index.ts              # Core domain types
 │   │   └── equipment.ts          # Equipment types & validation
-│   └── styles/                   # Global CSS
-│       └── globals.css           # Tailwind @theme + component classes
+│   └── styles/                   # Modular CSS
+│       ├── globals.css           # Entry point (imports all modules)
+│       ├── theme.css             # Tailwind @theme tokens
+│       ├── base.css              # HTML element styles
+│       ├── components/           # Component styles
+│       │   ├── buttons.css
+│       │   ├── cards.css
+│       │   ├── inputs.css
+│       │   └── pills.css
+│       ├── layout/               # Layout component styles
+│       │   ├── sidebar.css
+│       │   ├── header.css
+│       │   └── shell.css
+│       ├── features/             # Feature-specific styles
+│       │   ├── equipment-card.css
+│       │   ├── equipment-list.css
+│       │   └── equipment-form.css
+│       └── utilities.css         # Helper classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
 │   │   ├── main.rs               # Entry point
@@ -398,6 +421,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-17 | Phase 1 complete: Tauri 2.x, React 19, TypeScript 5, TailwindCSS 4, Zustand 5, Supabase client, Vitest, ESLint 9, Prettier, Rust backend modules |
 | 2026-01-18 | Phase 2 complete: Design System & Core Components - Button (27 tests), Input (38 tests), Card (45 tests), Sidebar (45 tests), Header (38 tests), Shell (35 tests) - Total: 234 tests |
 | 2026-01-18 | Phase 3 complete: Equipment Database - Types (32 tests), Service (18 tests), Hooks (16 tests), EquipmentCard (33 tests), EquipmentList (38 tests), EquipmentForm (60 tests), App (6 tests) - Total: 431 tests |
+| 2026-01-18 | Code review refactoring: Split EquipmentForm (950→291 lines) into 8 modular files; Split globals.css (1343→32 lines) into 12 CSS modules |
 
 ---
 
