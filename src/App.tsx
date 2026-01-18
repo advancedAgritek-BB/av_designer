@@ -8,7 +8,11 @@ import { EquipmentList } from '@/features/equipment';
 import { StandardsList } from '@/features/standards';
 import { RoomBuilder } from '@/features/room-builder';
 import { DrawingsPage } from '@/features/drawings';
-import { QuotePage, createDefaultQuote, createDefaultQuoteTotals } from '@/features/quoting';
+import {
+  QuotePage,
+  createDefaultQuote,
+  createDefaultQuoteTotals,
+} from '@/features/quoting';
 import { useAppStore } from '@/stores/app-store';
 import type { Equipment } from '@/types/equipment';
 import type { StandardNode, Rule } from '@/types/standards';

@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 6 Complete - Drawing Generation
+**Status:** Phase 7 Complete - Quoting & BOM System
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 7 - Quoting & BOM System (Next)
+**Phase:** 8 - Integration & MVP Completion (Next)
 
 ### Implemented
 
@@ -55,11 +55,11 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Standards engine (types, rule engine, service, hooks, components)
 - [x] Room builder (types, service, hooks, canvas, placement, validation)
 - [x] Drawing generation (types, service, hooks, canvas, toolbar, page, Rust generators)
-- [ ] Quoting system
+- [x] Quoting system (types, service, hooks, BOM generator, pricing engine, components)
 
 ### In Progress
 
-- Phase 7: Quoting & BOM System (next)
+- Phase 8: Integration & MVP Completion (next)
 
 ---
 
@@ -144,7 +144,15 @@ av_designer/
 │   │   │   │   ├── DrawingToolbar.tsx    # Type selector, layers, export
 │   │   │   │   └── DrawingsPage.tsx      # Main page composer
 │   │   │   └── index.ts              # Public feature exports
-│   │   └── quoting/              # Quote/BOM system (planned)
+│   │   └── quoting/              # Quote/BOM system
+│   │       ├── quote-service.ts      # CRUD operations via Supabase
+│   │       ├── use-quotes.ts         # React Query hooks
+│   │       ├── bom-generator.ts      # Bill of Materials generation
+│   │       ├── pricing-engine.ts     # Margin, markup, labor, tax calculations
+│   │       ├── components/
+│   │       │   ├── QuoteCard.tsx         # Quote summary card
+│   │       │   └── QuotePage.tsx         # Full quote page with editing
+│   │       └── index.ts              # Public feature exports
 │   ├── lib/                      # Utilities
 │   │   ├── supabase.ts           # Supabase client
 │   │   └── database.types.ts     # Database type definitions
@@ -158,7 +166,8 @@ av_designer/
 │   │   ├── equipment.ts          # Equipment types & validation
 │   │   ├── standards.ts          # Standards, rules, conditions types
 │   │   ├── room.ts               # Room, placement, mount types
-│   │   └── drawing.ts            # Drawing, layer, element types
+│   │   ├── drawing.ts            # Drawing, layer, element types
+│   │   └── quote.ts              # Quote, section, item, totals types
 │   └── styles/                   # Modular CSS
 │       ├── globals.css           # Entry point (imports all modules)
 │       ├── theme.css             # Tailwind @theme tokens
@@ -246,11 +255,20 @@ av_designer/
 │   │           ├── DrawingCanvas.test.tsx      # Canvas tests (63 tests)
 │   │           ├── DrawingToolbar.test.tsx     # Toolbar tests (49 tests)
 │   │           └── DrawingsPage.test.tsx       # Page tests (49 tests)
+│   │   └── quoting/
+│   │       ├── quote-service.test.ts           # Service tests (25 tests)
+│   │       ├── use-quotes.test.tsx             # Hook tests (22 tests)
+│   │       ├── bom-generator.test.ts           # BOM generator tests (22 tests)
+│   │       ├── pricing-engine.test.ts          # Pricing engine tests (42 tests)
+│   │       └── components/
+│   │           ├── QuoteCard.test.tsx          # Card tests (44 tests)
+│   │           └── QuotePage.test.tsx          # Page tests (44 tests)
 │   ├── types/
 │   │   ├── equipment.test.ts     # Equipment type tests (32 tests)
 │   │   ├── standards.test.ts     # Standards type tests (47 tests)
 │   │   ├── room.test.ts          # Room type tests (96 tests)
-│   │   └── drawing.test.ts       # Drawing type tests (105 tests)
+│   │   ├── drawing.test.ts       # Drawing type tests (105 tests)
+│   │   └── quote.test.ts         # Quote type tests (131 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -607,18 +625,110 @@ interface DrawingElement {
 
 ### 5. Quoting System
 
-**Purpose:** Generate BOMs and quotes from room designs.
+**Purpose:** Generate BOMs and quotes from room designs with pricing, labor, and tax calculations.
 
 **Location:** `src/features/quoting/`
 
 **Key Features:**
-- Equipment with markup rules
-- Cabling calculations
-- Labor estimation
-- Quote templates
-- PDF export
+- BOM generation from room's placed equipment
+- Quantity aggregation for duplicate items
+- Category-based grouping
+- Margin and markup calculations
+- Labor estimation based on equipment category
+- Tax calculation
+- Quote status workflow (draft → client_review → approved → ordered)
+- Inline editing for quantities and margins
+- Export and print functionality
 
-**Status:** Not started
+**Key Types:**
+```typescript
+type QuoteStatus = 'draft' | 'quoting' | 'client_review' | 'approved' | 'ordered';
+type ItemStatus = 'quoting' | 'client_review' | 'ordered' | 'delivered' | 'installed';
+
+interface Quote {
+  id: string;
+  projectId: string;
+  roomId: string;
+  version: number;
+  status: QuoteStatus;
+  sections: QuoteSection[];
+  totals: QuoteTotals;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface QuoteSection {
+  id: string;
+  name: string;
+  category: string;
+  items: QuoteItem[];
+  subtotal: number;
+}
+
+interface QuoteItem {
+  id: string;
+  equipmentId: string;
+  name: string;
+  category: string;
+  quantity: number;
+  unitCost: number;
+  unitPrice: number;
+  extendedCost: number;
+  extendedPrice: number;
+  margin: number;
+  marginPercentage: number;
+  status: ItemStatus;
+  notes?: string;
+}
+
+interface QuoteTotals {
+  equipment: number;
+  labor: number;
+  subtotal: number;
+  tax: number;
+  total: number;
+  margin: number;
+  marginPercentage: number;
+}
+```
+
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| QuoteCard | Summary card with status pill, totals, margin, action buttons |
+| QuotePage | Full page with sections, inline editing, totals, status workflow |
+
+**Hooks (React Query):**
+| Hook | Description |
+|------|-------------|
+| useQuotesList | Fetch all quotes |
+| useQuotesByProject | Fetch quotes by project ID |
+| useQuotesByRoom | Fetch quotes by room ID |
+| useQuote | Fetch single quote by ID |
+| useCreateQuote | Create mutation with cache invalidation |
+| useUpdateQuote | Update mutation with cache invalidation |
+| useDeleteQuote | Delete mutation with cache invalidation |
+
+**BOM Generator:**
+| Function | Description |
+|----------|-------------|
+| generateBOM | Generate BOM from placed equipment with totals |
+| aggregateDuplicates | Combine duplicate equipment by ID |
+| groupByCategory | Group BOM items by equipment category |
+| createBOMItem | Create BOM item from equipment and quantity |
+
+**Pricing Engine:**
+| Function | Description |
+|----------|-------------|
+| calculateMargin | Calculate margin from cost and price |
+| calculateMarkup | Calculate markup from cost and price |
+| applyMarginPercentage | Apply margin % to get price from cost |
+| applyMarkupPercentage | Apply markup % to get price from cost |
+| calculateLabor | Calculate labor cost from equipment with category-based rates |
+| calculateTax | Calculate tax from subtotal with exemptions |
+| calculateQuoteTotals | Calculate complete quote totals |
+
+**Status:** Complete (330 tests)
 
 ---
 

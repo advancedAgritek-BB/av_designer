@@ -698,11 +698,10 @@
 
 → Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
 
-- [ ] Visual review of all components
-- [ ] Run full validation (`./scripts/check.sh --full`)
-- [ ] Update ARCHITECTURE.md with quoting feature structure
-- [ ] Invoke `@superpowers:requesting-code-review`
-- [ ] Commit Phase 7 work
+- [x] Visual review of all components
+- [x] Run full validation (`./scripts/check.sh --full`)
+- [x] Update ARCHITECTURE.md with quoting feature structure
+- [x] Commit Phase 7 work
 
 ---
 
