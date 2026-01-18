@@ -1,6 +1,6 @@
 # AV Designer - UI Design Specification
 
-**Version:** 1.1
+**Version:** 1.2
 **Date:** 2026-01-17
 **Status:** Draft
 
@@ -309,8 +309,6 @@ When in a project context:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
----
-
 ## 4. Room Design Mode
 
 ### Layout Structure
@@ -322,10 +320,10 @@ When in a project context:
 │    │                                                              │ ≡ P │ ← Panel
 │ 📁 │                                                              │ ≡ L │   Toggle
 │ 🏠 │                                                              │ ≡ V │   Rail
-│ 📐 │                 DESIGN CANVAS                                │ ≡ R │
-│ 💰 │                                                              │ ≡ M │
-│ 📋 │          [Architectural BG + AV Overlay]                     │     │
-│ 📦 │                                                              │     │
+│ 📐 │                 DESIGN CANVAS                                │ ≡ C │
+│ 💰 │                                                              │ ≡ I │
+│ 📋 │          [Architectural BG + AV Overlay]                     │ ≡ R │
+│ 📦 │                                                              │ ≡ M │
 │ ⚙️ │                                                              │     │
 │    │                                                              │     │
 │    ├──────────────────────────────────────────────────────────────┤     │
@@ -344,7 +342,9 @@ Right-side icon rail toggles collapsible panels:
 | **P** | Properties | Selected equipment settings, position, rotation, connections |
 | **L** | Layers | Architectural (locked), AV Equipment, Annotations, Cable Routes |
 | **V** | Validation | Errors (expandable), Warnings, Suggestions with "Apply" actions |
-| **R** | Room | Dimensions, type, platform, ecosystem, tier, client assignment |
+| **C** | Connections | Signal flow graph, port mapping, cable types, auto-connect suggestions |
+| **I** | Issues | Review comments, assignments, status, change requests |
+| **R** | Room | Dimensions, type, platform, ecosystem, tier, client assignment, power/PoE/network budgets |
 | **M** | Minimap | Zoomed-out overview, click to navigate, viewport indicator |
 
 **Panel Behavior:**
@@ -385,6 +385,12 @@ Collapsible drawer at bottom of canvas:
 | **Duplicate** | Cmd+D or Alt+Drag |
 | **Context menu** | Right-click |
 
+### System Graph View
+
+- Toggle between Canvas and Graph with a segmented control in the header
+- Node-based signal flow for audio, video, control, and network connections
+- Port-level validation with status badges and unconnected device filters
+
 ### Snapping Controls
 
 Toggle bar at bottom of canvas:
@@ -400,6 +406,12 @@ Snap: [Grid ✓] [Guides ✓] [Dimensions ✓] [Zones ✓]  |  Grid Size: [12"] 
 | **Dimensions** | Snap to specific distances from walls/equipment |
 | **Zones** | Snap to defined areas (seating, presenter, etc.) |
 
+### Budget Summary (Power/PoE/Network)
+
+- Live totals for rack power draw and circuit load balance
+- PoE budget vs switch capacity with port count warnings
+- AV-over-IP bandwidth estimate and VLAN/QoS checklist
+
 ### Validation Feedback
 
 | Severity | Canvas Display | Panel Display |
@@ -409,6 +421,12 @@ Snap: [Grid ✓] [Guides ✓] [Dimensions ✓] [Zones ✓]  |  Grid Size: [12"] 
 | **Suggestion** | — | Blue row, details, "Apply" action |
 
 Click error in panel → canvas zooms to and highlights the equipment.
+
+### Review & Issue Anchors
+
+- Comment pins anchored to equipment or drawing locations
+- Threaded discussion with assignment and due dates
+- Resolve/reopen workflow linked to revision history
 
 ---
 
@@ -421,7 +439,7 @@ Click error in panel → canvas zooms to and highlights the equipment.
 │  [Logo]  Drawings ▼    Acme HQ > Conf Room 201           [Export ▼] 🔔 │
 ├────┬────────────────────────────────────────────────────────────────────┤
 │    │ ┌──────────────────────────────────────────────────────────────┐   │
-│ 📁 │ │  Electrical  │  Elevations  │  RCP  │  Rack  │  Cable Sched │   │ ← Drawing
+│ 📁 │ │  Electrical  │  Elevations  │  RCP  │  Rack  │  Network │  Cable Sched │   │ ← Drawing
 │ 🏠 │ └──────────────────────────────────────────────────────────────┘   │   Tabs
 │ 📐 │ ┌──────────────────────────────────────────────────────────────┐   │
 │ 💰 │ │                                                              │   │
@@ -447,6 +465,8 @@ Click error in panel → canvas zooms to and highlights the equipment.
 | **Elevations** | Front/side wall views, mounting heights, equipment on walls |
 | **RCP** | Reflected ceiling plan, mics, speakers, projector, pathways |
 | **Rack** | Front/rear rack elevations, U positions, equipment labels |
+| **Rack Wiring** | Rear wiring view, patch panel layout, port labels |
+| **Network** | Topology diagram, VLAN/QoS notes, switch port maps |
 | **Cable Schedule** | Table view of all cables, sortable, editable |
 | **Floor Plan** | Room layout with AV equipment overlay |
 
@@ -632,6 +652,12 @@ Soft, muted colors for procurement status (Programa-style):
 | **Delivered** | `bg: #E0E7FF` `text: #3730A3` - Purple |
 | **Installed** | `bg: #F3F4F6` `text: #374151` - Gray |
 
+### Lead-Time & Availability Badges
+
+- Inline lead-time range (e.g., "2-3 wks") and availability risk flag
+- EOL/NRND warnings trigger alternate suggestions and price deltas
+- Project rollup shows critical-path items by supplier
+
 ### Spreadsheet View (Alternative)
 
 Toggle between card view and dense spreadsheet:
@@ -810,7 +836,6 @@ Pricing can be defined at equipment level and in standards hierarchy:
 │ ○ v1.0 - Jan 14, 9:00am - Initial quote                                │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
-
 ---
 
 ## 7. Equipment Library Mode (Programa-Inspired)
@@ -887,6 +912,12 @@ Pricing can be defined at equipment level and in standards hierarchy:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
+### Lifecycle & Alternate Indicators
+
+- Badges for Active, NRND, EOL, and lead-time risk on cards and rows
+- "Approved Alternate" chip with one-click swap preview
+- Replacement suggestions surfaced when standards reference deprecated items
+
 ### Product Detail Modal (Programa-Inspired Tabbed View)
 
 Slide-out modal with image gallery and tabbed details:
@@ -897,7 +928,7 @@ Slide-out modal with image gallery and tabbed details:
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │ [Summary]  [Financial]  [Attachments]  [Approvals]              │   │ ← Tabs
+│  │ [Summary]  [Financial]  [Attachments]  [Alternates]  [Approvals]│   │ ← Tabs
 │  └─────────────────────────────────────────────────────────────────┘   │
 │                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐   │
@@ -1232,6 +1263,12 @@ Slide-out modal with image gallery and tabbed details:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
+### Rule Test Cases
+
+- Define room profiles with expected outputs and constraints
+- Run tests before publish; failures block version release
+- Save suites per standard set for regression coverage
+
 ### Inheritance Visualization
 
 ```
@@ -1292,6 +1329,12 @@ Slide-out modal with image gallery and tabbed details:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
+### Impact Analysis & Versioning
+
+- "Publish Version" creates a snapshot and locks the rule set
+- Impact report lists affected rooms/projects with before/after diffs
+- Bulk upgrade flow with per-project opt-in and rollback
+
 ---
 
 ## 9. Project Dashboard Mode
@@ -1316,6 +1359,11 @@ Slide-out modal with image gallery and tabbed details:
 │  42 projects  │  12 active  │  $847K pipeline                          │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Review Queue (Inline Widget)
+
+- Shows pending approvals, unresolved issues, and overdue comments
+- One-click jump into the affected room, drawing, or quote
 
 ### Kanban View
 
@@ -1464,6 +1512,8 @@ Slide-out modal with image gallery and tabbed details:
 │ │ 📁  Open Project...                                     Cmd+O       │ │
 │ │ 💾  Save                                                Cmd+S       │ │
 │ │ 📤  Export...                                           Cmd+E       │ │
+│ │ 🔀  Toggle System Graph                                 Cmd+Option+G│ │
+│ │ 🧾  Review Queue                                         Cmd+Shift+R│ │
 │ └─────────────────────────────────────────────────────────────────────┘ │
 │                                                                         │
 │ NAVIGATE                                                                │
@@ -1555,6 +1605,7 @@ Slide-out modal with image gallery and tabbed details:
 │ │ Keyboard          │                                                   │
 │ │ Canvas            │                                                   │
 │ │ Validation        │                                                   │
+│ │ Review & Versioning│                                                   │
 │ │ Quoting           │                                                   │
 │ │ Drawings          │                                                   │
 │ │ Data & Sync       │                                                   │
@@ -1602,6 +1653,14 @@ Slide-out modal with image gallery and tabbed details:
 | **Auto-validation** | On placement, on property change, continuous |
 | **Display** | Show errors/warnings/suggestions inline |
 | **Priority Order** | Drag-to-reorder dimension priority |
+
+### Review & Versioning Settings
+
+| Setting | Options |
+|---------|---------|
+| **Review Workflow** | Require review before export, internal-only, allow external reviewers |
+| **Issue Defaults** | Priority labels, due date defaults, assignment rules |
+| **Versioning** | Auto-snapshot on publish, diff granularity, retention policy |
 
 ### Data & Sync Settings
 
@@ -1663,6 +1722,8 @@ Slide-out modal with image gallery and tabbed details:
 | Cmd+Shift+P | Properties |
 | Cmd+Shift+L | Layers |
 | Cmd+Shift+I | Validation |
+| Cmd+Shift+C | Connections |
+| Cmd+Shift+R | Issues |
 | Cmd+Shift+M | Minimap |
 
 ### Room Design
@@ -1678,6 +1739,7 @@ Slide-out modal with image gallery and tabbed details:
 | Delete | Remove item |
 | Cmd+D | Duplicate |
 | Cmd+G | Group |
+| Cmd+Option+G | Toggle system graph |
 | Cmd+Shift+V | Validate |
 
 ### Drawings
@@ -1704,4 +1766,5 @@ Slide-out modal with image gallery and tabbed details:
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.2 | 2026-01-17 | Brandon Burnette | Added graph view, review flow, and lifecycle indicators |
 | 1.0 | 2026-01-17 | Brandon Burnette | Initial UI design specification |

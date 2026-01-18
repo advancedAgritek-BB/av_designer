@@ -1,6 +1,6 @@
 # AV Designer - Product Requirements Document
 
-**Version:** 1.0
+**Version:** 1.1
 **Date:** 2026-01-17
 **Authors:** Brandon Burnette & Partner
 **Status:** Draft
@@ -60,7 +60,7 @@ Internal tool for AV engineering subcontracting business, with eventual client-f
 ## 2. Core Workflow
 
 ```
-Architectural Input → Room Configuration → Design Validation → Quote Generation → Drawing Output
+Architectural Input → Room Configuration → Design Validation → Review & Resolve → Quote Generation → Drawing Output
 ```
 
 ### Workflow Steps
@@ -68,8 +68,9 @@ Architectural Input → Room Configuration → Design Validation → Quote Gener
 1. **Import** - Load architectural drawings (CAD, PDF, or scans) as the base layer
 2. **Configure** - Build the AV system using templates or custom placement, specifying equipment from the library
 3. **Validate** - System checks design against applicable standards hierarchy, flags issues, and suggests optimizations
-4. **Quote** - Generate BOM with rules-based pricing, adjust as needed using templates
-5. **Document** - Export complete drawing packages (electrical, elevations, RCPs) as PDF for review or CAD for construction
+4. **Review & Resolve** - Capture internal review notes and client feedback, track issues to resolution, and maintain revision history
+5. **Quote** - Generate BOM with rules-based pricing, adjust as needed using templates
+6. **Document** - Export complete drawing packages (electrical, elevations, RCPs) as PDF for review or CAD for construction
 
 ---
 
@@ -159,6 +160,19 @@ Client: Acme Corp → Corporate Offices
 - Describe rules in plain English: "Rooms over 600 sq ft with video conferencing need PTZ cameras instead of fixed USB cameras"
 - System generates rule logic, shows preview, user approves or edits
 
+### 3.8 Rule Versioning & Impact Analysis
+
+- Standards sets are versioned; projects pin to a specific version
+- Impact report shows rooms/projects affected by rule changes before publish
+- Bulk upgrade with preview diff, per-project opt-in, and rollback
+- Deprecation workflow for rules tied to EOL equipment
+
+### 3.9 Rule Test Harness
+
+- Save test cases (room profiles + expected outputs) per standards set
+- Run tests on publish; block release on failures
+- Required validation step for AI-generated rules before approval
+
 ---
 
 ## 4. Room Builder
@@ -202,6 +216,13 @@ The room builder is where designs come together—importing architectural backgr
 - Address issues, accept/reject suggestions
 - Manually adjust placement, swap equipment, override as needed
 
+### 4.3 System Graph & Signal Flow
+
+- Dedicated graph view for devices, ports, and signal types (audio, video, control, network)
+- Auto-connect suggestions based on standards; manual overrides with validation
+- Port-level checks for availability, compatibility, and required adapters
+- Drives line diagrams and cable schedules; highlights unconnected devices
+
 ---
 
 ## 5. Equipment Database
@@ -243,6 +264,13 @@ Equipment Library
 └── Archived (discontinued, replaced products)
 ```
 
+### 5.4 Lifecycle & Alternate Management
+
+- Lifecycle status (Active, NRND, EOL, Obsolete) with replacement suggestions
+- Lead-time risk flags and supply chain notes surfaced in designs and quotes
+- Approved alternates per client, with auto-substitution rules and price deltas
+- Standards automatically warn when referenced items are deprecated or unavailable
+
 ---
 
 ## 6. Cabling Standards & Calculation
@@ -281,6 +309,13 @@ Equipment Placement → Identify Cable Runs → Calculate Pathway Routes → Add
 |----------|------|--------|-------------|-------------|--------|--------|
 | C-101 | Cat6A-PL | DSP-01 Port 3 | MIC-Z1 | 47ft | 50ft | OK |
 | C-102 | HDMI | RACK-FL1 | DISPLAY-01 | 32ft | - | WARN: Exceeds 25ft limit |
+
+### 6.4 Power, PoE, and Network Budgeting
+
+- Aggregate power draw by rack/room; calculate circuit counts and load balance
+- Track PoE class requirements and switch port capacity by room
+- Estimate AV-over-IP bandwidth; propose VLAN/QoS templates
+- Output electrical load schedule and network requirements sheet
 
 ---
 
@@ -331,6 +366,13 @@ Room Design → Drawing Template Selection → Auto-Generate → Review/Annotate
 - Symbol libraries (your standards + client-specific)
 - Dimension and annotation styles
 - Revision tracking and history
+
+### 7.5 Network & Rack Wiring Diagrams
+
+- Network topology diagrams for AV-over-IP and control networks
+- Port maps for switches, codecs, and DSPs with VLAN and QoS notes
+- Rack wiring diagrams with patch panel labeling and power distribution
+- Exported as part of the standard drawing package
 
 ---
 
@@ -439,6 +481,12 @@ Template Library
 - Track who changed what and when
 - Revert to previous versions
 - Clone quotes as starting point for new projects
+
+### 8.9 Procurement & Lead-Time Management
+
+- Roll up lead times and availability risk by project and vendor
+- Suggest approved alternates with price and spec deltas
+- Export purchase orders and track procurement status by line item
 
 ---
 
@@ -603,6 +651,12 @@ A secure, read-focused interface for clients to view projects, review designs, a
 - Windows (required from day one)
 - Cross-platform via Tauri
 
+### 11.6 Audit & Revision History
+
+- Immutable audit log for standards, designs, and quotes
+- Snapshot versions for rooms/projects with diff views
+- Offline change queue with merge/conflict resolution
+
 ---
 
 ## 12. MVP Scope
@@ -616,11 +670,12 @@ End-to-end but basic—simple versions of everything working together, then iter
 | Component | MVP Scope |
 |-----------|-----------|
 | **Standards Engine** | Single-level hierarchy (your standards only), basic rule types, manual rule creation |
-| **Room Builder** | Manual dimension entry, basic equipment placement, simple validation |
+| **Room Builder** | Manual dimension entry, basic equipment placement, simple validation, basic connection graph |
 | **Equipment Database** | Manual entry, core attributes only, no external integrations |
 | **Cabling** | Basic length limits, manual cable entry, simple schedule output |
-| **Drawing Generation** | Electrical line diagrams, basic floor plan overlay, PDF export only |
+| **Drawing Generation** | Electrical line diagrams from connection graph, basic floor plan overlay, PDF export only |
 | **Quoting** | Single template, basic markup rules, PDF export |
+| **Review & Change Tracking** | Comment threads, issue status, room revision history |
 | **3D Visualization** | Deferred to post-MVP |
 | **Client Portal** | Deferred to post-MVP |
 
@@ -629,7 +684,8 @@ End-to-end but basic—simple versions of everything working together, then iter
 - Can design a complete conference room from scratch
 - Can validate design against basic standards
 - Can generate a quote with accurate BOM
-- Can export electrical line diagram and floor plan
+- Can export electrical line diagram and floor plan from defined connections
+- Can capture review comments and resolve issues within a room
 - Can use for real client work
 
 ---
@@ -655,6 +711,8 @@ End-to-end but basic—simple versions of everything working together, then iter
 3. **Distributor API Access:** Which distributors offer API access for pricing/availability?
 4. **AI Model Selection:** Which AI models for rule generation and spec sheet parsing?
 5. **Licensing Model:** If this becomes a product, what licensing approach?
+6. **Network Planning Scope:** Do we model VLANs/IPs and switch configs, or only port/bandwidth requirements?
+7. **Standards Versioning Policy:** How often are standards published, and when should projects upgrade vs stay pinned?
 
 ---
 
@@ -662,4 +720,5 @@ End-to-end but basic—simple versions of everything working together, then iter
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-01-17 | Brandon Burnette | Added review workflow, connection graph, lifecycle, and planning enhancements |
 | 1.0 | 2026-01-17 | Brandon Burnette | Initial PRD |
