@@ -12,8 +12,9 @@
 
 ## Phase 0: Pre-Work Setup
 
-- [ ] Create git worktree for MVP development (branch: `feature/mvp-implementation`)
+- [x] Create git worktree for MVP development (branch: `feature/mvp-implementation`)
   → Skills: `@superpowers:using-git-worktrees`
+  ✅ Completed: Worktree at `.worktrees/mvp` on branch `feature/mvp-implementation`
 
 ---
 
@@ -21,16 +22,16 @@
 
 ### Task 1.1: Initialize Tauri + React Project
 
-- [ ] Create project directory structure (`src/`, `src-tauri/`)
-- [ ] Initialize npm project and install dependencies (react, typescript, vite)
-- [ ] Install Tauri CLI (`@tauri-apps/cli@latest`)
-- [ ] Create `vite.config.ts` with Tauri settings
-- [ ] Create `tsconfig.json` with strict mode and path aliases
-- [ ] Create `index.html` entry point
-- [ ] Create `src/main.tsx` React entry
-- [ ] Create `src/App.tsx` root component
-- [ ] Run `npm run tauri init` to scaffold Tauri backend
-- [ ] Verify `npm run tauri dev` launches the app
+- [x] Create project directory structure (`src/`, `src-tauri/`)
+- [x] Initialize npm project and install dependencies (react, typescript, vite)
+- [x] Install Tauri CLI (`@tauri-apps/cli@latest`)
+- [x] Create `vite.config.ts` with Tauri settings
+- [x] Create `tsconfig.json` with strict mode and path aliases
+- [x] Create `index.html` entry point
+- [x] Create `src/main.tsx` React entry
+- [x] Create `src/App.tsx` root component
+- [x] Run `npm run tauri init` to scaffold Tauri backend
+- [x] Verify `npm run tauri dev` launches the app
 
 ### Task 1.2: Configure TailwindCSS with Design Tokens
 
@@ -215,7 +216,11 @@
 
 ## Completed Tasks
 
-*Move completed tasks here with date*
+- **Task 1.1: Initialize Tauri + React Project** (2026-01-17)
+  - Created Tauri 2.x + React 19 + TypeScript 5 project
+  - Configured Vite with path aliases and Tauri settings
+  - Rust backend builds successfully
+  - Frontend dev server runs on port 1420
 
 ---
 
