@@ -20,7 +20,11 @@ vi.mock('@/features/standards/use-standards', () => ({
   useRulesByAspect: vi.fn(),
 }));
 
-import { useNodesList, useRulesList, useRulesByAspect } from '@/features/standards/use-standards';
+import {
+  useNodesList,
+  useRulesList,
+  useRulesByAspect,
+} from '@/features/standards/use-standards';
 
 const mockNodes: StandardNode[] = [
   {
@@ -151,7 +155,9 @@ describe('StandardsList', () => {
 
     it('displays page title', () => {
       render(<StandardsList />, { wrapper: createWrapper() });
-      expect(screen.getByRole('heading', { name: /standards/i, level: 1 })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: /standards/i, level: 1 })
+      ).toBeInTheDocument();
     });
 
     it('displays rule count', () => {
@@ -181,7 +187,9 @@ describe('StandardsList', () => {
 
     it('folders are expandable', () => {
       render(<StandardsList />, { wrapper: createWrapper() });
-      const platformFolder = screen.getByText('Platform Standards').closest('[role="treeitem"]');
+      const platformFolder = screen
+        .getByText('Platform Standards')
+        .closest('[role="treeitem"]');
       expect(platformFolder).toHaveAttribute('aria-expanded');
     });
   });
@@ -191,7 +199,9 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       render(<StandardsList />, { wrapper: createWrapper() });
 
-      const platformFolder = screen.getByRole('treeitem', { name: /platform standards/i });
+      const platformFolder = screen.getByRole('treeitem', {
+        name: /platform standards/i,
+      });
       await user.click(platformFolder);
 
       expect(platformFolder).toHaveAttribute('aria-expanded', 'true');
@@ -201,7 +211,9 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       render(<StandardsList />, { wrapper: createWrapper() });
 
-      const platformFolder = screen.getByRole('treeitem', { name: /platform standards/i });
+      const platformFolder = screen.getByRole('treeitem', {
+        name: /platform standards/i,
+      });
       await user.click(platformFolder);
 
       await waitFor(() => {
@@ -214,7 +226,9 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       render(<StandardsList />, { wrapper: createWrapper() });
 
-      const platformFolder = screen.getByRole('treeitem', { name: /platform standards/i });
+      const platformFolder = screen.getByRole('treeitem', {
+        name: /platform standards/i,
+      });
       await user.click(platformFolder);
       await user.click(platformFolder);
 
@@ -225,7 +239,9 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       render(<StandardsList />, { wrapper: createWrapper() });
 
-      const platformFolder = screen.getByRole('treeitem', { name: /platform standards/i });
+      const platformFolder = screen.getByRole('treeitem', {
+        name: /platform standards/i,
+      });
       platformFolder.focus();
       await user.keyboard('{Enter}');
 
@@ -297,7 +313,9 @@ describe('StandardsList', () => {
 
     it('shows rule active state', () => {
       render(<StandardsList />, { wrapper: createWrapper() });
-      const inactiveRule = screen.getByText('Inactive Rule').closest('[data-testid="rule-item"]');
+      const inactiveRule = screen
+        .getByText('Inactive Rule')
+        .closest('[data-testid="rule-item"]');
       expect(inactiveRule).toHaveAttribute('data-active', 'false');
     });
 
@@ -430,9 +448,13 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       const handleNodeSelect = vi.fn();
 
-      render(<StandardsList onNodeSelect={handleNodeSelect} />, { wrapper: createWrapper() });
+      render(<StandardsList onNodeSelect={handleNodeSelect} />, {
+        wrapper: createWrapper(),
+      });
 
-      const platformFolder = screen.getByRole('treeitem', { name: /platform standards/i });
+      const platformFolder = screen.getByRole('treeitem', {
+        name: /platform standards/i,
+      });
       await user.click(platformFolder);
 
       expect(handleNodeSelect).toHaveBeenCalledWith(mockNodes[0]);
@@ -442,9 +464,13 @@ describe('StandardsList', () => {
       const user = userEvent.setup();
       const handleRuleSelect = vi.fn();
 
-      render(<StandardsList onRuleSelect={handleRuleSelect} />, { wrapper: createWrapper() });
+      render(<StandardsList onRuleSelect={handleRuleSelect} />, {
+        wrapper: createWrapper(),
+      });
 
-      const ruleItem = screen.getByText('Teams Display Size').closest('[data-testid="rule-item"]');
+      const ruleItem = screen
+        .getByText('Teams Display Size')
+        .closest('[data-testid="rule-item"]');
       await user.click(ruleItem!);
 
       expect(handleRuleSelect).toHaveBeenCalledWith(mockRules[0]);

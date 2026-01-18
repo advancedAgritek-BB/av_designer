@@ -7,17 +7,13 @@
 
 import { useState, useCallback, useId } from 'react';
 import { Button } from '@/components/ui/Button';
-import {
-  RULE_ASPECTS,
-  RULE_EXPRESSION_TYPES,
-  RULE_DIMENSIONS,
-} from '@/types/standards';
+import { ConditionRow } from './ConditionRow';
+import { RULE_ASPECTS, RULE_EXPRESSION_TYPES } from '@/types/standards';
 import type {
   Rule,
   RuleAspect,
   RuleExpressionType,
   RuleCondition,
-  ConditionOperator,
 } from '@/types/standards';
 import type { CreateRuleInput } from '../standards-service';
 
@@ -42,24 +38,6 @@ interface FormErrors {
   priority?: string;
   conditions?: string;
 }
-
-const CONDITION_OPERATORS: ConditionOperator[] = [
-  'equals',
-  'not_equals',
-  'contains',
-  'greater_than',
-  'less_than',
-  'in',
-];
-
-const OPERATOR_LABELS: Record<ConditionOperator, string> = {
-  equals: 'Equals',
-  not_equals: 'Not Equals',
-  contains: 'Contains',
-  greater_than: 'Greater Than',
-  less_than: 'Less Than',
-  in: 'In',
-};
 
 const ASPECT_LABELS: Record<RuleAspect, string> = {
   equipment_selection: 'Equipment Selection',
@@ -158,7 +136,18 @@ export function RuleEditor({
         conditions,
       });
     },
-    [name, description, aspect, expressionType, expression, priority, isActive, conditions, validateForm, onSubmit]
+    [
+      name,
+      description,
+      aspect,
+      expressionType,
+      expression,
+      priority,
+      isActive,
+      conditions,
+      validateForm,
+      onSubmit,
+    ]
   );
 
   const handleAddCondition = useCallback(() => {
@@ -277,7 +266,9 @@ export function RuleEditor({
             value={expressionType}
             onChange={(e) => setExpressionType(e.target.value as RuleExpressionType)}
             aria-invalid={!!errors.expressionType}
-            aria-describedby={errors.expressionType ? `${formId}-expression-type-error` : undefined}
+            aria-describedby={
+              errors.expressionType ? `${formId}-expression-type-error` : undefined
+            }
           >
             <option value="">Select type...</option>
             {RULE_EXPRESSION_TYPES.map((t) => (
@@ -287,7 +278,11 @@ export function RuleEditor({
             ))}
           </select>
           {errors.expressionType && (
-            <span id={`${formId}-expression-type-error`} className="form-error" role="alert">
+            <span
+              id={`${formId}-expression-type-error`}
+              className="form-error"
+              role="alert"
+            >
               {errors.expressionType}
             </span>
           )}
@@ -380,7 +375,9 @@ export function RuleEditor({
             rows={3}
             placeholder="e.g., display.size >= 75"
             aria-invalid={!!errors.expression}
-            aria-describedby={errors.expression ? `${formId}-expression-error` : undefined}
+            aria-describedby={
+              errors.expression ? `${formId}-expression-error` : undefined
+            }
           />
           {errors.expression && (
             <span id={`${formId}-expression-error`} className="form-error" role="alert">
@@ -400,111 +397,5 @@ export function RuleEditor({
         </Button>
       </div>
     </form>
-  );
-}
-
-// ============================================================================
-// Condition Row Component
-// ============================================================================
-
-interface ConditionRowProps {
-  formId: string;
-  index: number;
-  condition: RuleCondition;
-  onChange: (index: number, field: keyof RuleCondition, value: string) => void;
-  onRemove: (index: number) => void;
-}
-
-function ConditionRow({ formId, index, condition, onChange, onRemove }: ConditionRowProps) {
-  return (
-    <div className="condition-row">
-      {/* Dimension */}
-      <div className="form-field condition-field">
-        <label htmlFor={`${formId}-condition-${index}-dimension`} className="form-label">
-          Dimension
-        </label>
-        <select
-          id={`${formId}-condition-${index}-dimension`}
-          className="form-select"
-          value={condition.dimension}
-          onChange={(e) => onChange(index, 'dimension', e.target.value)}
-        >
-          {RULE_DIMENSIONS.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Operator */}
-      <div className="form-field condition-field">
-        <label htmlFor={`${formId}-condition-${index}-operator`} className="form-label">
-          Operator
-        </label>
-        <select
-          id={`${formId}-condition-${index}-operator`}
-          className="form-select"
-          value={condition.operator}
-          onChange={(e) => onChange(index, 'operator', e.target.value)}
-        >
-          {CONDITION_OPERATORS.map((op) => (
-            <option key={op} value={op}>
-              {OPERATOR_LABELS[op]}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Value */}
-      <div className="form-field condition-field condition-value">
-        <label htmlFor={`${formId}-condition-${index}-value`} className="form-label">
-          Value
-        </label>
-        <input
-          id={`${formId}-condition-${index}-value`}
-          type="text"
-          className="form-input"
-          value={condition.value as string}
-          onChange={(e) => onChange(index, 'value', e.target.value)}
-          placeholder="Enter value..."
-        />
-      </div>
-
-      {/* Remove Button */}
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        onClick={() => onRemove(index)}
-        aria-label="Remove condition"
-        className="condition-remove"
-      >
-        <RemoveIcon />
-      </Button>
-    </div>
-  );
-}
-
-// ============================================================================
-// Icons
-// ============================================================================
-
-function RemoveIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
   );
 }

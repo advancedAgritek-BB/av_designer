@@ -144,7 +144,9 @@ describe('Standards React Query Hooks', () => {
     });
 
     it('handles error', async () => {
-      vi.mocked(standardsService.getStandards).mockRejectedValue(new Error('Network error'));
+      vi.mocked(standardsService.getStandards).mockRejectedValue(
+        new Error('Network error')
+      );
 
       const { result } = renderHook(() => useStandardsList(), {
         wrapper: createWrapper(),
@@ -217,7 +219,10 @@ describe('Standards React Query Hooks', () => {
   describe('useUpdateStandard', () => {
     it('updates existing standard', async () => {
       const input: UpdateStandardInput = { rules: [] };
-      vi.mocked(standardsService.updateStandard).mockResolvedValue({ ...mockStandard, rules: [] });
+      vi.mocked(standardsService.updateStandard).mockResolvedValue({
+        ...mockStandard,
+        rules: [],
+      });
 
       const { result } = renderHook(() => useUpdateStandard(), {
         wrapper: createWrapper(),
@@ -425,7 +430,9 @@ describe('Standards React Query Hooks', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(result.current.data).toHaveLength(1);
-      expect(standardsService.getRulesByAspect).toHaveBeenCalledWith('equipment_selection');
+      expect(standardsService.getRulesByAspect).toHaveBeenCalledWith(
+        'equipment_selection'
+      );
     });
 
     it('fetches different aspects', async () => {
@@ -514,7 +521,10 @@ describe('Standards React Query Hooks', () => {
   describe('useUpdateRule', () => {
     it('updates existing rule', async () => {
       const input: UpdateRuleInput = { priority: 90 };
-      vi.mocked(standardsService.updateRule).mockResolvedValue({ ...mockRule, priority: 90 });
+      vi.mocked(standardsService.updateRule).mockResolvedValue({
+        ...mockRule,
+        priority: 90,
+      });
 
       const { result } = renderHook(() => useUpdateRule(), {
         wrapper: createWrapper(),
@@ -544,7 +554,9 @@ describe('Standards React Query Hooks', () => {
     });
 
     it('handles delete error', async () => {
-      vi.mocked(standardsService.deleteRule).mockRejectedValue(new Error('Delete failed'));
+      vi.mocked(standardsService.deleteRule).mockRejectedValue(
+        new Error('Delete failed')
+      );
 
       const { result } = renderHook(() => useDeleteRule(), {
         wrapper: createWrapper(),

@@ -47,9 +47,7 @@ function createQueryWrapper() {
     },
   });
   return function QueryWrapper({ children }: { children: React.ReactNode }) {
-    return (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
+    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
   };
 }
 
@@ -66,9 +64,7 @@ describe('EquipmentForm', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.getByRole('form', { name: /add.*equipment/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('form', { name: /add.*equipment/i })).toBeInTheDocument();
     });
 
     it('renders manufacturer input', () => {
@@ -96,18 +92,14 @@ describe('EquipmentForm', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.getByRole('combobox', { name: /^category/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /^category/i })).toBeInTheDocument();
     });
 
     it('renders subcategory select', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.getByRole('combobox', { name: /^subcategory/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /^subcategory/i })).toBeInTheDocument();
     });
 
     it('renders description textarea', () => {
@@ -151,186 +143,113 @@ describe('EquipmentForm', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.getByRole('button', { name: /add equipment/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /add equipment/i })).toBeInTheDocument();
     });
 
     it('renders cancel button when onCancel provided', () => {
-      render(
-        <EquipmentForm mode="create" onSubmit={vi.fn()} onCancel={vi.fn()} />,
-        { wrapper: createQueryWrapper() }
-      );
-      expect(
-        screen.getByRole('button', { name: /cancel/i })
-      ).toBeInTheDocument();
+      render(<EquipmentForm mode="create" onSubmit={vi.fn()} onCancel={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
+      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
     });
 
     it('does not render cancel button when onCancel not provided', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.queryByRole('button', { name: /cancel/i })
-      ).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /cancel/i })).not.toBeInTheDocument();
     });
   });
 
   describe('Rendering - Edit Mode', () => {
     it('renders with accessible form name for edit mode', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
-      expect(
-        screen.getByRole('form', { name: /edit.*equipment/i })
-      ).toBeInTheDocument();
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
+      expect(screen.getByRole('form', { name: /edit.*equipment/i })).toBeInTheDocument();
     });
 
     it('pre-fills manufacturer from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/manufacturer/i)).toHaveValue('Shure');
     });
 
     it('pre-fills model from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/model/i)).toHaveValue('MXA920');
     });
 
     it('pre-fills SKU from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/sku/i)).toHaveValue('MXA920-S');
     });
 
     it('pre-fills category from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
-      expect(screen.getByRole('combobox', { name: /^category/i })).toHaveValue(
-        'audio'
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
+      expect(screen.getByRole('combobox', { name: /^category/i })).toHaveValue('audio');
     });
 
     it('pre-fills subcategory from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByRole('combobox', { name: /^subcategory/i })).toHaveValue(
         'microphones'
       );
     });
 
     it('pre-fills description from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/description/i)).toHaveValue(
         'Ceiling array microphone with IntelliMix DSP'
       );
     });
 
     it('pre-fills cost from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/cost/i)).toHaveValue(2847);
     });
 
     it('pre-fills MSRP from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/msrp/i)).toHaveValue(3500);
     });
 
     it('pre-fills dimensions from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/height/i)).toHaveValue(2.5);
       expect(screen.getByLabelText(/width/i)).toHaveValue(23.5);
       expect(screen.getByLabelText(/depth/i)).toHaveValue(23.5);
     });
 
     it('pre-fills weight from equipment', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
       expect(screen.getByLabelText(/weight/i)).toHaveValue(6.2);
     });
 
     it('renders submit button with "Save Changes" text in edit mode', () => {
-      render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={vi.fn()}
-        />,
-        { wrapper: createQueryWrapper() }
-      );
-      expect(
-        screen.getByRole('button', { name: /save changes/i })
-      ).toBeInTheDocument();
+      render(<EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
+      expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument();
     });
   });
 
@@ -595,9 +514,7 @@ describe('EquipmentForm', () => {
 
       await userEvent.type(screen.getByLabelText(/manufacturer/i), 'Shure');
 
-      expect(
-        screen.queryByText(/manufacturer is required/i)
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText(/manufacturer is required/i)).not.toBeInTheDocument();
     });
   });
 
@@ -619,10 +536,7 @@ describe('EquipmentForm', () => {
         screen.getByRole('combobox', { name: /^subcategory/i }),
         'microphones'
       );
-      await userEvent.type(
-        screen.getByLabelText(/description/i),
-        'Ceiling microphone'
-      );
+      await userEvent.type(screen.getByLabelText(/description/i), 'Ceiling microphone');
       await userEvent.type(screen.getByLabelText(/cost/i), '2847');
       await userEvent.type(screen.getByLabelText(/msrp/i), '3500');
       await userEvent.type(screen.getByLabelText(/height/i), '2.5');
@@ -668,11 +582,7 @@ describe('EquipmentForm', () => {
     it('calls onSubmit with equipment id in edit mode', async () => {
       const handleSubmit = vi.fn();
       render(
-        <EquipmentForm
-          mode="edit"
-          equipment={mockEquipment}
-          onSubmit={handleSubmit}
-        />,
+        <EquipmentForm mode="edit" equipment={mockEquipment} onSubmit={handleSubmit} />,
         { wrapper: createQueryWrapper() }
       );
 
@@ -699,10 +609,9 @@ describe('EquipmentForm', () => {
   describe('Cancel Button', () => {
     it('calls onCancel when cancel button clicked', async () => {
       const handleCancel = vi.fn();
-      render(
-        <EquipmentForm mode="create" onSubmit={vi.fn()} onCancel={handleCancel} />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="create" onSubmit={vi.fn()} onCancel={handleCancel} />, {
+        wrapper: createQueryWrapper(),
+      });
 
       const cancelButton = screen.getByRole('button', { name: /cancel/i });
       await userEvent.click(cancelButton);
@@ -712,10 +621,9 @@ describe('EquipmentForm', () => {
 
     it('does not submit form when cancel button clicked', async () => {
       const handleSubmit = vi.fn();
-      render(
-        <EquipmentForm mode="create" onSubmit={handleSubmit} onCancel={vi.fn()} />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="create" onSubmit={handleSubmit} onCancel={vi.fn()} />, {
+        wrapper: createQueryWrapper(),
+      });
 
       const cancelButton = screen.getByRole('button', { name: /cancel/i });
       await userEvent.click(cancelButton);
@@ -726,30 +634,27 @@ describe('EquipmentForm', () => {
 
   describe('Loading State', () => {
     it('disables submit button when isLoading is true', () => {
-      render(
-        <EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />, {
+        wrapper: createQueryWrapper(),
+      });
 
       const submitButton = screen.getByRole('button', { name: /add equipment/i });
       expect(submitButton).toBeDisabled();
     });
 
     it('shows loading spinner when isLoading is true', () => {
-      render(
-        <EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />, {
+        wrapper: createQueryWrapper(),
+      });
 
       const submitButton = screen.getByRole('button', { name: /add equipment/i });
       expect(submitButton).toHaveAttribute('aria-busy', 'true');
     });
 
     it('disables all inputs when isLoading is true', () => {
-      render(
-        <EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />,
-        { wrapper: createQueryWrapper() }
-      );
+      render(<EquipmentForm mode="create" onSubmit={vi.fn()} isLoading={true} />, {
+        wrapper: createQueryWrapper(),
+      });
 
       expect(screen.getByLabelText(/manufacturer/i)).toBeDisabled();
       expect(screen.getByLabelText(/model/i)).toBeDisabled();
@@ -762,9 +667,7 @@ describe('EquipmentForm', () => {
       render(<EquipmentForm mode="create" onSubmit={vi.fn()} />, {
         wrapper: createQueryWrapper(),
       });
-      expect(
-        screen.getByRole('button', { name: /electrical/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /electrical/i })).toBeInTheDocument();
     });
 
     it('expands electrical section when clicked', async () => {
@@ -901,9 +804,7 @@ describe('EquipmentForm', () => {
 
       const manufacturerInput = screen.getByLabelText(/manufacturer/i);
       expect(manufacturerInput).toHaveAttribute('aria-invalid', 'true');
-      expect(manufacturerInput).toHaveAccessibleDescription(
-        /manufacturer is required/i
-      );
+      expect(manufacturerInput).toHaveAccessibleDescription(/manufacturer is required/i);
     });
 
     it('focuses first invalid field on submit error', async () => {
@@ -922,9 +823,7 @@ describe('EquipmentForm', () => {
         wrapper: createQueryWrapper(),
       });
 
-      expect(
-        screen.getByRole('group', { name: /dimensions/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('group', { name: /dimensions/i })).toBeInTheDocument();
     });
   });
 

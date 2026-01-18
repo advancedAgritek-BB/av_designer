@@ -325,7 +325,9 @@ describe('RuleEngine', () => {
 
       it('resolves nested paths', () => {
         const context = { equipment: { display: { size: 75 } } };
-        expect(engine.evaluateExpression('equipment.display.size >= 65', context)).toBe(true);
+        expect(engine.evaluateExpression('equipment.display.size >= 65', context)).toBe(
+          true
+        );
       });
 
       it('returns true for missing paths (graceful handling)', () => {
@@ -569,7 +571,9 @@ describe('RuleEngine', () => {
       const result = engine.validateDesign(rules, context);
 
       // Should have all three issues
-      expect(result.errors.length + result.warnings.length + result.suggestions.length).toBe(3);
+      expect(
+        result.errors.length + result.warnings.length + result.suggestions.length
+      ).toBe(3);
     });
 
     it('skips inactive rules', () => {

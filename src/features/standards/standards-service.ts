@@ -2,7 +2,7 @@
  * Standards Service Layer
  *
  * Provides CRUD operations and data access for standards, nodes, and rules.
- * Handles row mapping between snake_case (database) and camelCase (frontend).
+ * Uses mappers from standards-db-types for snake_case/camelCase transformation.
  */
 
 import { supabase } from '@/lib/supabase';
@@ -15,40 +15,17 @@ import type {
   RuleCondition,
   RuleExpressionType,
 } from '@/types/standards';
-
-// ============================================================================
-// Database Row Types (snake_case)
-// ============================================================================
-
-interface StandardDbRow {
-  id: string;
-  node_id: string;
-  rules: Rule[];
-  created_at: string;
-  updated_at: string;
-}
-
-interface StandardNodeDbRow {
-  id: string;
-  name: string;
-  parent_id: string | null;
-  type: 'folder' | 'standard';
-  order: number;
-}
-
-interface RuleDbRow {
-  id: string;
-  name: string;
-  description: string;
-  aspect: RuleAspect;
-  expression_type: RuleExpressionType;
-  conditions: RuleCondition[];
-  expression: string;
-  priority: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
+import {
+  type StandardDbRow,
+  type StandardNodeDbRow,
+  type RuleDbRow,
+  mapStandardRows,
+  mapStandardRow,
+  mapNodeRows,
+  mapNodeRow,
+  mapRuleRows,
+  mapRuleRow,
+} from './standards-db-types';
 
 // ============================================================================
 // Input Types for Create/Update
@@ -126,7 +103,7 @@ export class StandardsService {
       .order('node_id', { ascending: true });
 
     if (error) throw error;
-    return this.mapStandardRows((data as StandardDbRow[] | null) ?? []);
+    return mapStandardRows((data as StandardDbRow[] | null) ?? []);
   }
 
   /**
@@ -143,7 +120,7 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return this.mapStandardRow(data as StandardDbRow);
+    return mapStandardRow(data as StandardDbRow);
   }
 
   /**
@@ -162,7 +139,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapStandardRow(data as unknown as StandardDbRow);
+    return mapStandardRow(data as unknown as StandardDbRow);
   }
 
   /**
@@ -181,7 +158,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapStandardRow(data as StandardDbRow);
+    return mapStandardRow(data as StandardDbRow);
   }
 
   /**
@@ -206,7 +183,7 @@ export class StandardsService {
       .order('name', { ascending: true });
 
     if (error) throw error;
-    return this.mapNodeRows((data as StandardNodeDbRow[] | null) ?? []);
+    return mapNodeRows((data as StandardNodeDbRow[] | null) ?? []);
   }
 
   /**
@@ -223,7 +200,7 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return this.mapNodeRow(data as StandardNodeDbRow);
+    return mapNodeRow(data as StandardNodeDbRow);
   }
 
   /**
@@ -241,7 +218,7 @@ export class StandardsService {
     const { data, error } = await query.order('order', { ascending: true });
 
     if (error) throw error;
-    return this.mapNodeRows((data as unknown as StandardNodeDbRow[] | null) ?? []);
+    return mapNodeRows((data as unknown as StandardNodeDbRow[] | null) ?? []);
   }
 
   /**
@@ -267,7 +244,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapNodeRow(data as unknown as StandardNodeDbRow);
+    return mapNodeRow(data as unknown as StandardNodeDbRow);
   }
 
   /**
@@ -293,7 +270,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapNodeRow(data as unknown as StandardNodeDbRow);
+    return mapNodeRow(data as unknown as StandardNodeDbRow);
   }
 
   /**
@@ -318,7 +295,7 @@ export class StandardsService {
       .order('priority', { ascending: false });
 
     if (error) throw error;
-    return this.mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
   }
 
   /**
@@ -335,7 +312,7 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return this.mapRuleRow(data as RuleDbRow);
+    return mapRuleRow(data as RuleDbRow);
   }
 
   /**
@@ -349,7 +326,7 @@ export class StandardsService {
       .order('priority', { ascending: false });
 
     if (error) throw error;
-    return this.mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
   }
 
   /**
@@ -363,7 +340,7 @@ export class StandardsService {
       .limit(50);
 
     if (error) throw error;
-    return this.mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
   }
 
   /**
@@ -397,7 +374,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapRuleRow(data as unknown as RuleDbRow);
+    return mapRuleRow(data as unknown as RuleDbRow);
   }
 
   /**
@@ -433,7 +410,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return this.mapRuleRow(data as unknown as RuleDbRow);
+    return mapRuleRow(data as unknown as RuleDbRow);
   }
 
   /**
@@ -442,58 +419,6 @@ export class StandardsService {
   async deleteRule(id: string): Promise<void> {
     const { error } = await supabase.from(this.rulesTable).delete().eq('id', id);
     if (error) throw error;
-  }
-
-  // ==========================================================================
-  // Row Mappers (snake_case -> camelCase)
-  // ==========================================================================
-
-  private mapStandardRows(rows: StandardDbRow[]): Standard[] {
-    return rows.map((row) => this.mapStandardRow(row));
-  }
-
-  private mapStandardRow(row: StandardDbRow): Standard {
-    return {
-      id: row.id,
-      nodeId: row.node_id,
-      rules: row.rules,
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
-    };
-  }
-
-  private mapNodeRows(rows: StandardNodeDbRow[]): StandardNode[] {
-    return rows.map((row) => this.mapNodeRow(row));
-  }
-
-  private mapNodeRow(row: StandardNodeDbRow): StandardNode {
-    return {
-      id: row.id,
-      name: row.name,
-      parentId: row.parent_id,
-      type: row.type,
-      order: row.order,
-    };
-  }
-
-  private mapRuleRows(rows: RuleDbRow[]): Rule[] {
-    return rows.map((row) => this.mapRuleRow(row));
-  }
-
-  private mapRuleRow(row: RuleDbRow): Rule {
-    return {
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      aspect: row.aspect,
-      expressionType: row.expression_type,
-      conditions: row.conditions,
-      expression: row.expression,
-      priority: row.priority,
-      isActive: row.is_active,
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
-    };
   }
 }
 

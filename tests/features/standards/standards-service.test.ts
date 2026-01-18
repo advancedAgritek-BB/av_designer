@@ -6,7 +6,10 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { StandardsService, standardsService } from '@/features/standards/standards-service';
+import {
+  StandardsService,
+  standardsService,
+} from '@/features/standards/standards-service';
 import { supabase } from '@/lib/supabase';
 
 // Mock Supabase
@@ -161,7 +164,9 @@ describe('StandardsService', () => {
         error: { message: 'Insert failed' },
       });
 
-      await expect(service.createStandard({ nodeId: 'node-1', rules: [] })).rejects.toEqual({
+      await expect(
+        service.createStandard({ nodeId: 'node-1', rules: [] })
+      ).rejects.toEqual({
         message: 'Insert failed',
       });
     });
@@ -396,7 +401,9 @@ describe('StandardsService', () => {
         description: 'Test',
         aspect: 'equipment_selection' as const,
         expressionType: 'constraint' as const,
-        conditions: [{ dimension: 'platform' as const, operator: 'equals' as const, value: 'teams' }],
+        conditions: [
+          { dimension: 'platform' as const, operator: 'equals' as const, value: 'teams' },
+        ],
         expression: 'x >= 0',
         priority: 50,
         isActive: true,

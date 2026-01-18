@@ -69,9 +69,12 @@ describe('RuleEditor', () => {
     });
 
     it('displays edit mode title', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByRole('heading', { name: /edit rule/i })).toBeInTheDocument();
     });
   });
@@ -122,39 +125,54 @@ describe('RuleEditor', () => {
 
   describe('Edit Mode Pre-population', () => {
     it('pre-populates name in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByLabelText(/name/i)).toHaveValue('Teams Display Size');
     });
 
     it('pre-populates description in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByLabelText(/description/i)).toHaveValue(
         'Require 75" display for Teams rooms'
       );
     });
 
     it('pre-populates aspect in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByLabelText(/aspect/i)).toHaveValue('equipment_selection');
     });
 
     it('pre-populates priority in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByLabelText(/priority/i)).toHaveValue(80);
     });
 
     it('pre-populates expression in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByLabelText(/^expression$/i)).toHaveValue('display.size >= 75');
     });
   });
@@ -188,9 +206,12 @@ describe('RuleEditor', () => {
     });
 
     it('displays existing conditions in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       // The dimension select should have 'platform' selected
       const dimensionSelect = screen.getByLabelText(/dimension/i);
       expect(dimensionSelect).toHaveValue('platform');
@@ -203,9 +224,12 @@ describe('RuleEditor', () => {
 
     it('can remove a condition', async () => {
       const user = userEvent.setup();
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
 
       const removeButton = screen.getByRole('button', { name: /remove condition/i });
       await user.click(removeButton);
@@ -248,9 +272,12 @@ describe('RuleEditor', () => {
     });
 
     it('shows "Save" in edit mode', () => {
-      render(<RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <RuleEditor mode="edit" rule={mockRule} onSubmit={vi.fn()} onCancel={vi.fn()} />,
+        {
+          wrapper: createWrapper(),
+        }
+      );
       expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
     });
 
@@ -388,7 +415,12 @@ describe('RuleEditor', () => {
   describe('Loading State', () => {
     it('disables submit button when loading', () => {
       render(
-        <RuleEditor mode="create" onSubmit={vi.fn()} onCancel={vi.fn()} isLoading={true} />,
+        <RuleEditor
+          mode="create"
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isLoading={true}
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -398,7 +430,12 @@ describe('RuleEditor', () => {
 
     it('shows loading text on submit button', () => {
       render(
-        <RuleEditor mode="create" onSubmit={vi.fn()} onCancel={vi.fn()} isLoading={true} />,
+        <RuleEditor
+          mode="create"
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isLoading={true}
+        />,
         { wrapper: createWrapper() }
       );
 

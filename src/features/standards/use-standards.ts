@@ -30,11 +30,15 @@ const STANDARDS_KEYS = {
   standards: () => [...STANDARDS_KEYS.all, 'standards'] as const,
   standard: (id: string) => [...STANDARDS_KEYS.all, 'standard', id] as const,
   nodes: () => [...STANDARDS_KEYS.all, 'nodes'] as const,
+  node: (id: string) => [...STANDARDS_KEYS.all, 'node', id] as const,
   nodesByParent: (parentId: string | null) =>
     [...STANDARDS_KEYS.all, 'nodes', 'parent', parentId ?? 'root'] as const,
   rules: () => [...STANDARDS_KEYS.all, 'rules'] as const,
-  rulesByAspect: (aspect: RuleAspect) => [...STANDARDS_KEYS.all, 'rules', 'aspect', aspect] as const,
-  rulesSearch: (query: string) => [...STANDARDS_KEYS.all, 'rules', 'search', query] as const,
+  rule: (id: string) => [...STANDARDS_KEYS.all, 'rule', id] as const,
+  rulesByAspect: (aspect: RuleAspect) =>
+    [...STANDARDS_KEYS.all, 'rules', 'aspect', aspect] as const,
+  rulesSearch: (query: string) =>
+    [...STANDARDS_KEYS.all, 'rules', 'search', query] as const,
 };
 
 // ============================================================================
@@ -125,6 +129,18 @@ export function useNodesList() {
 }
 
 /**
+ * Fetch single node by ID.
+ * Disabled when id is empty.
+ */
+export function useNode(id: string) {
+  return useQuery({
+    queryKey: STANDARDS_KEYS.node(id),
+    queryFn: () => standardsService.getNodeById(id),
+    enabled: !!id,
+  });
+}
+
+/**
  * Fetch nodes by parent ID.
  * Pass null to fetch root nodes.
  */
@@ -192,6 +208,18 @@ export function useRulesList() {
   return useQuery({
     queryKey: STANDARDS_KEYS.rules(),
     queryFn: () => standardsService.getRules(),
+  });
+}
+
+/**
+ * Fetch single rule by ID.
+ * Disabled when id is empty.
+ */
+export function useRule(id: string) {
+  return useQuery({
+    queryKey: STANDARDS_KEYS.rule(id),
+    queryFn: () => standardsService.getRuleById(id),
+    enabled: !!id,
   });
 }
 

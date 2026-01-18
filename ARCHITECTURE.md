@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 3 Complete - Equipment Database
+**Status:** Phase 4 Complete - Standards Engine
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 3 - Equipment Database (Complete)
+**Phase:** 4 - Standards Engine (Complete)
 
 ### Implemented
 
@@ -52,14 +52,14 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Core UI components (Button, Input, Card)
 - [x] Layout components (Sidebar, Header, Shell)
 - [x] Equipment database (service, hooks, components)
-- [ ] Standards engine
+- [x] Standards engine (types, rule engine, service, hooks, components)
 - [ ] Room builder
 - [ ] Drawing generation
 - [ ] Quoting system
 
 ### In Progress
 
-- Phase 4: Standards Engine (next)
+- Phase 5: Room Builder (next)
 
 ---
 
@@ -118,8 +118,15 @@ av_designer/
 │   │   │   │   ├── equipment-form-types.ts        # Form types and state
 │   │   │   │   └── equipment-form-validation.ts   # Validation logic
 │   │   │   └── index.ts              # Public feature exports
+│   │   ├── standards/            # Standards engine feature
+│   │   │   ├── rule-engine.ts        # Rule evaluation with expression parsing
+│   │   │   ├── standards-service.ts  # CRUD operations via Supabase
+│   │   │   ├── use-standards.ts      # React Query hooks
+│   │   │   ├── components/
+│   │   │   │   ├── StandardsList.tsx     # Hierarchical tree with aspect tabs
+│   │   │   │   └── RuleEditor.tsx        # Rule create/edit form
+│   │   │   └── index.ts              # Public feature exports
 │   │   ├── room-builder/         # Room design canvas (planned)
-│   │   ├── standards/            # Standards engine (planned)
 │   │   ├── drawings/             # Drawing generation (planned)
 │   │   └── quoting/              # Quote/BOM system (planned)
 │   ├── lib/                      # Utilities
@@ -132,7 +139,8 @@ av_designer/
 │   ├── hooks/                    # Shared hooks (planned)
 │   ├── types/                    # Global types
 │   │   ├── index.ts              # Core domain types
-│   │   └── equipment.ts          # Equipment types & validation
+│   │   ├── equipment.ts          # Equipment types & validation
+│   │   └── standards.ts          # Standards, rules, conditions types
 │   └── styles/                   # Modular CSS
 │       ├── globals.css           # Entry point (imports all modules)
 │       ├── theme.css             # Tailwind @theme tokens
@@ -176,15 +184,23 @@ av_designer/
 │   │   │       └── Header.test.tsx   # Header tests (38 tests)
 │   │   └── Shell.test.tsx        # Shell tests (35 tests)
 │   ├── features/                 # Feature tests
-│   │   └── equipment/
-│   │       ├── equipment-service.test.ts       # Service tests (18 tests)
-│   │       ├── use-equipment.test.tsx          # Hook tests (16 tests)
+│   │   ├── equipment/
+│   │   │   ├── equipment-service.test.ts       # Service tests (18 tests)
+│   │   │   ├── use-equipment.test.tsx          # Hook tests (16 tests)
+│   │   │   └── components/
+│   │   │       ├── EquipmentCard.test.tsx      # Card tests (33 tests)
+│   │   │       ├── EquipmentList.test.tsx      # List tests (38 tests)
+│   │   │       └── EquipmentForm.test.tsx      # Form tests (60 tests)
+│   │   └── standards/
+│   │       ├── rule-engine.test.ts             # Rule engine tests (44 tests)
+│   │       ├── standards-service.test.ts       # Service tests (26 tests)
+│   │       ├── use-standards.test.tsx          # Hook tests (28 tests)
 │   │       └── components/
-│   │           ├── EquipmentCard.test.tsx      # Card tests (33 tests)
-│   │           ├── EquipmentList.test.tsx      # List tests (38 tests)
-│   │           └── EquipmentForm.test.tsx      # Form tests (60 tests)
+│   │           ├── StandardsList.test.tsx      # Tree/list tests (37 tests)
+│   │           └── RuleEditor.test.tsx         # Form tests (36 tests)
 │   ├── types/
-│   │   └── equipment.test.ts     # Equipment type tests (32 tests)
+│   │   ├── equipment.test.ts     # Equipment type tests (32 tests)
+│   │   └── standards.test.ts     # Standards type tests (24 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -302,7 +318,76 @@ interface Equipment {
 - Use Case (video conferencing, presentation, etc.)
 - Client-Specific overrides
 
-**Status:** Not started
+**Key Types:**
+```typescript
+type RuleAspect = 'equipment_selection' | 'quantities' | 'placement' |
+                  'configuration' | 'cabling' | 'commercial';
+type RuleExpressionType = 'constraint' | 'formula' | 'conditional' |
+                          'range_match' | 'pattern';
+type ConditionOperator = 'equals' | 'not_equals' | 'contains' |
+                         'greater_than' | 'less_than' | 'in';
+
+interface Rule {
+  id: string;
+  name: string;
+  description: string;
+  aspect: RuleAspect;
+  expressionType: RuleExpressionType;
+  conditions: RuleCondition[];
+  expression: string;
+  priority: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface StandardNode {
+  id: string;
+  name: string;
+  parentId: string | null;
+  type: 'folder' | 'standard';
+  order: number;
+}
+```
+
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| StandardsList | Hierarchical tree with expandable folders, aspect filter tabs, rule display |
+| RuleEditor | Form for creating/editing rules with condition builder and expression editor |
+
+**Hooks (React Query):**
+| Hook | Description |
+|------|-------------|
+| useStandardsList | Fetch all standards |
+| useStandard | Fetch single by ID |
+| useCreateStandard | Create mutation with cache invalidation |
+| useUpdateStandard | Update mutation with cache invalidation |
+| useDeleteStandard | Delete mutation with cache invalidation |
+| useNodesList | Fetch all hierarchy nodes |
+| useNode | Fetch single node by ID |
+| useNodesByParent | Fetch children of a parent node |
+| useCreateNode | Create node mutation |
+| useUpdateNode | Update node mutation |
+| useDeleteNode | Delete node mutation |
+| useRulesList | Fetch all rules |
+| useRule | Fetch single rule by ID |
+| useRulesByAspect | Fetch rules filtered by aspect |
+| useSearchRules | Search rules by name/description |
+| useCreateRule | Create rule mutation |
+| useUpdateRule | Update rule mutation |
+| useDeleteRule | Delete rule mutation |
+
+**Rule Engine:**
+| Method | Description |
+|--------|-------------|
+| evaluateCondition | Evaluate single condition against context |
+| evaluateRule | Evaluate rule with all conditions against context |
+| evaluateRules | Find matching rules and sort by priority |
+| parseExpression | Parse expression string into operations |
+| executeExpression | Execute parsed expression with context values |
+
+**Status:** Complete (195 tests)
 
 ---
 
@@ -422,6 +507,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-18 | Phase 2 complete: Design System & Core Components - Button (27 tests), Input (38 tests), Card (45 tests), Sidebar (45 tests), Header (38 tests), Shell (35 tests) - Total: 234 tests |
 | 2026-01-18 | Phase 3 complete: Equipment Database - Types (32 tests), Service (18 tests), Hooks (16 tests), EquipmentCard (33 tests), EquipmentList (38 tests), EquipmentForm (60 tests), App (6 tests) - Total: 431 tests |
 | 2026-01-18 | Code review refactoring: Split EquipmentForm (950→291 lines) into 8 modular files; Split globals.css (1343→32 lines) into 12 CSS modules |
+| 2026-01-18 | Phase 4 complete: Standards Engine - Types (24 tests), Rule Engine (44 tests), Service (26 tests), Hooks (28 tests), StandardsList (37 tests), RuleEditor (36 tests) - Total: 626 tests |
 
 ---
 

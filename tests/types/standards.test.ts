@@ -305,7 +305,11 @@ describe('Standards Types', () => {
     });
 
     it('supports all severity levels', () => {
-      const severities: ValidationIssue['severity'][] = ['error', 'warning', 'suggestion'];
+      const severities: ValidationIssue['severity'][] = [
+        'error',
+        'warning',
+        'suggestion',
+      ];
 
       severities.forEach((sev) => {
         const issue: ValidationIssue = {

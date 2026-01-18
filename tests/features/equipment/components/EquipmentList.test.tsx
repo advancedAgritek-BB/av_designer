@@ -124,7 +124,9 @@ describe('EquipmentList', () => {
 
     it('displays page title', () => {
       render(<EquipmentList />, { wrapper: createWrapper() });
-      expect(screen.getByRole('heading', { name: /equipment/i, level: 1 })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: /equipment/i, level: 1 })
+      ).toBeInTheDocument();
     });
 
     it('displays equipment count', () => {
@@ -463,7 +465,9 @@ describe('EquipmentList', () => {
       const user = userEvent.setup();
       const handleFavorite = vi.fn();
 
-      render(<EquipmentList onFavoriteToggle={handleFavorite} />, { wrapper: createWrapper() });
+      render(<EquipmentList onFavoriteToggle={handleFavorite} />, {
+        wrapper: createWrapper(),
+      });
 
       const favoriteButtons = screen.getAllByRole('button', { name: /favorite/i });
       await user.click(favoriteButtons[0]);
