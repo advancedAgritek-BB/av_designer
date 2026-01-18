@@ -153,9 +153,9 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/layout/Header.tsx` with breadcrumbs
-- [ ] Add search trigger and user menu
-- [ ] Write tests for Header component
+- [x] Create `src/components/layout/Header.tsx` with breadcrumbs
+- [x] Add search trigger and user menu
+- [x] Write tests for Header component
 
 ### Task 2.6: Create Shell Component
 
@@ -306,6 +306,17 @@
   - Accessibility: aria-label on nav, aria-current on active item, aria-hidden on icons
   - Connected to app-store for currentMode, sidebarExpanded, setMode, toggleSidebar
   - Custom Lucide-style SVG icons (20px, 1.5px stroke)
+
+- **Task 2.5: Create Header Component** (2026-01-18)
+  - TDD approach: wrote 38 tests first, watched them fail, then implemented
+  - Features: breadcrumb navigation, search trigger, user menu
+  - Breadcrumbs: mode title with optional project/room context path
+  - Search button: icon with keyboard shortcut hint (Cmd+K)
+  - User menu: avatar with initials display
+  - Callbacks: onSearchClick, onUserMenuClick for parent component integration
+  - Accessibility: aria-label on navigation, aria-current on current breadcrumb item
+  - CSS styles added to globals.css for all header elements
+  - Exports via src/components/layout/index.ts
 
 ---
 
