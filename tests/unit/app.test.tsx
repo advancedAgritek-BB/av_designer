@@ -23,7 +23,8 @@ const mockProjectStore = {
 };
 
 vi.mock('@/stores/app-store', () => ({
-  useAppStore: (selector: (state: typeof mockAppStore) => unknown) => selector(mockAppStore),
+  useAppStore: (selector: (state: typeof mockAppStore) => unknown) =>
+    selector(mockAppStore),
 }));
 
 vi.mock('@/stores/project-store', () => ({
@@ -40,7 +41,9 @@ describe('App', () => {
 
   it('renders the heading', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { name: /Welcome to AV Designer/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Welcome to AV Designer/i })
+    ).toBeInTheDocument();
   });
 
   it('renders the design system preview', () => {
@@ -68,7 +71,9 @@ describe('App', () => {
   it('renders the Shell layout', () => {
     render(<App />);
     // Shell includes sidebar navigation
-    expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('navigation', { name: /main navigation/i })
+    ).toBeInTheDocument();
     // Shell includes header
     expect(screen.getByRole('banner')).toBeInTheDocument();
     // Shell includes main content area

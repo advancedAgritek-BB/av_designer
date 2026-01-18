@@ -24,7 +24,8 @@ const mockProjectStore = {
 };
 
 vi.mock('@/stores/app-store', () => ({
-  useAppStore: (selector: (state: typeof mockAppStore) => unknown) => selector(mockAppStore),
+  useAppStore: (selector: (state: typeof mockAppStore) => unknown) =>
+    selector(mockAppStore),
 }));
 
 vi.mock('@/stores/project-store', () => ({
@@ -61,7 +62,9 @@ describe('Shell', () => {
 
     it('renders Sidebar component', () => {
       render(<Shell>Content</Shell>);
-      expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('navigation', { name: /main navigation/i })
+      ).toBeInTheDocument();
     });
 
     it('renders Header component', () => {
@@ -139,7 +142,9 @@ describe('Shell', () => {
       mockAppStore.currentProjectId = 'proj-1';
       mockAppStore.currentRoomId = 'room-1';
       mockProjectStore.projects = [{ id: 'proj-1', name: 'Test Project' }];
-      mockProjectStore.rooms = [{ id: 'room-1', name: 'Conference Room A', projectId: 'proj-1' }];
+      mockProjectStore.rooms = [
+        { id: 'room-1', name: 'Conference Room A', projectId: 'proj-1' },
+      ];
       render(<Shell>Content</Shell>);
       expect(screen.getByText('Conference Room A')).toBeInTheDocument();
     });
@@ -230,7 +235,9 @@ describe('Shell', () => {
 
     it('sidebar has role="navigation"', () => {
       render(<Shell>Content</Shell>);
-      expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('navigation', { name: /main navigation/i })
+      ).toBeInTheDocument();
     });
 
     it('skip link exists for accessibility', () => {

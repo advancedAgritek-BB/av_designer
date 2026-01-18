@@ -14,7 +14,8 @@ vi.mock('@/stores/app-store', () => ({
 const mockUseProjectStore = vi.fn();
 
 vi.mock('@/stores/project-store', () => ({
-  useProjectStore: (selector: (state: unknown) => unknown) => mockUseProjectStore(selector),
+  useProjectStore: (selector: (state: unknown) => unknown) =>
+    mockUseProjectStore(selector),
 }));
 
 describe('Header', () => {
@@ -339,8 +340,12 @@ describe('Header', () => {
     it('search and user menu are in actions area', () => {
       render(<Header />);
       const actionsArea = document.querySelector('.header-actions');
-      expect(actionsArea).toContainElement(screen.getByRole('button', { name: /search/i }));
-      expect(actionsArea).toContainElement(screen.getByRole('button', { name: /user menu/i }));
+      expect(actionsArea).toContainElement(
+        screen.getByRole('button', { name: /search/i })
+      );
+      expect(actionsArea).toContainElement(
+        screen.getByRole('button', { name: /user menu/i })
+      );
     });
   });
 

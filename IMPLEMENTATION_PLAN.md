@@ -190,7 +190,87 @@
 
 ## Phase 3: Equipment Database
 
-*Tasks to be added when Phase 2 is complete*
+**Required Skills for ALL Phase 3 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns
+- `@frontend-design:frontend-design` - Programa-inspired visual catalog style
+
+### Task 3.1: Create Equipment Type Definitions
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/types/equipment.ts` with Equipment interfaces
+- [x] Add EQUIPMENT_CATEGORIES and EQUIPMENT_SUBCATEGORIES constants
+- [x] Create isValidEquipment validation function
+- [x] Write tests in `tests/types/equipment.test.ts`
+
+### Task 3.2: Create Equipment Service Layer
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/features/equipment/equipment-service.ts`
+- [x] Implement CRUD operations (getAll, getById, create, update, delete)
+- [x] Implement getByCategory and search methods
+- [x] Add row mapping from snake_case to camelCase
+- [x] Write tests in `tests/features/equipment/equipment-service.test.ts`
+
+### Task 3.3: Create Equipment React Query Hooks
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [x] Install `@tanstack/react-query`
+- [x] Create `src/features/equipment/use-equipment.ts`
+- [x] Implement useEquipmentList, useEquipmentByCategory, useEquipment hooks
+- [x] Implement useEquipmentSearch with minimum query length
+- [x] Implement mutations with cache invalidation
+- [x] Write tests in `tests/features/equipment/use-equipment.test.tsx`
+
+### Task 3.4: Create Equipment Card Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [x] Create `src/features/equipment/components/EquipmentCard.tsx`
+- [x] Display manufacturer, model, price, certifications
+- [x] Add selected state with golden accent
+- [x] Add favorite toggle button
+- [x] Write tests in `tests/features/equipment/components/EquipmentCard.test.tsx`
+
+### Task 3.5: Create Equipment List Page
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/equipment/components/EquipmentList.tsx`
+- [ ] Add category filtering tabs
+- [ ] Add search input
+- [ ] Display equipment in responsive grid
+- [ ] Show loading and empty states
+- [ ] Write tests in `tests/features/equipment/components/EquipmentList.test.tsx`
+
+### Task 3.6: Create Equipment Form Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [ ] Create `src/features/equipment/components/EquipmentForm.tsx`
+- [ ] Add all equipment fields with validation
+- [ ] Support create and edit modes
+- [ ] Handle form submission with React Query mutations
+- [ ] Write tests in `tests/features/equipment/components/EquipmentForm.test.tsx`
+
+### Task 3.7: Export Equipment Feature
+
+- [ ] Create `src/features/equipment/index.ts` with all exports
+- [ ] Wire Equipment page to App.tsx routing
+- [ ] Connect to sidebar navigation
+
+### Phase 3 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [ ] Visual review of all components
+- [ ] Run full validation (`./scripts/check.sh --full`)
+- [ ] Update ARCHITECTURE.md with equipment feature structure
+- [ ] Invoke `@superpowers:requesting-code-review`
+- [ ] Commit Phase 3 work
 
 ---
 
