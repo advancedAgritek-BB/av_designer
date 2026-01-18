@@ -642,10 +642,10 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`
 
-- [ ] Create `src/features/quoting/use-quotes.ts`
-- [ ] Implement useQuotesList, useQuotesByProject, useQuotesByRoom, useQuote hooks
-- [ ] Implement mutations with cache invalidation
-- [ ] Write tests in `tests/features/quoting/use-quotes.test.tsx`
+- [x] Create `src/features/quoting/use-quotes.ts`
+- [x] Implement useQuotesList, useQuotesByProject, useQuotesByRoom, useQuote hooks
+- [x] Implement mutations with cache invalidation
+- [x] Write tests in `tests/features/quoting/use-quotes.test.tsx`
 
 ### Task 7.4: Create BOM Generator
 
