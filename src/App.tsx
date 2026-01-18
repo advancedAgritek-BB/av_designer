@@ -5,8 +5,10 @@ import { Button } from '@/components/ui';
 import { Input } from '@/components/ui';
 import { Card, CardHeader, CardBody } from '@/components/ui';
 import { EquipmentList } from '@/features/equipment';
+import { StandardsList } from '@/features/standards';
 import { useAppStore } from '@/stores/app-store';
 import type { Equipment } from '@/types/equipment';
+import type { StandardNode, Rule } from '@/types/standards';
 
 // Create QueryClient outside component to avoid re-creation on render
 const queryClient = new QueryClient({
@@ -22,6 +24,8 @@ function AppContent() {
   const currentMode = useAppStore((state) => state.currentMode);
   const [selectedEquipmentId, setSelectedEquipmentId] = useState<string | undefined>();
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | undefined>();
+  const [selectedRuleId, setSelectedRuleId] = useState<string | undefined>();
 
   const handleSearchClick = () => {
     // TODO: Implement search modal
@@ -41,6 +45,14 @@ function AppContent() {
     );
   }, []);
 
+  const handleNodeSelect = useCallback((node: StandardNode) => {
+    setSelectedNodeId(node.id);
+  }, []);
+
+  const handleRuleSelect = useCallback((rule: Rule) => {
+    setSelectedRuleId(rule.id);
+  }, []);
+
   // Render content based on current mode
   const renderContent = () => {
     switch (currentMode) {
@@ -51,6 +63,15 @@ function AppContent() {
             favoriteIds={favoriteIds}
             onSelect={handleEquipmentSelect}
             onFavoriteToggle={handleFavoriteToggle}
+          />
+        );
+      case 'standards':
+        return (
+          <StandardsList
+            selectedNodeId={selectedNodeId}
+            selectedRuleId={selectedRuleId}
+            onNodeSelect={handleNodeSelect}
+            onRuleSelect={handleRuleSelect}
           />
         );
       case 'home':
