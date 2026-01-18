@@ -5,9 +5,11 @@
 pub mod commands;
 pub mod database;
 pub mod drawings;
+pub mod export;
 
 use commands::{get_app_info, greet};
 use drawings::generate_electrical;
+use export::export_to_pdf;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -25,7 +27,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             get_app_info,
-            generate_electrical
+            generate_electrical,
+            export_to_pdf
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

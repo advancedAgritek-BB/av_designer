@@ -562,11 +562,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src-tauri/src/export/mod.rs`
-- [ ] Create `src-tauri/src/export/pdf.rs`
-- [ ] Implement PDF generation from drawing data
-- [ ] Add title block and page layout support
-- [ ] Write Rust tests in `src-tauri/src/export/pdf.rs`
+- [x] Create `src-tauri/src/export/mod.rs`
+- [x] Create `src-tauri/src/export/pdf.rs`
+- [x] Implement PDF generation from drawing data
+- [x] Add title block and page layout support
+- [x] Write Rust tests in `src-tauri/src/export/pdf.rs`
 
 ### Task 6.8: Create Drawings Page
 
