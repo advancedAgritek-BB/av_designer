@@ -1,0 +1,301 @@
+/**
+ * Drawing Canvas Styles
+ *
+ * Styles for the drawing canvas component with layer visibility controls,
+ * zoom, pan, and element display.
+ */
+
+@layer components {
+  .drawing-canvas {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .drawing-canvas:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .drawing-canvas--empty {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drawing-canvas__empty-message {
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+  }
+
+  /* Toolbar */
+  .drawing-canvas__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .drawing-canvas__type-label {
+    padding: 4px 8px;
+    background-color: var(--color-accent-gold);
+    border-radius: 4px;
+    color: var(--color-bg-primary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .drawing-canvas__toolbar-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    background-color: var(--color-border);
+  }
+
+  .drawing-canvas__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .drawing-canvas__btn:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .drawing-canvas__btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .drawing-canvas__btn.active {
+    background-color: var(--color-accent-blue);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .drawing-canvas__zoom-level {
+    min-width: 48px;
+    padding: 0 8px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  /* Content layout */
+  .drawing-canvas__content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Layer Panel */
+  .drawing-canvas__layer-panel {
+    width: 200px;
+    padding: 12px;
+    background-color: var(--color-bg-tertiary);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .drawing-canvas__layer-panel-title {
+    margin: 0 0 12px 0;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .drawing-canvas__layer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .drawing-canvas__layer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .drawing-canvas__layer-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .drawing-canvas__layer-checkbox {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--color-accent-gold);
+  }
+
+  .drawing-canvas__layer-name {
+    color: var(--color-text-primary);
+    font-size: 12px;
+  }
+
+  .drawing-canvas__lock-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 4px;
+    color: var(--color-text-tertiary);
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  /* Viewport */
+  .drawing-canvas__viewport {
+    position: relative;
+    flex: 1;
+    margin: 16px;
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    overflow: auto;
+  }
+
+  /* Grid */
+  .drawing-canvas__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Layer */
+  .drawing-canvas__layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Element */
+  .drawing-canvas__element {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 4px;
+    background-color: var(--color-accent-blue);
+    border: 2px solid color-mix(in srgb, var(--color-accent-blue) 80%, black);
+    border-radius: 4px;
+    cursor: move;
+    pointer-events: auto;
+    transition: box-shadow 0.15s ease;
+    user-select: none;
+  }
+
+  .drawing-canvas__element:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .drawing-canvas__element.selected {
+    border-color: var(--color-accent-gold);
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-gold);
+  }
+
+  .drawing-canvas__element[draggable='false'] {
+    cursor: default;
+  }
+
+  /* Element type variations */
+  .drawing-canvas__element--equipment {
+    background-color: var(--color-accent-blue);
+    border-color: color-mix(in srgb, var(--color-accent-blue) 80%, black);
+  }
+
+  .drawing-canvas__element--cable {
+    background-color: transparent;
+    border: none;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+  }
+
+  .drawing-canvas__element--text {
+    background-color: transparent;
+    border: 1px dashed var(--color-border);
+    padding: 4px 8px;
+  }
+
+  .drawing-canvas__element--text .drawing-canvas__element-text {
+    color: var(--color-text-primary);
+    font-size: 12px;
+  }
+
+  .drawing-canvas__element--dimension {
+    background-color: var(--color-accent-gold);
+    border-color: color-mix(in srgb, var(--color-accent-gold) 80%, black);
+  }
+
+  .drawing-canvas__element--symbol {
+    background-color: var(--color-status-success);
+    border-color: color-mix(in srgb, var(--color-status-success) 80%, black);
+  }
+
+  /* Element label (shown on hover) */
+  .drawing-canvas__element-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 6px;
+    margin-bottom: 4px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 2px;
+    color: var(--color-text-secondary);
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .drawing-canvas__element:hover .drawing-canvas__element-label {
+    opacity: 1;
+  }
+}
