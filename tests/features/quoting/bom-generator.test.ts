@@ -368,10 +368,34 @@ describe('generateBOM', () => {
   it('should sort items by category then manufacturer then model', () => {
     // Create equipment in unsorted order
     const equipment: Equipment[] = [
-      { ...mockEquipment[0], id: 'c1', category: 'control', manufacturer: 'Crestron', model: 'ZZZ' },
-      { ...mockEquipment[0], id: 'a1', category: 'audio', manufacturer: 'Shure', model: 'AAA' },
-      { ...mockEquipment[0], id: 'v1', category: 'video', manufacturer: 'Sony', model: 'BBB' },
-      { ...mockEquipment[0], id: 'a2', category: 'audio', manufacturer: 'Biamp', model: 'CCC' },
+      {
+        ...mockEquipment[0],
+        id: 'c1',
+        category: 'control',
+        manufacturer: 'Crestron',
+        model: 'ZZZ',
+      },
+      {
+        ...mockEquipment[0],
+        id: 'a1',
+        category: 'audio',
+        manufacturer: 'Shure',
+        model: 'AAA',
+      },
+      {
+        ...mockEquipment[0],
+        id: 'v1',
+        category: 'video',
+        manufacturer: 'Sony',
+        model: 'BBB',
+      },
+      {
+        ...mockEquipment[0],
+        id: 'a2',
+        category: 'audio',
+        manufacturer: 'Biamp',
+        model: 'CCC',
+      },
     ];
 
     const placements: PlacedEquipment[] = equipment.map((eq, i) => ({

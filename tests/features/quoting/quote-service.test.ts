@@ -200,7 +200,9 @@ describe('QuoteService', () => {
       const mockSelect = vi.fn().mockReturnValue({ eq: mockEq });
       vi.mocked(supabase.from).mockReturnValue({ select: mockSelect } as never);
 
-      await expect(service.getByProject('proj-123')).rejects.toEqual({ message: 'DB error' });
+      await expect(service.getByProject('proj-123')).rejects.toEqual({
+        message: 'DB error',
+      });
     });
   });
 
@@ -242,7 +244,9 @@ describe('QuoteService', () => {
       const mockSelect = vi.fn().mockReturnValue({ eq: mockEq });
       vi.mocked(supabase.from).mockReturnValue({ select: mockSelect } as never);
 
-      await expect(service.getByRoom('room-456')).rejects.toEqual({ message: 'DB error' });
+      await expect(service.getByRoom('room-456')).rejects.toEqual({
+        message: 'DB error',
+      });
     });
   });
 
@@ -277,7 +281,9 @@ describe('QuoteService', () => {
     });
 
     it('should throw on error', async () => {
-      const mockSingle = vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } });
+      const mockSingle = vi
+        .fn()
+        .mockResolvedValue({ data: null, error: { message: 'DB error' } });
       const mockEq = vi.fn().mockReturnValue({ single: mockSingle });
       const mockSelect = vi.fn().mockReturnValue({ eq: mockEq });
       vi.mocked(supabase.from).mockReturnValue({ select: mockSelect } as never);
@@ -314,7 +320,9 @@ describe('QuoteService', () => {
     });
 
     it('should throw on error', async () => {
-      const mockSingle = vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } });
+      const mockSingle = vi
+        .fn()
+        .mockResolvedValue({ data: null, error: { message: 'DB error' } });
       const mockSelect = vi.fn().mockReturnValue({ single: mockSingle });
       const mockInsert = vi.fn().mockReturnValue({ select: mockSelect });
       vi.mocked(supabase.from).mockReturnValue({ insert: mockInsert } as never);
@@ -350,13 +358,17 @@ describe('QuoteService', () => {
     });
 
     it('should throw on error', async () => {
-      const mockSingle = vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } });
+      const mockSingle = vi
+        .fn()
+        .mockResolvedValue({ data: null, error: { message: 'DB error' } });
       const mockSelect = vi.fn().mockReturnValue({ single: mockSingle });
       const mockEq = vi.fn().mockReturnValue({ select: mockSelect });
       const mockUpdate = vi.fn().mockReturnValue({ eq: mockEq });
       vi.mocked(supabase.from).mockReturnValue({ update: mockUpdate } as never);
 
-      await expect(service.update('quote-1', updateInput)).rejects.toEqual({ message: 'DB error' });
+      await expect(service.update('quote-1', updateInput)).rejects.toEqual({
+        message: 'DB error',
+      });
     });
   });
 

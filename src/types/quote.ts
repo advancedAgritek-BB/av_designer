@@ -141,7 +141,11 @@ export function isValidQuoteItem(value: unknown): value is QuoteItem {
   if (!('id' in obj) || typeof obj.id !== 'string' || obj.id === '') return false;
 
   // Check equipmentId
-  if (!('equipmentId' in obj) || typeof obj.equipmentId !== 'string' || obj.equipmentId === '')
+  if (
+    !('equipmentId' in obj) ||
+    typeof obj.equipmentId !== 'string' ||
+    obj.equipmentId === ''
+  )
     return false;
 
   // Check quantity (positive integer)
@@ -192,7 +196,8 @@ export function isValidQuoteSection(value: unknown): value is QuoteSection {
   if (!('name' in obj) || typeof obj.name !== 'string' || obj.name === '') return false;
 
   // Check category
-  if (!('category' in obj) || typeof obj.category !== 'string' || obj.category === '') return false;
+  if (!('category' in obj) || typeof obj.category !== 'string' || obj.category === '')
+    return false;
 
   // Check items array
   if (!('items' in obj) || !Array.isArray(obj.items)) return false;
@@ -225,7 +230,8 @@ export function isValidQuote(value: unknown): value is Quote {
     return false;
 
   // Check roomId
-  if (!('roomId' in obj) || typeof obj.roomId !== 'string' || obj.roomId === '') return false;
+  if (!('roomId' in obj) || typeof obj.roomId !== 'string' || obj.roomId === '')
+    return false;
 
   // Check version (positive integer)
   if (!('version' in obj) || typeof obj.version !== 'number') return false;

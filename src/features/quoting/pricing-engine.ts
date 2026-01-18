@@ -124,7 +124,8 @@ export function calculateLabor(items: BOMItem[], config: LaborConfig): LaborResu
   }
 
   // Add fixed hours
-  const totalHours = itemHours + config.setupHours + config.programmingHours + config.testingHours;
+  const totalHours =
+    itemHours + config.setupHours + config.programmingHours + config.testingHours;
 
   return {
     hours: totalHours,

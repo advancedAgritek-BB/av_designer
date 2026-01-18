@@ -302,10 +302,7 @@ describe('DrawingsPage', () => {
       await user.click(generateBtn);
 
       await waitFor(() => {
-        expect(invoke).toHaveBeenCalledWith(
-          'generate_electrical',
-          expect.any(Object)
-        );
+        expect(invoke).toHaveBeenCalledWith('generate_electrical', expect.any(Object));
       });
     });
 

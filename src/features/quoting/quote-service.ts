@@ -126,7 +126,11 @@ export class QuoteService {
    * Fetch quote by ID
    */
   async getById(id: string): Promise<Quote | null> {
-    const { data, error } = await supabase.from(this.table).select('*').eq('id', id).single();
+    const { data, error } = await supabase
+      .from(this.table)
+      .select('*')
+      .eq('id', id)
+      .single();
 
     if (error) throw error;
     if (!data) return null;
@@ -138,7 +142,11 @@ export class QuoteService {
    */
   async create(input: CreateQuoteInput): Promise<Quote> {
     const dbInput = this.toDbRow(input);
-    const { data, error } = await supabase.from(this.table).insert(dbInput).select().single();
+    const { data, error } = await supabase
+      .from(this.table)
+      .insert(dbInput)
+      .select()
+      .single();
 
     if (error) throw error;
     return this.mapRow(data as QuoteDbRow);
@@ -244,7 +252,9 @@ export class QuoteService {
   // Private Methods - To DB Conversion
   // ==========================================================================
 
-  private toDbRow(input: CreateQuoteInput): Omit<QuoteDbRow, 'id' | 'created_at' | 'updated_at'> {
+  private toDbRow(
+    input: CreateQuoteInput
+  ): Omit<QuoteDbRow, 'id' | 'created_at' | 'updated_at'> {
     return {
       project_id: input.projectId,
       room_id: input.roomId,
@@ -262,7 +272,8 @@ export class QuoteService {
     if (updates.roomId !== undefined) dbUpdates.room_id = updates.roomId;
     if (updates.version !== undefined) dbUpdates.version = updates.version;
     if (updates.status !== undefined) dbUpdates.status = updates.status;
-    if (updates.sections !== undefined) dbUpdates.sections = this.sectionsToDb(updates.sections);
+    if (updates.sections !== undefined)
+      dbUpdates.sections = this.sectionsToDb(updates.sections);
     if (updates.totals !== undefined) dbUpdates.totals = this.totalsToDb(updates.totals);
 
     return dbUpdates;

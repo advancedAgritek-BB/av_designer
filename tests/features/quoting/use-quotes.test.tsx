@@ -331,7 +331,10 @@ describe('Quote Hooks', () => {
 
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-      expect(quoteService.update).toHaveBeenCalledWith('quote-1', { status: 'quoting', version: 2 });
+      expect(quoteService.update).toHaveBeenCalledWith('quote-1', {
+        status: 'quoting',
+        version: 2,
+      });
       expect(result.current.data?.status).toBe('quoting');
     });
 

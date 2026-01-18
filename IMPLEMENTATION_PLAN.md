@@ -6,7 +6,7 @@
 
 ---
 
-## Current Phase: 6 - Drawing Generation
+## Current Phase: 7 - Quoting & BOM System
 
 ---
 
@@ -671,11 +671,11 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/quoting/components/QuoteCard.tsx`
-- [ ] Display quote summary with status pill
-- [ ] Show totals and margin percentage
-- [ ] Add action buttons (edit, duplicate, export)
-- [ ] Write tests in `tests/features/quoting/components/QuoteCard.test.tsx`
+- [x] Create `src/features/quoting/components/QuoteCard.tsx`
+- [x] Display quote summary with status pill
+- [x] Show totals and margin percentage
+- [x] Add action buttons (edit, duplicate, export)
+- [x] Write tests in `tests/features/quoting/components/QuoteCard.test.tsx`
 
 ### Task 7.7: Create Quote Page
 

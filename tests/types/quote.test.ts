@@ -80,7 +80,13 @@ describe('Quote Types - Type Safety', () => {
   });
 
   it('should allow all QuoteStatus values', () => {
-    const statuses: QuoteStatus[] = ['draft', 'quoting', 'client_review', 'approved', 'ordered'];
+    const statuses: QuoteStatus[] = [
+      'draft',
+      'quoting',
+      'client_review',
+      'approved',
+      'ordered',
+    ];
     expect(statuses.length).toBe(5);
   });
 
@@ -648,15 +654,28 @@ describe('isValidQuote', () => {
   });
 
   it('should validate all quote statuses', () => {
-    const statuses: QuoteStatus[] = ['draft', 'quoting', 'client_review', 'approved', 'ordered'];
+    const statuses: QuoteStatus[] = [
+      'draft',
+      'quoting',
+      'client_review',
+      'approved',
+      'ordered',
+    ];
     statuses.forEach((status) => {
       expect(isValidQuote({ ...validQuote, status })).toBe(true);
     });
   });
 
   it('should validate multiple sections in quote', () => {
-    const section2: QuoteSection = { ...validSection, id: 'section-2', name: 'Audio Equipment' };
-    const quoteWithMultipleSections = { ...validQuote, sections: [validSection, section2] };
+    const section2: QuoteSection = {
+      ...validSection,
+      id: 'section-2',
+      name: 'Audio Equipment',
+    };
+    const quoteWithMultipleSections = {
+      ...validQuote,
+      sections: [validSection, section2],
+    };
     expect(isValidQuote(quoteWithMultipleSections)).toBe(true);
   });
 });
