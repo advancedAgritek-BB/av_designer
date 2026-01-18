@@ -57,7 +57,7 @@ export function Header({ userInitials, onSearchClick, onUserMenuClick }: HeaderP
   }
 
   return (
-    <header className="header">
+    <header className="header" role="banner">
       <Breadcrumb items={breadcrumbItems} />
       <div className="header-actions">
         <SearchButton onClick={onSearchClick} />

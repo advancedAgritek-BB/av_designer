@@ -161,14 +161,14 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/layout/Shell.tsx` combining Sidebar + Header + main content
-- [ ] Handle responsive layout
-- [ ] Wire up to App.tsx as root layout
+- [x] Create `src/components/layout/Shell.tsx` combining Sidebar + Header + main content
+- [x] Handle responsive layout
+- [x] Wire up to App.tsx as root layout
 
 ### Task 2.7: Export UI Components
 
-- [ ] Create `src/components/ui/index.ts` with all exports
-- [ ] Create `src/components/layout/index.ts` with all exports
+- [x] Create `src/components/ui/index.ts` with all exports
+- [x] Create `src/components/layout/index.ts` with all exports
 
 ### Phase 2 Completion
 
@@ -317,6 +317,22 @@
   - Accessibility: aria-label on navigation, aria-current on current breadcrumb item
   - CSS styles added to globals.css for all header elements
   - Exports via src/components/layout/index.ts
+
+- **Task 2.6: Create Shell Component** (2026-01-18)
+  - TDD approach: wrote 35 tests first, watched them fail, then implemented
+  - Features: combines Sidebar + Header + main content area
+  - Layout: flex container with sidebar on left, main wrapper on right
+  - Main wrapper: contains header and scrollable content area
+  - Props: children, className, userInitials, onSearchClick, onUserMenuClick
+  - Accessibility: skip link to main content, proper ARIA roles (banner, navigation, main)
+  - CSS styles: shell, shell-main-wrapper, shell-content, shell-skip-link
+  - Data attribute for sidebar expanded state to support layout transitions
+  - Wired up to App.tsx as root layout with design system demo content
+  - Exports via src/components/layout/index.ts
+
+- **Task 2.7: Export UI Components** (2026-01-18)
+  - src/components/ui/index.ts exports: Button, Input, Card, CardHeader, CardBody, CardFooter
+  - src/components/layout/index.ts exports: Sidebar, Header, Shell
 
 ---
 
