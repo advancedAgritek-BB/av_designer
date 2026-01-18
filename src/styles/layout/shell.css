@@ -1,0 +1,46 @@
+/**
+ * Shell Layout Styles
+ */
+
+@layer components {
+  /* Shell layout component */
+  .shell {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+  }
+
+  .shell-main-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    transition: margin-left 0.2s ease-in-out;
+  }
+
+  .shell-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Skip link for accessibility */
+  .shell-skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 8px 16px;
+    background-color: var(--color-accent-gold);
+    color: var(--color-bg-primary);
+    font-weight: 500;
+    z-index: 9999;
+    transition: top 0.15s;
+  }
+
+  .shell-skip-link:focus {
+    top: 0;
+    outline: none;
+  }
+}

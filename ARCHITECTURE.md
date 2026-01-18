@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 2 Complete - Design System & Core Components
+**Status:** Phase 3 Complete - Equipment Database
 
 ---
 
@@ -51,7 +51,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Rust backend structure (commands + database modules)
 - [x] Core UI components (Button, Input, Card)
 - [x] Layout components (Sidebar, Header, Shell)
-- [ ] Equipment database
+- [x] Equipment database (service, hooks, components)
 - [ ] Standards engine
 - [ ] Room builder
 - [ ] Drawing generation
@@ -59,7 +59,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ### In Progress
 
-- Phase 3: Equipment Database
+- Phase 4: Standards Engine (not started)
 
 ---
 
@@ -73,7 +73,8 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 | Build Tool | Vite | 7.x | Fast bundling and HMR |
 | Styling | TailwindCSS | 4.x | Utility-first CSS with @theme tokens |
 | State | Zustand | 5.x | Lightweight client state management |
-| Data Fetching | Supabase JS | 2.x | Server state, auth, realtime |
+| Data Fetching | React Query | 5.x | Server state, caching, mutations |
+| Database Client | Supabase JS | 2.x | Server state, auth, realtime |
 | Cloud DB | Supabase | - | PostgreSQL, Auth, Storage |
 | Local DB | SQLite | - | Offline cache via Rust (planned) |
 | Backend | Rust | 1.8x | CAD parsing, drawing generation |
@@ -102,7 +103,14 @@ av_designer/
 │   │       ├── Shell.tsx         # Main app shell layout
 │   │       └── index.ts          # Component exports
 │   ├── features/                 # Feature modules
-│   │   ├── equipment/            # Equipment library (planned)
+│   │   ├── equipment/            # Equipment database feature
+│   │   │   ├── equipment-service.ts  # CRUD operations via Supabase
+│   │   │   ├── use-equipment.ts      # React Query hooks
+│   │   │   ├── components/
+│   │   │   │   ├── EquipmentCard.tsx     # Equipment catalog card
+│   │   │   │   ├── EquipmentList.tsx     # List with filters/search
+│   │   │   │   └── EquipmentForm.tsx     # Create/edit form
+│   │   │   └── index.ts              # Public feature exports
 │   │   ├── room-builder/         # Room design canvas (planned)
 │   │   ├── standards/            # Standards engine (planned)
 │   │   ├── drawings/             # Drawing generation (planned)
@@ -116,7 +124,8 @@ av_designer/
 │   │   └── equipment-store.ts    # Equipment catalog
 │   ├── hooks/                    # Shared hooks (planned)
 │   ├── types/                    # Global types
-│   │   └── index.ts              # Core domain types
+│   │   ├── index.ts              # Core domain types
+│   │   └── equipment.ts          # Equipment types & validation
 │   └── styles/                   # Global CSS
 │       └── globals.css           # Tailwind @theme + component classes
 ├── src-tauri/                    # Rust backend
@@ -143,6 +152,16 @@ av_designer/
 │   │   │       ├── Sidebar.test.tsx  # Sidebar tests (45 tests)
 │   │   │       └── Header.test.tsx   # Header tests (38 tests)
 │   │   └── Shell.test.tsx        # Shell tests (35 tests)
+│   ├── features/                 # Feature tests
+│   │   └── equipment/
+│   │       ├── equipment-service.test.ts       # Service tests (18 tests)
+│   │       ├── use-equipment.test.tsx          # Hook tests (16 tests)
+│   │       └── components/
+│   │           ├── EquipmentCard.test.tsx      # Card tests (33 tests)
+│   │           ├── EquipmentList.test.tsx      # List tests (38 tests)
+│   │           └── EquipmentForm.test.tsx      # Form tests (60 tests)
+│   ├── types/
+│   │   └── equipment.test.ts     # Equipment type tests (32 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -201,17 +220,48 @@ Defined in `src/styles/globals.css`:
 
 **Key Types:**
 ```typescript
+type EquipmentCategory = 'video' | 'audio' | 'control' | 'infrastructure';
+
 interface Equipment {
   id: string;
   manufacturer: string;
   model: string;
   sku: string;
   category: EquipmentCategory;
-  // ... physical, electrical, commercial attributes
+  subcategory: string;
+  description: string;
+  cost: number;
+  msrp: number;
+  dimensions: { height: number; width: number; depth: number };
+  weight: number;
+  electrical?: ElectricalSpecs;
+  platformCertifications?: string[];
+  imageUrl?: string;
+  specSheetUrl?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 ```
 
-**Status:** Not started
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| EquipmentCard | Catalog card with image, price, certifications, favorite toggle |
+| EquipmentList | Grid with category tabs, search, loading/empty/error states |
+| EquipmentForm | Full CRUD form with validation, create/edit modes |
+
+**Hooks (React Query):**
+| Hook | Description |
+|------|-------------|
+| useEquipmentList | Fetch all equipment |
+| useEquipmentByCategory | Fetch by category |
+| useEquipment | Fetch single by ID |
+| useEquipmentSearch | Search with min 2 chars |
+| useCreateEquipment | Create mutation with cache invalidation |
+| useUpdateEquipment | Update mutation with cache invalidation |
+| useDeleteEquipment | Delete mutation with cache invalidation |
+
+**Status:** Complete (197 tests)
 
 ---
 
@@ -347,6 +397,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-17 | Initial architecture document created |
 | 2026-01-17 | Phase 1 complete: Tauri 2.x, React 19, TypeScript 5, TailwindCSS 4, Zustand 5, Supabase client, Vitest, ESLint 9, Prettier, Rust backend modules |
 | 2026-01-18 | Phase 2 complete: Design System & Core Components - Button (27 tests), Input (38 tests), Card (45 tests), Sidebar (45 tests), Header (38 tests), Shell (35 tests) - Total: 234 tests |
+| 2026-01-18 | Phase 3 complete: Equipment Database - Types (32 tests), Service (18 tests), Hooks (16 tests), EquipmentCard (33 tests), EquipmentList (38 tests), EquipmentForm (60 tests), App (6 tests) - Total: 431 tests |
 
 ---
 

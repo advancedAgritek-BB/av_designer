@@ -1,0 +1,84 @@
+/**
+ * Button Component Styles
+ */
+
+@layer components {
+  /* Button base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+
+  .btn:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-blue);
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Button variants */
+  .btn-primary {
+    background-color: var(--color-accent-gold);
+    color: var(--color-bg-primary);
+    padding: 8px 16px;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-accent-gold-hover);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text-primary);
+    padding: 8px 16px;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-bg-tertiary);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    padding: 8px 16px;
+  }
+
+  .btn-ghost:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-tertiary);
+  }
+
+  .btn-danger {
+    background-color: var(--color-status-error);
+    color: white;
+    padding: 8px 16px;
+  }
+
+  .btn-danger:hover {
+    background-color: #dc2626;
+  }
+
+  .btn-sm {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .btn-lg {
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+}
