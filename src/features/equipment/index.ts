@@ -22,7 +22,7 @@ export {
 // Components
 export { EquipmentCard } from './components/EquipmentCard';
 export { EquipmentList } from './components/EquipmentList';
-export { EquipmentForm } from './components/EquipmentForm';
+export { EquipmentForm, type EquipmentFormProps } from './components/EquipmentForm';
 
 // Re-export types from shared types module for convenience
 export type {
