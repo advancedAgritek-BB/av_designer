@@ -53,11 +53,7 @@ export const useProjectStore = create<ProjectState>()(
         set({ projects, projectsError: null }, false, 'setProjects'),
 
       addProject: (project) =>
-        set(
-          (state) => ({ projects: [...state.projects, project] }),
-          false,
-          'addProject'
-        ),
+        set((state) => ({ projects: [...state.projects, project] }), false, 'addProject'),
 
       updateProject: (id, updates) =>
         set(
@@ -87,15 +83,10 @@ export const useProjectStore = create<ProjectState>()(
         set({ projectsError: error }, false, 'setProjectsError'),
 
       // Room actions
-      setRooms: (rooms) =>
-        set({ rooms, roomsError: null }, false, 'setRooms'),
+      setRooms: (rooms) => set({ rooms, roomsError: null }, false, 'setRooms'),
 
       addRoom: (room) =>
-        set(
-          (state) => ({ rooms: [...state.rooms, room] }),
-          false,
-          'addRoom'
-        ),
+        set((state) => ({ rooms: [...state.rooms, room] }), false, 'addRoom'),
 
       updateRoom: (id, updates) =>
         set(
@@ -120,8 +111,7 @@ export const useProjectStore = create<ProjectState>()(
       setRoomsLoading: (loading) =>
         set({ isLoadingRooms: loading }, false, 'setRoomsLoading'),
 
-      setRoomsError: (error) =>
-        set({ roomsError: error }, false, 'setRoomsError'),
+      setRoomsError: (error) => set({ roomsError: error }, false, 'setRoomsError'),
 
       // Selectors
       getProjectById: (id) => get().projects.find((p) => p.id === id),

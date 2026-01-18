@@ -67,8 +67,7 @@ export const useEquipmentStore = create<EquipmentState>()(
       error: null,
 
       // Data actions
-      setEquipment: (equipment) =>
-        set({ equipment, error: null }, false, 'setEquipment'),
+      setEquipment: (equipment) => set({ equipment, error: null }, false, 'setEquipment'),
 
       addEquipment: (item) =>
         set(
@@ -81,9 +80,7 @@ export const useEquipmentStore = create<EquipmentState>()(
         set(
           (state) => ({
             equipment: state.equipment.map((e) =>
-              e.id === id
-                ? { ...e, ...updates, updatedAt: new Date().toISOString() }
-                : e
+              e.id === id ? { ...e, ...updates, updatedAt: new Date().toISOString() } : e
             ),
           }),
           false,
@@ -145,7 +142,8 @@ export const useEquipmentStore = create<EquipmentState>()(
             return false;
           if (filters.searchQuery) {
             const query = filters.searchQuery.toLowerCase();
-            const searchable = `${item.manufacturer} ${item.model} ${item.description}`.toLowerCase();
+            const searchable =
+              `${item.manufacturer} ${item.model} ${item.description}`.toLowerCase();
             if (!searchable.includes(query)) return false;
           }
           return true;

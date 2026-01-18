@@ -2,39 +2,39 @@
 
 @theme {
   /* Background colors */
-  --color-bg-primary: #0D1421;
-  --color-bg-secondary: #151D2E;
-  --color-bg-tertiary: #1C2639;
-  --color-bg-elevated: #232F46;
+  --color-bg-primary: #0d1421;
+  --color-bg-secondary: #151d2e;
+  --color-bg-tertiary: #1c2639;
+  --color-bg-elevated: #232f46;
 
   /* Text colors */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #8B95A5;
-  --color-text-tertiary: #5C6573;
-  --color-text-muted: #3D4654;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #8b95a5;
+  --color-text-tertiary: #5c6573;
+  --color-text-muted: #3d4654;
 
   /* Accent colors */
-  --color-accent-gold: #C9A227;
-  --color-accent-gold-hover: #E0B82E;
-  --color-accent-blue: #3B82F6;
-  --color-accent-blue-light: #60A5FA;
+  --color-accent-gold: #c9a227;
+  --color-accent-gold-hover: #e0b82e;
+  --color-accent-blue: #3b82f6;
+  --color-accent-blue-light: #60a5fa;
 
   /* Status colors */
-  --color-status-success: #22C55E;
-  --color-status-warning: #F59E0B;
-  --color-status-error: #EF4444;
-  --color-status-info: #3B82F6;
+  --color-status-success: #22c55e;
+  --color-status-warning: #f59e0b;
+  --color-status-error: #ef4444;
+  --color-status-info: #3b82f6;
 
   /* Status pill colors */
-  --color-pill-quoting-bg: #FEF3C7;
-  --color-pill-quoting-text: #92400E;
-  --color-pill-review-bg: #DBEAFE;
-  --color-pill-review-text: #1E40AF;
-  --color-pill-ordered-bg: #D1FAE5;
-  --color-pill-ordered-text: #065F46;
-  --color-pill-progress-bg: #E0E7FF;
-  --color-pill-progress-text: #3730A3;
-  --color-pill-hold-bg: #F3F4F6;
+  --color-pill-quoting-bg: #fef3c7;
+  --color-pill-quoting-text: #92400e;
+  --color-pill-review-bg: #dbeafe;
+  --color-pill-review-text: #1e40af;
+  --color-pill-ordered-bg: #d1fae5;
+  --color-pill-ordered-text: #065f46;
+  --color-pill-progress-bg: #e0e7ff;
+  --color-pill-progress-text: #3730a3;
+  --color-pill-hold-bg: #f3f4f6;
   --color-pill-hold-text: #374151;
 
   /* Font families */
@@ -123,12 +123,17 @@
     gap: 8px;
     border-radius: 8px;
     font-weight: 500;
-    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
   }
 
   .btn:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-accent-blue);
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-blue);
   }
 
   .btn:disabled {
@@ -241,7 +246,9 @@
     border-radius: 8px;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
   }
 
   .nav-item:hover {
@@ -302,7 +309,9 @@
   /* Focus visible styling */
   .focus-ring:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-accent-blue);
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-blue);
   }
 
   /* Hide scrollbar but keep functionality */

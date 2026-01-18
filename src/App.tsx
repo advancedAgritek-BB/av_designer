@@ -3,7 +3,9 @@ export default function App() {
     <div className="min-h-screen bg-bg-primary p-8">
       <div className="max-w-2xl mx-auto space-y-6">
         <h1 className="text-3xl font-semibold text-text-primary">AV Designer</h1>
-        <p className="text-text-secondary">Design system initialized with Tailwind CSS.</p>
+        <p className="text-text-secondary">
+          Design system initialized with Tailwind CSS.
+        </p>
 
         <div className="card p-6 space-y-4">
           <h2 className="text-xl font-medium text-text-primary">Button Variants</h2>

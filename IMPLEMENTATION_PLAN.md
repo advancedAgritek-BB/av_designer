@@ -85,11 +85,11 @@
 
 ### Task 1.8: Initialize Rust Backend Structure
 
-- [ ] Create `src-tauri/src/commands/mod.rs`
-- [ ] Create `src-tauri/src/database/mod.rs`
-- [ ] Set up basic Tauri command registration in `main.rs`
-- [ ] Add `serde` and `serde_json` to Cargo.toml
-- [ ] Verify `cargo check` passes
+- [x] Create `src-tauri/src/commands/mod.rs`
+- [x] Create `src-tauri/src/database/mod.rs`
+- [x] Set up basic Tauri command registration in `lib.rs`
+- [x] Add `serde` and `serde_json` to Cargo.toml
+- [x] Verify `cargo check` and `cargo test` pass
 
 ### Phase 1 Completion
 
@@ -256,6 +256,13 @@
   - TypeScript and React plugins
   - Prettier for code formatting
   - scripts/check.sh passes all validations
+
+- **Task 1.8: Initialize Rust Backend Structure** (2026-01-17)
+  - Created commands module with greet and get_app_info commands
+  - Created database module with DatabaseManager placeholder
+  - Registered Tauri commands in lib.rs
+  - serde/serde_json already present in Cargo.toml
+  - cargo check and cargo test both pass (4 tests)
 
 ---
 
