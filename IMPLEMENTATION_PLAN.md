@@ -120,9 +120,9 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/ui/Button.tsx` with primary/secondary/ghost variants
-- [ ] Add disabled, loading states
-- [ ] Write tests for Button component
+- [x] Create `src/components/ui/Button.tsx` with primary/secondary/ghost variants
+- [x] Add disabled, loading states
+- [x] Write tests for Button component
 
 ### Task 2.2: Create Input Component
 
@@ -268,6 +268,14 @@
   - Registered Tauri commands in lib.rs
   - serde/serde_json already present in Cargo.toml
   - cargo check and cargo test both pass (4 tests)
+
+- **Task 2.1: Create Button Component** (2026-01-18)
+  - TDD approach: wrote 27 tests first, watched them fail, then implemented
+  - Button variants: primary, secondary, ghost, danger
+  - States: disabled (with aria-disabled), loading (with spinner and aria-busy)
+  - Sizes: sm, md (default), lg
+  - Uses forwardRef for proper ref forwarding
+  - Exports via src/components/ui/index.ts
 
 ---
 
