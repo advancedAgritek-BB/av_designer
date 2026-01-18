@@ -250,17 +250,17 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`
 
-- [ ] Create `src/features/equipment/components/EquipmentForm.tsx`
-- [ ] Add all equipment fields with validation
-- [ ] Support create and edit modes
-- [ ] Handle form submission with React Query mutations
-- [ ] Write tests in `tests/features/equipment/components/EquipmentForm.test.tsx`
+- [x] Create `src/features/equipment/components/EquipmentForm.tsx`
+- [x] Add all equipment fields with validation
+- [x] Support create and edit modes
+- [x] Handle form submission with React Query mutations
+- [x] Write tests in `tests/features/equipment/components/EquipmentForm.test.tsx`
 
 ### Task 3.7: Export Equipment Feature
 
-- [ ] Create `src/features/equipment/index.ts` with all exports
-- [ ] Wire Equipment page to App.tsx routing
-- [ ] Connect to sidebar navigation
+- [x] Create `src/features/equipment/index.ts` with all exports
+- [x] Wire Equipment page to App.tsx routing
+- [x] Connect to sidebar navigation
 
 ### Phase 3 Completion
 
@@ -430,6 +430,30 @@
   - Accessibility: proper ARIA roles, keyboard navigation for tabs
   - CSS: shimmer loading animation, focus states, golden accent for active tab
   - Exports via src/features/equipment/components/EquipmentList.tsx
+
+- **Task 3.6: Create Equipment Form Component** (2026-01-18)
+  - TDD approach: wrote 60 tests first, watched them fail, then implemented
+  - Features: full CRUD form for equipment with create/edit modes
+  - Sections: Basic Information, Pricing, Physical Specifications, Electrical (collapsible), Certifications
+  - Validation: required fields (manufacturer, model, SKU, category, subcategory), positive number checks
+  - Category/subcategory relationship: dynamic subcategory options based on selected category
+  - Electrical specs: optional collapsible section for voltage, wattage, amperage, PoE class, BTU
+  - Platform certifications: comma-separated input parsed into array
+  - Props: mode (create/edit), equipment, onSubmit, onCancel, isLoading
+  - Accessibility: form labels, error associations, fieldset grouping, focus management on validation errors
+  - Uses key prop pattern for form reset between modes (documented in component)
+  - CSS: responsive grid layout, section styling, collapse button styles
+
+- **Task 3.7: Export Equipment Feature** (2026-01-18)
+  - Created `src/features/equipment/index.ts` with all feature exports
+  - Exports: EquipmentService, equipmentService, all hooks, all components
+  - Re-exports types and constants from @/types/equipment for convenience
+  - Wired Equipment page to App.tsx with mode-based routing
+  - Added QueryClientProvider with React Query to App.tsx
+  - Created AppContent component with mode switching (home, equipment)
+  - HomeContent component extracts design system demo content
+  - Equipment state: selectedEquipmentId, favoriteIds with callbacks
+  - Sidebar already connected to app-store for Equipment mode navigation
 
 ---
 
