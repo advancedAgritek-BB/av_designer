@@ -61,11 +61,11 @@
 
 ### Task 1.5: Set Up State Management (Zustand)
 
-- [ ] Install Zustand
-- [ ] Create `src/stores/app-store.ts` (sidebar, active mode, current project/room)
-- [ ] Create `src/stores/project-store.ts` (projects, rooms, loading state)
-- [ ] Create `src/stores/equipment-store.ts` (equipment items, selection)
-- [ ] Verify stores work with devtools
+- [x] Install Zustand
+- [x] Create `src/stores/app-store.ts` (sidebar, active mode, current project/room)
+- [x] Create `src/stores/project-store.ts` (projects, rooms, loading state)
+- [x] Create `src/stores/equipment-store.ts` (equipment items, selection)
+- [x] Verify stores work with devtools
 
 ### Task 1.6: Configure Testing (Vitest)
 
@@ -238,6 +238,12 @@
   - Environment variable configuration
   - Database types for all core tables
   - Vite client types added to tsconfig
+
+- **Task 1.5: Set Up State Management (Zustand)** (2026-01-17)
+  - App store: mode, sidebar, project/room context
+  - Project store: projects, rooms with CRUD actions
+  - Equipment store: catalog, favorites, filters
+  - Redux DevTools integration enabled
 
 ---
 

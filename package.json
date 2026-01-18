@@ -13,7 +13,8 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
