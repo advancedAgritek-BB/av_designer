@@ -6,6 +6,7 @@ import { Input } from '@/components/ui';
 import { Card, CardHeader, CardBody } from '@/components/ui';
 import { EquipmentList } from '@/features/equipment';
 import { StandardsList } from '@/features/standards';
+import { RoomBuilder } from '@/features/room-builder';
 import { useAppStore } from '@/stores/app-store';
 import type { Equipment } from '@/types/equipment';
 import type { StandardNode, Rule } from '@/types/standards';
@@ -53,6 +54,9 @@ function AppContent() {
     setSelectedRuleId(rule.id);
   }, []);
 
+  // Get current room ID from store for room builder
+  const currentRoomId = useAppStore((state) => state.currentRoomId);
+
   // Render content based on current mode
   const renderContent = () => {
     switch (currentMode) {
@@ -73,6 +77,14 @@ function AppContent() {
             onNodeSelect={handleNodeSelect}
             onRuleSelect={handleRuleSelect}
           />
+        );
+      case 'room_design':
+        return currentRoomId ? (
+          <RoomBuilder roomId={currentRoomId} />
+        ) : (
+          <div className="flex items-center justify-center h-full text-text-secondary">
+            Select a room to start designing
+          </div>
         );
       case 'home':
       default:

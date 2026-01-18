@@ -1,0 +1,206 @@
+/**
+ * Validation Panel Styles
+ *
+ * Styles for the validation feedback panel with errors, warnings, and suggestions.
+ */
+
+@layer components {
+  .validation-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .validation-panel--compact {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .validation-panel--inline {
+    padding: 8px 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .validation-panel__heading {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .validation-panel__empty {
+    margin: 0;
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+  }
+
+  .validation-panel__loading {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
+
+  .validation-panel__summary {
+    padding: 8px 12px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+  }
+
+  .validation-panel__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .validation-panel__section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .validation-panel__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background-color: var(--color-bg-tertiary);
+    border: none;
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .validation-panel__section-header:hover {
+    background-color: var(--color-bg-primary);
+  }
+
+  .validation-panel__section--error .validation-panel__section-header {
+    border-left: 3px solid var(--color-status-error);
+  }
+
+  .validation-panel__section--warning .validation-panel__section-header {
+    border-left: 3px solid var(--color-status-warning);
+  }
+
+  .validation-panel__section--suggestion .validation-panel__section-header {
+    border-left: 3px solid var(--color-accent-blue);
+  }
+
+  .validation-panel__section--info .validation-panel__section-header {
+    border-left: 3px solid var(--color-text-tertiary);
+  }
+
+  .validation-panel__section-toggle {
+    color: var(--color-text-tertiary);
+    font-size: 10px;
+  }
+
+  .validation-panel__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .validation-panel__item:hover {
+    background-color: var(--color-bg-primary);
+  }
+
+  .validation-panel__item--error {
+    border-left: 3px solid var(--color-status-error);
+  }
+
+  .validation-panel__item--warning {
+    border-left: 3px solid var(--color-status-warning);
+  }
+
+  .validation-panel__item--suggestion {
+    border-left: 3px solid var(--color-accent-blue);
+  }
+
+  .validation-panel__item--info {
+    border-left: 3px solid var(--color-text-tertiary);
+  }
+
+  .validation-panel__item-icon {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .validation-panel__item--error .validation-panel__item-icon {
+    color: var(--color-status-error);
+  }
+
+  .validation-panel__item--warning .validation-panel__item-icon {
+    color: var(--color-status-warning);
+  }
+
+  .validation-panel__item--suggestion .validation-panel__item-icon {
+    color: var(--color-accent-blue);
+  }
+
+  .validation-panel__item--info .validation-panel__item-icon {
+    color: var(--color-text-tertiary);
+  }
+
+  .validation-panel__item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .validation-panel__item-message {
+    color: var(--color-text-primary);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .validation-panel__item-details {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .validation-panel__dismiss-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .validation-panel__dismiss-btn:hover {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+}

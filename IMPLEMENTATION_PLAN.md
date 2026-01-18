@@ -6,7 +6,7 @@
 
 ---
 
-## Current Phase: 4 - Standards Engine (Complete)
+## Current Phase: 5 - Room Builder
 
 ---
 
@@ -383,7 +383,104 @@
 
 ## Phase 5: Room Builder
 
-*Tasks to be added when Phase 4 is complete*
+**Required Skills for ALL Phase 5 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns
+- `@frontend-design:frontend-design` - Canvas and panel UI components
+
+### Task 5.1: Create Room Type Definitions
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/types/room.ts` with Room, PlacedEquipment interfaces
+- [x] Add RoomType, Platform, Ecosystem, QualityTier type constants
+- [x] Add MountType and validation helpers
+- [x] Write tests in `tests/types/room.test.ts`
+
+### Task 5.2: Create Room Service Layer
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/features/room-builder/room-service.ts`
+- [x] Implement CRUD operations (getAll, getById, create, update, delete)
+- [x] Implement getByProject, addPlacedEquipment, removePlacedEquipment methods
+- [x] Add row mapping from snake_case to camelCase
+- [x] Write tests in `tests/features/room-builder/room-service.test.ts`
+
+### Task 5.3: Create Room React Query Hooks
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [x] Create `src/features/room-builder/use-rooms.ts`
+- [x] Implement useRoomsList, useRoomsByProject, useRoom hooks
+- [x] Implement mutations with cache invalidation
+- [x] Write tests in `tests/features/room-builder/use-rooms.test.tsx`
+
+### Task 5.4: Create Canvas Component for Room Design
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [x] Create `src/features/room-builder/components/DesignCanvas.tsx`
+- [x] Implement zoom, pan, and grid display
+- [x] Add room boundary rendering with dimensions
+- [x] Add equipment placement with drag-drop support
+- [x] Write tests in `tests/features/room-builder/components/DesignCanvas.test.tsx`
+
+### Task 5.5: Create Equipment Placement Logic
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/features/room-builder/equipment-placement.ts`
+- [x] Implement snap-to-grid and collision detection
+- [x] Add mount type constraints (floor, wall, ceiling, rack)
+- [x] Implement rotation and alignment helpers
+- [x] Write tests in `tests/features/room-builder/equipment-placement.test.ts`
+
+### Task 5.6: Create Room Properties Panel
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [x] Create `src/features/room-builder/components/RoomPropertiesPanel.tsx`
+- [x] Add room dimension inputs (width, length, ceiling height)
+- [x] Add room type, platform, ecosystem, tier selectors
+- [x] Add validation feedback display
+- [x] Write tests in `tests/features/room-builder/components/RoomPropertiesPanel.test.tsx`
+
+### Task 5.7: Create Validation Panel
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [x] Create `src/features/room-builder/components/ValidationPanel.tsx`
+- [x] Display validation errors, warnings, suggestions
+- [x] Group by category (equipment, placement, connections)
+- [x] Add accept/dismiss actions for suggestions
+- [x] Write tests in `tests/features/room-builder/components/ValidationPanel.test.tsx`
+
+### Task 5.8: Create Room Builder Page
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [x] Create `src/features/room-builder/components/RoomBuilder.tsx`
+- [x] Compose canvas, properties panel, and validation panel
+- [x] Add equipment palette/sidebar for dragging
+- [x] Integrate with standards engine for real-time validation
+- [x] Write tests in `tests/features/room-builder/components/RoomBuilder.test.tsx`
+
+### Task 5.9: Export Room Builder Feature
+
+- [x] Create `src/features/room-builder/index.ts` with all exports
+- [x] Wire Room Builder page to App.tsx routing
+- [x] Verify sidebar navigation already connected
+
+### Phase 5 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [ ] Visual review of all components
+- [ ] Run full validation (`./scripts/check.sh --full`)
+- [ ] Update ARCHITECTURE.md with room builder feature structure
+- [ ] Invoke `@superpowers:requesting-code-review`
+- [ ] Commit Phase 5 work
 
 ---
 

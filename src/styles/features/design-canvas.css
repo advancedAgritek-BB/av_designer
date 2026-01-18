@@ -1,0 +1,227 @@
+/**
+ * Design Canvas Styles
+ *
+ * Styles for the interactive room design canvas with zoom, pan, and equipment placement.
+ */
+
+@layer components {
+  .design-canvas {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .design-canvas:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .design-canvas--empty {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .design-canvas__empty-message {
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+  }
+
+  .design-canvas.drop-target {
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-blue) 10%,
+      var(--color-bg-secondary)
+    );
+    border-color: var(--color-accent-blue);
+  }
+
+  /* Toolbar */
+  .design-canvas__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .design-canvas__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .design-canvas__btn:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .design-canvas__btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .design-canvas__zoom-level {
+    min-width: 48px;
+    padding: 0 8px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  /* Viewport */
+  .design-canvas__viewport {
+    position: relative;
+    flex: 1;
+    margin: 16px;
+    overflow: auto;
+  }
+
+  /* Grid */
+  .design-canvas__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    pointer-events: none;
+  }
+
+  /* Room Boundary */
+  .design-canvas__boundary {
+    position: relative;
+    border: 2px solid var(--color-accent-gold);
+    border-radius: 2px;
+    background-color: var(--color-bg-primary);
+  }
+
+  .design-canvas__dimension {
+    position: absolute;
+    padding: 2px 6px;
+    background-color: var(--color-accent-gold);
+    color: var(--color-bg-primary);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .design-canvas__dimension--width {
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .design-canvas__dimension--length {
+    top: 50%;
+    right: -60px;
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  /* Equipment */
+  .design-canvas__equipment {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    min-height: 20px;
+    background-color: var(--color-accent-blue);
+    border: 2px solid color-mix(in srgb, var(--color-accent-blue) 80%, black);
+    border-radius: 4px;
+    cursor: move;
+    transition: box-shadow 0.15s ease;
+    user-select: none;
+  }
+
+  .design-canvas__equipment:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .design-canvas__equipment.selected {
+    border-color: var(--color-accent-gold);
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-gold);
+  }
+
+  .design-canvas__equipment-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 6px;
+    margin-bottom: 4px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 2px;
+    color: var(--color-text-secondary);
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .design-canvas__equipment:hover .design-canvas__equipment-label {
+    opacity: 1;
+  }
+
+  /* Rotation Handle */
+  .design-canvas__rotation-handle {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-accent-gold);
+    border: 2px solid var(--color-bg-primary);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    cursor: grab;
+  }
+
+  .design-canvas__rotation-handle::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 1px;
+    height: 8px;
+    background-color: var(--color-accent-gold);
+    transform: translateX(-50%);
+  }
+
+  .design-canvas__rotation-handle:active {
+    cursor: grabbing;
+  }
+
+  /* Placeholder */
+  .design-canvas__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+    pointer-events: none;
+  }
+}

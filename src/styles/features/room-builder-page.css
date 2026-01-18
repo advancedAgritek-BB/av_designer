@@ -1,0 +1,243 @@
+/**
+ * Room Builder Page Styles
+ *
+ * Styles for the main Room Builder page layout, toolbar, palette, and sidebars.
+ */
+
+@layer components {
+  .room-builder {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background-color: var(--color-bg-primary);
+  }
+
+  .room-builder--loading,
+  .room-builder--error,
+  .room-builder--not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+  }
+
+  .room-builder__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .room-builder__title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .room-builder__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .room-builder__btn {
+    padding: 6px 12px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .room-builder__btn:hover:not(:disabled) {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .room-builder__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .room-builder__btn--primary {
+    background-color: var(--color-accent-blue);
+    border-color: var(--color-accent-blue);
+    color: white;
+  }
+
+  .room-builder__btn--primary:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-accent-blue) 90%, black);
+  }
+
+  .room-builder__btn--danger {
+    background-color: var(--color-status-error);
+    border-color: var(--color-status-error);
+    color: white;
+  }
+
+  .room-builder__btn--danger:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-status-error) 90%, black);
+  }
+
+  .room-builder__content {
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Equipment Palette */
+  .room-builder__palette {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .room-builder__palette-title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .room-builder__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .room-builder__category-btn {
+    padding: 4px 8px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .room-builder__category-btn:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+  }
+
+  .room-builder__category-btn--active {
+    background-color: var(--color-accent-blue);
+    border-color: var(--color-accent-blue);
+    color: white;
+  }
+
+  .room-builder__equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .room-builder__equipment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: grab;
+    transition: all 0.15s ease;
+  }
+
+  .room-builder__equipment-item:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+  }
+
+  .room-builder__equipment-item:active {
+    cursor: grabbing;
+  }
+
+  .room-builder__equipment-name {
+    color: var(--color-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .room-builder__equipment-category {
+    color: var(--color-text-tertiary);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Canvas Area */
+  .room-builder__canvas-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .room-builder__stats {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+  }
+
+  /* Right Sidebar */
+  .room-builder__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background-color: var(--color-bg-secondary);
+    border-left: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .room-builder__selection-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .room-builder__selection-title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .room-builder__selection-name {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .room-builder__selection-info {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+}

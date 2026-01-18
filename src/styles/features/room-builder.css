@@ -1,0 +1,10 @@
+/**
+ * Room Builder Feature Styles
+ *
+ * Entry point that imports all Room Builder component styles.
+ */
+
+@import './design-canvas.css';
+@import './room-properties-panel.css';
+@import './validation-panel.css';
+@import './room-builder-page.css';

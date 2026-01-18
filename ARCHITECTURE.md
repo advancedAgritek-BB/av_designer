@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 4 Complete - Standards Engine
+**Status:** Phase 5 Complete - Room Builder
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 4 - Standards Engine (Complete)
+**Phase:** 5 - Room Builder (Complete)
 
 ### Implemented
 
@@ -53,13 +53,13 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Layout components (Sidebar, Header, Shell)
 - [x] Equipment database (service, hooks, components)
 - [x] Standards engine (types, rule engine, service, hooks, components)
-- [ ] Room builder
+- [x] Room builder (types, service, hooks, canvas, placement, validation)
 - [ ] Drawing generation
 - [ ] Quoting system
 
 ### In Progress
 
-- Phase 5: Room Builder (next)
+- Phase 6: Drawing Generation (next)
 
 ---
 
@@ -126,7 +126,16 @@ av_designer/
 │   │   │   │   ├── StandardsList.tsx     # Hierarchical tree with aspect tabs
 │   │   │   │   └── RuleEditor.tsx        # Rule create/edit form
 │   │   │   └── index.ts              # Public feature exports
-│   │   ├── room-builder/         # Room design canvas (planned)
+│   │   ├── room-builder/         # Room design feature
+│   │   │   ├── room-service.ts       # CRUD operations via Supabase
+│   │   │   ├── use-rooms.ts          # React Query hooks
+│   │   │   ├── equipment-placement.ts # Snap, collision, validation logic
+│   │   │   ├── components/
+│   │   │   │   ├── DesignCanvas.tsx      # Interactive room canvas
+│   │   │   │   ├── RoomPropertiesPanel.tsx # Dimensions & config form
+│   │   │   │   ├── ValidationPanel.tsx   # Errors/warnings display
+│   │   │   │   └── RoomBuilder.tsx       # Main page composer
+│   │   │   └── index.ts              # Public feature exports
 │   │   ├── drawings/             # Drawing generation (planned)
 │   │   └── quoting/              # Quote/BOM system (planned)
 │   ├── lib/                      # Utilities
@@ -140,7 +149,8 @@ av_designer/
 │   ├── types/                    # Global types
 │   │   ├── index.ts              # Core domain types
 │   │   ├── equipment.ts          # Equipment types & validation
-│   │   └── standards.ts          # Standards, rules, conditions types
+│   │   ├── standards.ts          # Standards, rules, conditions types
+│   │   └── room.ts               # Room, placement, mount types
 │   └── styles/                   # Modular CSS
 │       ├── globals.css           # Entry point (imports all modules)
 │       ├── theme.css             # Tailwind @theme tokens
@@ -157,7 +167,9 @@ av_designer/
 │       ├── features/             # Feature-specific styles
 │       │   ├── equipment-card.css
 │       │   ├── equipment-list.css
-│       │   └── equipment-form.css
+│       │   ├── equipment-form.css
+│       │   ├── standards.css
+│       │   └── room-builder.css
 │       └── utilities.css         # Helper classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
@@ -191,16 +203,26 @@ av_designer/
 │   │   │       ├── EquipmentCard.test.tsx      # Card tests (33 tests)
 │   │   │       ├── EquipmentList.test.tsx      # List tests (38 tests)
 │   │   │       └── EquipmentForm.test.tsx      # Form tests (60 tests)
-│   │   └── standards/
-│   │       ├── rule-engine.test.ts             # Rule engine tests (44 tests)
-│   │       ├── standards-service.test.ts       # Service tests (26 tests)
-│   │       ├── use-standards.test.tsx          # Hook tests (28 tests)
+│   │   ├── standards/
+│   │   │   ├── rule-engine.test.ts             # Rule engine tests (55 tests)
+│   │   │   ├── standards-service.test.ts       # Service tests (24 tests)
+│   │   │   ├── use-standards.test.tsx          # Hook tests (28 tests)
+│   │   │   └── components/
+│   │   │       ├── StandardsList.test.tsx      # Tree/list tests (37 tests)
+│   │   │       └── RuleEditor.test.tsx         # Form tests (36 tests)
+│   │   └── room-builder/
+│   │       ├── room-service.test.ts            # Service tests (23 tests)
+│   │       ├── use-rooms.test.tsx              # Hook tests (21 tests)
+│   │       ├── equipment-placement.test.ts     # Placement tests (39 tests)
 │   │       └── components/
-│   │           ├── StandardsList.test.tsx      # Tree/list tests (37 tests)
-│   │           └── RuleEditor.test.tsx         # Form tests (36 tests)
+│   │           ├── DesignCanvas.test.tsx       # Canvas tests (43 tests)
+│   │           ├── RoomPropertiesPanel.test.tsx # Panel tests (35 tests)
+│   │           ├── ValidationPanel.test.tsx    # Validation tests (41 tests)
+│   │           └── RoomBuilder.test.tsx        # Page tests (33 tests)
 │   ├── types/
 │   │   ├── equipment.test.ts     # Equipment type tests (32 tests)
-│   │   └── standards.test.ts     # Standards type tests (24 tests)
+│   │   ├── standards.test.ts     # Standards type tests (47 tests)
+│   │   └── room.test.ts          # Room type tests (96 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -398,12 +420,84 @@ interface StandardNode {
 **Location:** `src/features/room-builder/`
 
 **Key Features:**
-- Import architectural backgrounds (CAD, PDF, images)
-- Drag-drop equipment placement
-- Signal flow graph for connections
+- Interactive design canvas with zoom controls
+- Equipment palette with drag-drop placement
+- Snap-to-grid positioning
+- Collision detection for equipment
+- Mount type constraints (floor, ceiling, wall, rack)
 - Real-time validation against standards
+- Room dimensions and configuration panel
 
-**Status:** Not started
+**Key Types:**
+```typescript
+type RoomType = 'huddle' | 'conference' | 'boardroom' | 'training' | 'auditorium';
+type Platform = 'teams' | 'zoom' | 'webex' | 'meet' | 'multi' | 'none';
+type Ecosystem = 'poly' | 'logitech' | 'cisco' | 'crestron' | 'biamp' | 'qsc' | 'mixed';
+type Tier = 'budget' | 'standard' | 'premium' | 'executive';
+type MountType = 'floor' | 'ceiling' | 'wall' | 'rack';
+
+interface Room {
+  id: string;
+  projectId: string;
+  name: string;
+  roomType: RoomType;
+  width: number;
+  length: number;
+  ceilingHeight: number;
+  platform: Platform;
+  ecosystem: Ecosystem;
+  tier: Tier;
+  placedEquipment: PlacedEquipment[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface PlacedEquipment {
+  id: string;
+  equipmentId: string;
+  x: number;
+  y: number;
+  rotation: number;
+  mountType: MountType;
+}
+```
+
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| DesignCanvas | Interactive canvas with equipment rendering, selection, zoom controls |
+| RoomPropertiesPanel | Form for dimensions, room type, platform, ecosystem, tier |
+| ValidationPanel | Grouped display of errors, warnings, suggestions with dismiss |
+| RoomBuilder | Main page composing canvas, panels, and equipment palette |
+
+**Hooks (React Query):**
+| Hook | Description |
+|------|-------------|
+| useRoomsList | Fetch all rooms |
+| useRoomsByProject | Fetch rooms by project ID |
+| useRoom | Fetch single room by ID |
+| useCreateRoom | Create mutation with cache invalidation |
+| useUpdateRoom | Update mutation with cache invalidation |
+| useDeleteRoom | Delete mutation with cache invalidation |
+| useAddPlacedEquipment | Add equipment to room |
+| useRemovePlacedEquipment | Remove equipment from room |
+| useUpdatePlacedEquipment | Update equipment position/rotation |
+
+**Equipment Placement:**
+| Function | Description |
+|----------|-------------|
+| snapToGrid | Snap coordinates to grid lines |
+| detectCollision | Check collision between two equipment items |
+| detectCollisions | Check equipment against all existing items |
+| isWithinBounds | Verify equipment within room dimensions |
+| isValidMountPosition | Validate mount type constraints |
+| normalizeRotation | Normalize angle to 0-359 range |
+| rotateBy | Rotate with snap increment |
+| alignToWall | Align position to nearest/specified wall |
+| calculatePlacementPosition | Calculate final snapped position |
+| validatePlacement | Full placement validation with errors |
+
+**Status:** Complete (235 tests)
 
 ---
 
@@ -508,6 +602,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-18 | Phase 3 complete: Equipment Database - Types (32 tests), Service (18 tests), Hooks (16 tests), EquipmentCard (33 tests), EquipmentList (38 tests), EquipmentForm (60 tests), App (6 tests) - Total: 431 tests |
 | 2026-01-18 | Code review refactoring: Split EquipmentForm (950→291 lines) into 8 modular files; Split globals.css (1343→32 lines) into 12 CSS modules |
 | 2026-01-18 | Phase 4 complete: Standards Engine - Types (24 tests), Rule Engine (44 tests), Service (26 tests), Hooks (28 tests), StandardsList (37 tests), RuleEditor (36 tests) - Total: 626 tests |
+| 2026-01-18 | Phase 5 complete: Room Builder - Types (96 tests), Service (23 tests), Hooks (21 tests), Placement (39 tests), DesignCanvas (43 tests), RoomPropertiesPanel (35 tests), ValidationPanel (41 tests), RoomBuilder (33 tests) - Total: 989 tests |
 
 ---
 
