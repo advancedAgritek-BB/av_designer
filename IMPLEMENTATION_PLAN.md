@@ -335,11 +335,11 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/standards/components/StandardsList.tsx`
-- [ ] Display hierarchical standards tree
-- [ ] Add filtering by dimension
-- [ ] Show loading and empty states
-- [ ] Write tests in `tests/features/standards/components/StandardsList.test.tsx`
+- [x] Create `src/features/standards/components/StandardsList.tsx`
+- [x] Display hierarchical standards tree with expand/collapse
+- [x] Add filtering by aspect (equipment, quantities, placement, etc.)
+- [x] Show loading, empty, and error states
+- [x] Write tests in `tests/features/standards/components/StandardsList.test.tsx`
 
 ### Task 4.6: Create Rule Editor Component
 
