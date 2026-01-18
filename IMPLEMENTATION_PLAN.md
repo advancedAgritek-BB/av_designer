@@ -523,10 +523,10 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`
 
-- [ ] Create `src/features/drawings/use-drawings.ts`
-- [ ] Implement useDrawingsList, useDrawingsByRoom, useDrawing hooks
-- [ ] Implement mutations with cache invalidation
-- [ ] Write tests in `tests/features/drawings/use-drawings.test.tsx`
+- [x] Create `src/features/drawings/use-drawings.ts`
+- [x] Implement useDrawingsList, useDrawingsByRoom, useDrawing hooks
+- [x] Implement mutations with cache invalidation
+- [x] Write tests in `tests/features/drawings/use-drawings.test.tsx`
 
 ### Task 6.4: Create Electrical Line Diagram Generator (Rust)
 
