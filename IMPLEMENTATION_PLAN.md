@@ -136,9 +136,9 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/ui/Card.tsx` with header, body, footer slots
-- [ ] Add hover and selected states
-- [ ] Write tests for Card component
+- [x] Create `src/components/ui/Card.tsx` with header, body, footer slots
+- [x] Add hover and selected states
+- [x] Write tests for Card component
 
 ### Task 2.4: Create Sidebar Component
 
@@ -284,6 +284,16 @@
   - States: disabled, error (with aria-invalid), required
   - Accessibility: aria-describedby for error/helper, label association via htmlFor
   - Uses forwardRef for proper ref forwarding
+  - Exports via src/components/ui/index.ts
+
+- **Task 2.3: Create Card Component** (2026-01-18)
+  - TDD approach: wrote 45 tests first, watched them fail, then implemented
+  - Components: Card, CardHeader, CardBody, CardFooter (slot pattern)
+  - Variants: default, elevated
+  - States: hoverable, selected (with aria-selected), interactive (with keyboard support)
+  - Padding options: none, sm, md (default), lg
+  - Features: title/description props on CardHeader, keyboard activation (Enter/Space)
+  - Accessibility: role="button" and tabIndex for interactive cards
   - Exports via src/components/ui/index.ts
 
 ---
