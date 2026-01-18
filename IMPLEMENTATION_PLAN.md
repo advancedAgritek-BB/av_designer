@@ -661,11 +661,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/quoting/pricing-engine.ts`
-- [ ] Implement margin calculation (cost to price)
-- [ ] Add labor estimation based on equipment complexity
-- [ ] Add tax calculation methods
-- [ ] Write tests in `tests/features/quoting/pricing-engine.test.ts`
+- [x] Create `src/features/quoting/pricing-engine.ts`
+- [x] Implement margin calculation (cost to price)
+- [x] Add labor estimation based on equipment complexity
+- [x] Add tax calculation methods
+- [x] Write tests in `tests/features/quoting/pricing-engine.test.ts`
 
 ### Task 7.6: Create Quote Card Component
 
