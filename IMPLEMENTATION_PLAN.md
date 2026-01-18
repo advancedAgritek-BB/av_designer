@@ -69,10 +69,10 @@
 
 ### Task 1.6: Configure Testing (Vitest)
 
-- [ ] Install Vitest, Testing Library, jsdom
-- [ ] Create `vitest.config.ts`
-- [ ] Create sample test to verify setup
-- [ ] Add `test` script to `package.json`
+- [x] Install Vitest, Testing Library, jsdom
+- [x] Create `vitest.config.ts`
+- [x] Create sample test to verify setup
+- [x] Add `test` script to `package.json`
 
 ### Task 1.7: Set Up ESLint and Prettier
 
@@ -244,6 +244,12 @@
   - Project store: projects, rooms with CRUD actions
   - Equipment store: catalog, favorites, filters
   - Redux DevTools integration enabled
+
+- **Task 1.6: Configure Testing (Vitest)** (2026-01-17)
+  - Vitest with React Testing Library
+  - jsdom environment for component tests
+  - Initial App component tests passing
+  - npm test scripts configured
 
 ---
 
