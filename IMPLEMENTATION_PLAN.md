@@ -690,9 +690,9 @@
 
 ### Task 7.8: Export Quoting Feature
 
-- [ ] Create `src/features/quoting/index.ts` with all exports
-- [ ] Wire Quoting page to App.tsx routing
-- [ ] Verify sidebar navigation already connected
+- [x] Create `src/features/quoting/index.ts` with all exports
+- [x] Wire Quoting page to App.tsx routing
+- [x] Verify sidebar navigation already connected
 
 ### Phase 7 Completion
 
