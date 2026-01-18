@@ -192,7 +192,9 @@ describe('DrawingsPage', () => {
       render(<DrawingsPage roomId="room-1" />, { wrapper: createWrapper() });
 
       // The DrawingToolbar component renders with role="toolbar"
-      expect(screen.getByRole('toolbar', { name: /drawing toolbar/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('toolbar', { name: /drawing toolbar/i })
+      ).toBeInTheDocument();
     });
 
     it('renders drawing canvas', () => {
@@ -301,7 +303,7 @@ describe('DrawingsPage', () => {
 
       await waitFor(() => {
         expect(invoke).toHaveBeenCalledWith(
-          'generate_electrical_diagram',
+          'generate_electrical',
           expect.any(Object)
         );
       });
@@ -421,7 +423,7 @@ describe('DrawingsPage', () => {
       await user.click(exportBtn);
 
       await waitFor(() => {
-        expect(invoke).toHaveBeenCalledWith('export_drawing_pdf', expect.any(Object));
+        expect(invoke).toHaveBeenCalledWith('export_to_pdf', expect.any(Object));
       });
     });
 
@@ -437,7 +439,10 @@ describe('DrawingsPage', () => {
       const exportBtn = screen.getByRole('button', { name: /export/i });
       await user.click(exportBtn);
 
-      expect(screen.getByRole('button', { name: /export/i })).toHaveAttribute('aria-busy', 'true');
+      expect(screen.getByRole('button', { name: /export/i })).toHaveAttribute(
+        'aria-busy',
+        'true'
+      );
     });
 
     it('shows success message after export', async () => {
@@ -697,7 +702,9 @@ describe('DrawingsPage', () => {
     it('has heading with page title', () => {
       render(<DrawingsPage roomId="room-1" />, { wrapper: createWrapper() });
 
-      expect(screen.getByRole('heading', { level: 1, name: /drawings/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 1, name: /drawings/i })
+      ).toBeInTheDocument();
     });
 
     it('toolbar has proper role', () => {
@@ -761,7 +768,9 @@ describe('DrawingsPage', () => {
       await user.click(previewBtn);
 
       // The DrawingToolbar should be hidden in preview mode
-      expect(screen.queryByRole('toolbar', { name: /drawing toolbar/i })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('toolbar', { name: /drawing toolbar/i })
+      ).not.toBeInTheDocument();
     });
   });
 

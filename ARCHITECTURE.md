@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 5 Complete - Room Builder
+**Status:** Phase 6 Complete - Drawing Generation
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 6 - Drawing Generation (Starting)
+**Phase:** 7 - Quoting & BOM System (Next)
 
 ### Implemented
 
@@ -54,12 +54,12 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Equipment database (service, hooks, components)
 - [x] Standards engine (types, rule engine, service, hooks, components)
 - [x] Room builder (types, service, hooks, canvas, placement, validation)
-- [ ] Drawing generation
+- [x] Drawing generation (types, service, hooks, canvas, toolbar, page, Rust generators)
 - [ ] Quoting system
 
 ### In Progress
 
-- Phase 6: Drawing Generation (next)
+- Phase 7: Quoting & BOM System (next)
 
 ---
 
@@ -136,7 +136,14 @@ av_designer/
 │   │   │   │   ├── ValidationPanel.tsx   # Errors/warnings display
 │   │   │   │   └── RoomBuilder.tsx       # Main page composer
 │   │   │   └── index.ts              # Public feature exports
-│   │   ├── drawings/             # Drawing generation (planned)
+│   │   ├── drawings/             # Drawing generation feature
+│   │   │   ├── drawing-service.ts    # CRUD operations via Supabase
+│   │   │   ├── use-drawings.ts       # React Query hooks
+│   │   │   ├── components/
+│   │   │   │   ├── DrawingCanvas.tsx     # Interactive drawing canvas
+│   │   │   │   ├── DrawingToolbar.tsx    # Type selector, layers, export
+│   │   │   │   └── DrawingsPage.tsx      # Main page composer
+│   │   │   └── index.ts              # Public feature exports
 │   │   └── quoting/              # Quote/BOM system (planned)
 │   ├── lib/                      # Utilities
 │   │   ├── supabase.ts           # Supabase client
@@ -150,7 +157,8 @@ av_designer/
 │   │   ├── index.ts              # Core domain types
 │   │   ├── equipment.ts          # Equipment types & validation
 │   │   ├── standards.ts          # Standards, rules, conditions types
-│   │   └── room.ts               # Room, placement, mount types
+│   │   ├── room.ts               # Room, placement, mount types
+│   │   └── drawing.ts            # Drawing, layer, element types
 │   └── styles/                   # Modular CSS
 │       ├── globals.css           # Entry point (imports all modules)
 │       ├── theme.css             # Tailwind @theme tokens
@@ -169,7 +177,13 @@ av_designer/
 │       │   ├── equipment-list.css
 │       │   ├── equipment-form.css
 │       │   ├── standards.css
-│       │   └── room-builder.css
+│       │   ├── design-canvas.css
+│       │   ├── room-properties-panel.css
+│       │   ├── validation-panel.css
+│       │   ├── room-builder-page.css
+│       │   ├── drawing-canvas.css
+│       │   ├── drawing-toolbar.css
+│       │   └── drawings-page.css
 │       └── utilities.css         # Helper classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
@@ -177,8 +191,14 @@ av_designer/
 │   │   ├── lib.rs                # App library with command registration
 │   │   ├── commands/             # Tauri IPC commands
 │   │   │   └── mod.rs            # greet, get_app_info
-│   │   └── database/             # SQLite operations
-│   │       └── mod.rs            # DatabaseManager (placeholder)
+│   │   ├── database/             # SQLite operations
+│   │   │   └── mod.rs            # DatabaseManager (placeholder)
+│   │   ├── drawings/             # Drawing generation
+│   │   │   ├── mod.rs            # Module exports
+│   │   │   └── electrical.rs     # Electrical line diagram generator
+│   │   └── export/               # Export functionality
+│   │       ├── mod.rs            # Module exports
+│   │       └── pdf.rs            # PDF export with title blocks
 │   └── Cargo.toml
 ├── docs/plans/                   # Planning documents
 ├── scripts/                      # Build scripts
@@ -210,19 +230,27 @@ av_designer/
 │   │   │   └── components/
 │   │   │       ├── StandardsList.test.tsx      # Tree/list tests (37 tests)
 │   │   │       └── RuleEditor.test.tsx         # Form tests (36 tests)
-│   │   └── room-builder/
-│   │       ├── room-service.test.ts            # Service tests (23 tests)
-│   │       ├── use-rooms.test.tsx              # Hook tests (21 tests)
-│   │       ├── equipment-placement.test.ts     # Placement tests (39 tests)
+│   │   ├── room-builder/
+│   │   │   ├── room-service.test.ts            # Service tests (23 tests)
+│   │   │   ├── use-rooms.test.tsx              # Hook tests (21 tests)
+│   │   │   ├── equipment-placement.test.ts     # Placement tests (39 tests)
+│   │   │   └── components/
+│   │   │       ├── DesignCanvas.test.tsx       # Canvas tests (43 tests)
+│   │   │       ├── RoomPropertiesPanel.test.tsx # Panel tests (35 tests)
+│   │   │       ├── ValidationPanel.test.tsx    # Validation tests (41 tests)
+│   │   │       └── RoomBuilder.test.tsx        # Page tests (33 tests)
+│   │   └── drawings/
+│   │       ├── drawing-service.test.ts         # Service tests (27 tests)
+│   │       ├── use-drawings.test.tsx           # Hook tests (27 tests)
 │   │       └── components/
-│   │           ├── DesignCanvas.test.tsx       # Canvas tests (43 tests)
-│   │           ├── RoomPropertiesPanel.test.tsx # Panel tests (35 tests)
-│   │           ├── ValidationPanel.test.tsx    # Validation tests (41 tests)
-│   │           └── RoomBuilder.test.tsx        # Page tests (33 tests)
+│   │           ├── DrawingCanvas.test.tsx      # Canvas tests (63 tests)
+│   │           ├── DrawingToolbar.test.tsx     # Toolbar tests (49 tests)
+│   │           └── DrawingsPage.test.tsx       # Page tests (49 tests)
 │   ├── types/
 │   │   ├── equipment.test.ts     # Equipment type tests (32 tests)
 │   │   ├── standards.test.ts     # Standards type tests (47 tests)
-│   │   └── room.test.ts          # Room type tests (96 tests)
+│   │   ├── room.test.ts          # Room type tests (96 tests)
+│   │   └── drawing.test.ts       # Drawing type tests (105 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -507,15 +535,73 @@ interface PlacedEquipment {
 
 **Location:** `src/features/drawings/`
 
-**Drawing Types:**
-- Electrical line diagrams
-- Room elevations
-- Reflected ceiling plans (RCP)
-- Rack elevations
-- Cable schedules
-- Floor plans with AV overlay
+**Key Features:**
+- Interactive drawing canvas with zoom, pan, selection
+- Layer-based rendering with visibility controls
+- Multiple drawing types (electrical, elevation, RCP, rack, cable schedule, floor plan)
+- Element positioning and drag-drop editing
+- PDF export via Rust backend
+- Print support
 
-**Status:** Not started
+**Key Types:**
+```typescript
+type DrawingType = 'electrical' | 'elevation' | 'rcp' | 'rack' | 'cable_schedule' | 'floor_plan';
+type LayerType = 'title_block' | 'architectural' | 'av_elements' | 'annotations' | 'dimensions';
+type ElementType = 'equipment' | 'cable' | 'text' | 'dimension' | 'symbol';
+
+interface Drawing {
+  id: string;
+  roomId: string;
+  type: DrawingType;
+  layers: DrawingLayer[];
+  overrides: DrawingOverride[];
+  generatedAt: string;
+}
+
+interface DrawingLayer {
+  id: string;
+  name: string;
+  type: LayerType;
+  isLocked: boolean;
+  isVisible: boolean;
+  elements: DrawingElement[];
+}
+
+interface DrawingElement {
+  id: string;
+  type: ElementType;
+  x: number;
+  y: number;
+  rotation: number;
+  properties: Record<string, unknown>;
+}
+```
+
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| DrawingCanvas | Interactive canvas with layer rendering, zoom, pan, element selection |
+| DrawingToolbar | Type selector, layer visibility toggles, export/print buttons |
+| DrawingsPage | Main page composing canvas, toolbar, drawing list, properties panel |
+
+**Hooks (React Query):**
+| Hook | Description |
+|------|-------------|
+| useDrawingsList | Fetch all drawings |
+| useDrawingsByRoom | Fetch drawings by room ID |
+| useDrawingsByType | Fetch drawings by type |
+| useDrawing | Fetch single drawing by ID |
+| useCreateDrawing | Create mutation with cache invalidation |
+| useUpdateDrawing | Update mutation with cache invalidation |
+| useDeleteDrawing | Delete mutation with cache invalidation |
+
+**Rust Backend:**
+| Module | Description |
+|--------|-------------|
+| drawings/electrical.rs | Electrical line diagram generation with signal flow analysis |
+| export/pdf.rs | PDF export with title blocks and page layouts |
+
+**Status:** Complete (320 tests)
 
 ---
 
@@ -603,6 +689,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-18 | Code review refactoring: Split EquipmentForm (950→291 lines) into 8 modular files; Split globals.css (1343→32 lines) into 12 CSS modules |
 | 2026-01-18 | Phase 4 complete: Standards Engine - Types (24 tests), Rule Engine (44 tests), Service (26 tests), Hooks (28 tests), StandardsList (37 tests), RuleEditor (36 tests) - Total: 626 tests |
 | 2026-01-18 | Phase 5 complete: Room Builder - Types (96 tests), Service (23 tests), Hooks (21 tests), Placement (39 tests), DesignCanvas (43 tests), RoomPropertiesPanel (35 tests), ValidationPanel (41 tests), RoomBuilder (33 tests) - Total: 989 tests |
+| 2026-01-18 | Phase 6 complete: Drawing Generation - Types (105 tests), Service (27 tests), Hooks (27 tests), DrawingCanvas (63 tests), DrawingToolbar (49 tests), DrawingsPage (49 tests), Rust electrical/PDF modules - Total: 1309 tests |
 
 ---
 

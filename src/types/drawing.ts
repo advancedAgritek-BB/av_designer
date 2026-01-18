@@ -20,6 +20,18 @@ export const DRAWING_TYPES = Object.freeze([
 
 export type DrawingType = (typeof DRAWING_TYPES)[number];
 
+/**
+ * Human-readable labels for drawing types
+ */
+export const DRAWING_TYPE_LABELS: Record<DrawingType, string> = Object.freeze({
+  electrical: 'Electrical Line Diagram',
+  elevation: 'Room Elevation',
+  rcp: 'Reflected Ceiling Plan',
+  rack: 'Rack Elevation',
+  cable_schedule: 'Cable Schedule',
+  floor_plan: 'Floor Plan',
+});
+
 // ============================================================================
 // Layer Type Constants
 // ============================================================================

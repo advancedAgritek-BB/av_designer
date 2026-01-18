@@ -7,6 +7,7 @@ import { Card, CardHeader, CardBody } from '@/components/ui';
 import { EquipmentList } from '@/features/equipment';
 import { StandardsList } from '@/features/standards';
 import { RoomBuilder } from '@/features/room-builder';
+import { DrawingsPage } from '@/features/drawings';
 import { useAppStore } from '@/stores/app-store';
 import type { Equipment } from '@/types/equipment';
 import type { StandardNode, Rule } from '@/types/standards';
@@ -84,6 +85,14 @@ function AppContent() {
         ) : (
           <div className="flex items-center justify-center h-full text-text-secondary">
             Select a room to start designing
+          </div>
+        );
+      case 'drawings':
+        return currentRoomId ? (
+          <DrawingsPage roomId={currentRoomId} />
+        ) : (
+          <div className="flex items-center justify-center h-full text-text-secondary">
+            Select a room to view drawings
           </div>
         );
       case 'home':

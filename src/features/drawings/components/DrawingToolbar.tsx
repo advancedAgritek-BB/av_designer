@@ -7,7 +7,7 @@
 
 import { useState, useCallback } from 'react';
 import type { DrawingType, DrawingLayer } from '@/types/drawing';
-import { DRAWING_TYPES } from '@/types/drawing';
+import { DRAWING_TYPES, DRAWING_TYPE_LABELS } from '@/types/drawing';
 
 export interface DrawingToolbarProps {
   currentType: DrawingType;
@@ -19,15 +19,6 @@ export interface DrawingToolbarProps {
   isExporting?: boolean;
   compact?: boolean;
 }
-
-const DRAWING_TYPE_LABELS: Record<DrawingType, string> = {
-  electrical: 'Electrical Line Diagram',
-  elevation: 'Room Elevation',
-  rcp: 'Reflected Ceiling Plan',
-  rack: 'Rack Elevation',
-  cable_schedule: 'Cable Schedule',
-  floor_plan: 'Floor Plan',
-};
 
 function VisibilityIcon({ visible }: { visible: boolean }) {
   if (visible) {

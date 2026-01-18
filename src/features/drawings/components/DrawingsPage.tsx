@@ -18,20 +18,11 @@ import {
   useDeleteDrawing,
 } from '../use-drawings';
 import type { DrawingType } from '@/types/drawing';
-import { DRAWING_TYPES } from '@/types/drawing';
+import { DRAWING_TYPES, DRAWING_TYPE_LABELS } from '@/types/drawing';
 
 interface DrawingsPageProps {
   roomId: string;
 }
-
-const DRAWING_TYPE_LABELS: Record<DrawingType, string> = {
-  electrical: 'Electrical Line Diagram',
-  elevation: 'Room Elevation',
-  rcp: 'Reflected Ceiling Plan',
-  rack: 'Rack Elevation',
-  cable_schedule: 'Cable Schedule',
-  floor_plan: 'Floor Plan',
-};
 
 export function DrawingsPage({ roomId }: DrawingsPageProps) {
   const { data: drawings, isLoading, isError } = useDrawingsByRoom(roomId);
@@ -152,7 +143,7 @@ export function DrawingsPage({ roomId }: DrawingsPageProps) {
     setErrorMessage('');
 
     try {
-      await invoke('generate_electrical_diagram', {
+      await invoke('generate_electrical', {
         roomId,
         drawingType: selectedDrawing.type,
       });
@@ -174,7 +165,7 @@ export function DrawingsPage({ roomId }: DrawingsPageProps) {
     setErrorMessage('');
 
     try {
-      const result = await invoke<{ path: string }>('export_drawing_pdf', {
+      const result = await invoke<{ path: string }>('export_to_pdf', {
         drawingId: selectedDrawing.id,
       });
       setStatusMessage(`Exported to ${result.path}`);

@@ -580,19 +580,34 @@
 
 ### Task 6.9: Export Drawings Feature
 
-- [ ] Create `src/features/drawings/index.ts` with all exports
-- [ ] Wire Drawings page to App.tsx routing
-- [ ] Verify sidebar navigation already connected
+- [x] Create `src/features/drawings/index.ts` with all exports
+- [x] Wire Drawings page to App.tsx routing
+- [x] Verify sidebar navigation already connected
 
 ### Phase 6 Completion
 
 → Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
 
-- [ ] Visual review of all components
-- [ ] Run full validation (`./scripts/check.sh --full`)
-- [ ] Update ARCHITECTURE.md with drawings feature structure
-- [ ] Invoke `@superpowers:requesting-code-review`
-- [ ] Commit Phase 6 work
+- [x] Visual review of all components
+- [x] Run full validation (`./scripts/check.sh --full`)
+- [x] Update ARCHITECTURE.md with drawings feature structure
+- [x] Invoke `@superpowers:requesting-code-review`
+- [x] Commit Phase 6 work
+
+**Code Review Summary (2026-01-18):**
+- Assessment: Ready to merge ✅
+- Critical issues fixed:
+  - Tauri command name mismatch: `generate_electrical_diagram` → `generate_electrical`
+  - Tauri command name mismatch: `export_drawing_pdf` → `export_to_pdf`
+  - Updated tests to match new command names
+- Important items addressed:
+  - Ran Prettier format on all files
+  - Deduplicated DRAWING_TYPE_LABELS to `@/types/drawing.ts`
+  - Added DRAWING_TYPE_LABELS export to feature index.ts
+- Technical debt noted (deferred):
+  - Rust files exceed 500 lines: `pdf.rs` (959), `electrical.rs` (813)
+  - DrawingsPage.tsx slightly over limit (518 lines)
+- All validation checks pass (1309 tests)
 
 ---
 
