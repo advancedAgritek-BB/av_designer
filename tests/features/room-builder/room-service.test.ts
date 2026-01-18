@@ -265,7 +265,9 @@ describe('RoomService', () => {
         insert: mockInsert,
       } as unknown as ReturnType<typeof supabase.from>);
 
-      await expect(service.create('project-1', formData)).rejects.toThrow('Insert failed');
+      await expect(service.create('project-1', formData)).rejects.toThrow(
+        'Insert failed'
+      );
     });
   });
 
@@ -418,9 +420,9 @@ describe('RoomService', () => {
         select: mockSelect,
       } as unknown as ReturnType<typeof supabase.from>);
 
-      await expect(service.addPlacedEquipment('nonexistent', placedEquipment)).rejects.toThrow(
-        'Room not found'
-      );
+      await expect(
+        service.addPlacedEquipment('nonexistent', placedEquipment)
+      ).rejects.toThrow('Room not found');
     });
   });
 
@@ -488,9 +490,9 @@ describe('RoomService', () => {
         select: mockSelect,
       } as unknown as ReturnType<typeof supabase.from>);
 
-      await expect(service.removePlacedEquipment('room-1', 'nonexistent')).rejects.toThrow(
-        'Placed equipment not found'
-      );
+      await expect(
+        service.removePlacedEquipment('room-1', 'nonexistent')
+      ).rejects.toThrow('Placed equipment not found');
     });
   });
 

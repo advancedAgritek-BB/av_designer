@@ -218,7 +218,9 @@ describe('isValidRoomDimensions', () => {
   });
 
   it('should accept decimal values', () => {
-    expect(isValidRoomDimensions({ width: 20.5, length: 30.75, height: 10.25 })).toBe(true);
+    expect(isValidRoomDimensions({ width: 20.5, length: 30.75, height: 10.25 })).toBe(
+      true
+    );
   });
 });
 
@@ -274,7 +276,9 @@ describe('isValidPlacedEquipment', () => {
   });
 
   it('should return false for non-string equipmentId', () => {
-    expect(isValidPlacedEquipment({ ...validPlacedEquipment, equipmentId: 456 })).toBe(false);
+    expect(isValidPlacedEquipment({ ...validPlacedEquipment, equipmentId: 456 })).toBe(
+      false
+    );
   });
 
   it('should return false for missing x', () => {
@@ -301,7 +305,9 @@ describe('isValidPlacedEquipment', () => {
   });
 
   it('should return false for non-number rotation', () => {
-    expect(isValidPlacedEquipment({ ...validPlacedEquipment, rotation: '90' })).toBe(false);
+    expect(isValidPlacedEquipment({ ...validPlacedEquipment, rotation: '90' })).toBe(
+      false
+    );
   });
 
   it('should return false for missing mountType', () => {
@@ -310,12 +316,16 @@ describe('isValidPlacedEquipment', () => {
   });
 
   it('should return false for invalid mountType', () => {
-    expect(isValidPlacedEquipment({ ...validPlacedEquipment, mountType: 'invalid' })).toBe(false);
+    expect(
+      isValidPlacedEquipment({ ...validPlacedEquipment, mountType: 'invalid' })
+    ).toBe(false);
   });
 
   it('should accept all valid mount types', () => {
     MOUNT_TYPES.forEach((mount) => {
-      expect(isValidPlacedEquipment({ ...validPlacedEquipment, mountType: mount })).toBe(true);
+      expect(isValidPlacedEquipment({ ...validPlacedEquipment, mountType: mount })).toBe(
+        true
+      );
     });
   });
 
@@ -523,7 +533,9 @@ describe('isValidRoom', () => {
   });
 
   it('should return false for invalid placed equipment in array', () => {
-    expect(isValidRoom({ ...validRoom, placedEquipment: [{ invalid: true }] })).toBe(false);
+    expect(isValidRoom({ ...validRoom, placedEquipment: [{ invalid: true }] })).toBe(
+      false
+    );
   });
 });
 

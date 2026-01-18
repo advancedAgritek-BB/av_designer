@@ -133,9 +133,7 @@ describe('DrawingCanvas Component', () => {
     it('renders drawing type label', () => {
       render(<DrawingCanvas {...defaultProps} />);
 
-      expect(
-        screen.getByLabelText(/electrical.*drawing.*canvas/i)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(/electrical.*drawing.*canvas/i)).toBeInTheDocument();
     });
 
     it('renders empty state when no drawing provided', () => {
@@ -167,9 +165,7 @@ describe('DrawingCanvas Component', () => {
     });
 
     it('does not render hidden layers', () => {
-      render(
-        <DrawingCanvas {...defaultProps} drawing={mockDrawingWithHiddenLayer} />
-      );
+      render(<DrawingCanvas {...defaultProps} drawing={mockDrawingWithHiddenLayer} />);
 
       expect(screen.getByTestId('layer-layer-1')).toBeInTheDocument();
       expect(screen.queryByTestId('layer-layer-3')).not.toBeInTheDocument();
@@ -219,9 +215,7 @@ describe('DrawingCanvas Component', () => {
     });
 
     it('visibility toggle reflects layer visibility state', () => {
-      render(
-        <DrawingCanvas {...defaultProps} drawing={mockDrawingWithHiddenLayer} />
-      );
+      render(<DrawingCanvas {...defaultProps} drawing={mockDrawingWithHiddenLayer} />);
 
       const visibleToggle = screen.getByRole('checkbox', {
         name: /toggle.*av elements/i,
@@ -257,9 +251,7 @@ describe('DrawingCanvas Component', () => {
         ...mockDrawing,
         layers: [mockLockedLayer],
       };
-      render(
-        <DrawingCanvas {...defaultProps} drawing={drawingWithLockedLayer} />
-      );
+      render(<DrawingCanvas {...defaultProps} drawing={drawingWithLockedLayer} />);
 
       expect(screen.getByTestId('lock-indicator-layer-4')).toBeInTheDocument();
     });
@@ -410,9 +402,7 @@ describe('DrawingCanvas Component', () => {
     it('calls onElementSelect when clicking an element', async () => {
       const onElementSelect = vi.fn();
       const user = userEvent.setup();
-      render(
-        <DrawingCanvas {...defaultProps} onElementSelect={onElementSelect} />
-      );
+      render(<DrawingCanvas {...defaultProps} onElementSelect={onElementSelect} />);
 
       const element = screen.getByTestId('element-elem-1');
       await user.click(element);
@@ -466,9 +456,7 @@ describe('DrawingCanvas Component', () => {
     it('supports Tab to cycle through elements', async () => {
       const onElementSelect = vi.fn();
       const user = userEvent.setup();
-      render(
-        <DrawingCanvas {...defaultProps} onElementSelect={onElementSelect} />
-      );
+      render(<DrawingCanvas {...defaultProps} onElementSelect={onElementSelect} />);
 
       const canvas = screen.getByTestId('drawing-canvas');
       canvas.focus();
@@ -567,9 +555,7 @@ describe('DrawingCanvas Component', () => {
 
     it('calls onElementMove after drag ends', async () => {
       const onElementMove = vi.fn();
-      render(
-        <DrawingCanvas {...defaultProps} onElementMove={onElementMove} />
-      );
+      render(<DrawingCanvas {...defaultProps} onElementMove={onElementMove} />);
 
       const element = screen.getByTestId('element-elem-1');
 
@@ -594,13 +580,9 @@ describe('DrawingCanvas Component', () => {
     it('does not allow dragging elements on locked layers', () => {
       const drawingWithLockedLayer: Drawing = {
         ...mockDrawing,
-        layers: [
-          { ...mockLayer, isLocked: true },
-        ],
+        layers: [{ ...mockLayer, isLocked: true }],
       };
-      render(
-        <DrawingCanvas {...defaultProps} drawing={drawingWithLockedLayer} />
-      );
+      render(<DrawingCanvas {...defaultProps} drawing={drawingWithLockedLayer} />);
 
       const element = screen.getByTestId('element-elem-1');
       expect(element).toHaveAttribute('draggable', 'false');
@@ -627,9 +609,7 @@ describe('DrawingCanvas Component', () => {
     it('renders select tool button', () => {
       render(<DrawingCanvas {...defaultProps} />);
 
-      expect(
-        screen.getByRole('button', { name: /select/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /select/i })).toBeInTheDocument();
     });
 
     it('renders pan tool button', () => {
@@ -667,10 +647,7 @@ describe('DrawingCanvas Component', () => {
       render(<DrawingCanvas {...defaultProps} />);
 
       const element = screen.getByTestId('element-elem-1');
-      expect(element).toHaveAttribute(
-        'aria-label',
-        expect.stringContaining('equipment')
-      );
+      expect(element).toHaveAttribute('aria-label', expect.stringContaining('equipment'));
     });
 
     it('layer panel has proper accessibility attributes', () => {

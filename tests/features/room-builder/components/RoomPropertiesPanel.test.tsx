@@ -52,7 +52,9 @@ describe('RoomPropertiesPanel Component', () => {
     it('renders with accessible heading', () => {
       render(<RoomPropertiesPanel {...defaultProps} />);
 
-      expect(screen.getByRole('heading', { name: /room properties/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: /room properties/i })
+      ).toBeInTheDocument();
     });
 
     it('displays room name', () => {
@@ -392,26 +394,24 @@ describe('RoomPropertiesPanel Component', () => {
 
     it('shows error styling for validation errors', () => {
       render(
-        <RoomPropertiesPanel
-          {...defaultProps}
-          validationErrors={['Error message']}
-        />
+        <RoomPropertiesPanel {...defaultProps} validationErrors={['Error message']} />
       );
 
       const errorElement = screen.getByText(/error message/i);
-      expect(errorElement.closest('[data-testid="validation-errors"]')).toBeInTheDocument();
+      expect(
+        errorElement.closest('[data-testid="validation-errors"]')
+      ).toBeInTheDocument();
     });
 
     it('shows warning styling for validation warnings', () => {
       render(
-        <RoomPropertiesPanel
-          {...defaultProps}
-          validationWarnings={['Warning message']}
-        />
+        <RoomPropertiesPanel {...defaultProps} validationWarnings={['Warning message']} />
       );
 
       const warningElement = screen.getByText(/warning message/i);
-      expect(warningElement.closest('[data-testid="validation-warnings"]')).toBeInTheDocument();
+      expect(
+        warningElement.closest('[data-testid="validation-warnings"]')
+      ).toBeInTheDocument();
     });
 
     it('hides validation section when no errors or warnings', () => {
@@ -450,10 +450,7 @@ describe('RoomPropertiesPanel Component', () => {
 
     it('has proper aria-invalid for error state', () => {
       render(
-        <RoomPropertiesPanel
-          {...defaultProps}
-          validationErrors={['Invalid width']}
-        />
+        <RoomPropertiesPanel {...defaultProps} validationErrors={['Invalid width']} />
       );
 
       // Panel should indicate invalid state when there are errors
@@ -471,10 +468,7 @@ describe('RoomPropertiesPanel Component', () => {
   describe('Empty/Loading States', () => {
     it('renders empty state when no room provided', () => {
       render(
-        <RoomPropertiesPanel
-          {...defaultProps}
-          room={undefined as unknown as Room}
-        />
+        <RoomPropertiesPanel {...defaultProps} room={undefined as unknown as Room} />
       );
 
       expect(screen.getByText(/no room selected/i)).toBeInTheDocument();

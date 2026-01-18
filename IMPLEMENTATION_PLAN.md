@@ -613,7 +613,96 @@
 
 ## Phase 7: Quoting & BOM System
 
-*Tasks to be added when Phase 6 is complete*
+**Required Skills for ALL Phase 7 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns (for UI components)
+- `@frontend-design:frontend-design` - Programa-style quote cards and page
+
+### Task 7.1: Create Quote Type Definitions
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `src/types/quote.ts` with Quote, QuoteSection, QuoteItem interfaces
+- [x] Add QuoteStatus and ItemStatus type constants
+- [x] Add QuoteTotals interface for pricing calculations
+- [x] Create validation functions (isValidQuote, isValidQuoteItem)
+- [x] Write tests in `tests/types/quote.test.ts`
+
+### Task 7.2: Create Quote Service Layer
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/quoting/quote-service.ts`
+- [ ] Implement CRUD operations (getAll, getById, create, update, delete)
+- [ ] Implement getByProject and getByRoom methods
+- [ ] Add row mapping from snake_case to camelCase
+- [ ] Write tests in `tests/features/quoting/quote-service.test.ts`
+
+### Task 7.3: Create Quote React Query Hooks
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [ ] Create `src/features/quoting/use-quotes.ts`
+- [ ] Implement useQuotesList, useQuotesByProject, useQuotesByRoom, useQuote hooks
+- [ ] Implement mutations with cache invalidation
+- [ ] Write tests in `tests/features/quoting/use-quotes.test.tsx`
+
+### Task 7.4: Create BOM Generator
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/quoting/bom-generator.ts`
+- [ ] Implement generateBOM function from room's placed equipment
+- [ ] Add equipment grouping by category
+- [ ] Add quantity aggregation for duplicate items
+- [ ] Write tests in `tests/features/quoting/bom-generator.test.ts`
+
+### Task 7.5: Create Pricing Rules Engine
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/quoting/pricing-engine.ts`
+- [ ] Implement margin calculation (cost to price)
+- [ ] Add labor estimation based on equipment complexity
+- [ ] Add tax calculation methods
+- [ ] Write tests in `tests/features/quoting/pricing-engine.test.ts`
+
+### Task 7.6: Create Quote Card Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/quoting/components/QuoteCard.tsx`
+- [ ] Display quote summary with status pill
+- [ ] Show totals and margin percentage
+- [ ] Add action buttons (edit, duplicate, export)
+- [ ] Write tests in `tests/features/quoting/components/QuoteCard.test.tsx`
+
+### Task 7.7: Create Quote Page
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/quoting/components/QuotePage.tsx`
+- [ ] Display quote sections with expandable item lists
+- [ ] Add inline editing for quantities and margins
+- [ ] Show live total calculations
+- [ ] Add export/print functionality
+- [ ] Write tests in `tests/features/quoting/components/QuotePage.test.tsx`
+
+### Task 7.8: Export Quoting Feature
+
+- [ ] Create `src/features/quoting/index.ts` with all exports
+- [ ] Wire Quoting page to App.tsx routing
+- [ ] Verify sidebar navigation already connected
+
+### Phase 7 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [ ] Visual review of all components
+- [ ] Run full validation (`./scripts/check.sh --full`)
+- [ ] Update ARCHITECTURE.md with quoting feature structure
+- [ ] Invoke `@superpowers:requesting-code-review`
+- [ ] Commit Phase 7 work
 
 ---
 

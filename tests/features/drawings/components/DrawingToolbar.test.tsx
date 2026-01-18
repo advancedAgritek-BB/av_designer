@@ -71,9 +71,7 @@ describe('DrawingToolbar Component', () => {
     it('has accessible label', () => {
       render(<DrawingToolbar {...defaultProps} />);
 
-      expect(
-        screen.getByLabelText(/drawing toolbar/i)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(/drawing toolbar/i)).toBeInTheDocument();
     });
 
     it('renders when no layers provided', () => {
@@ -107,9 +105,13 @@ describe('DrawingToolbar Component', () => {
       const selector = screen.getByTestId('drawing-type-selector');
       await user.click(selector);
 
-      expect(screen.getByRole('option', { name: /electrical line diagram/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('option', { name: /electrical line diagram/i })
+      ).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /room elevation/i })).toBeInTheDocument();
-      expect(screen.getByRole('option', { name: /reflected ceiling plan/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('option', { name: /reflected ceiling plan/i })
+      ).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /rack elevation/i })).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /cable schedule/i })).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /floor plan/i })).toBeInTheDocument();
@@ -136,9 +138,7 @@ describe('DrawingToolbar Component', () => {
     it('has accessible label for type selector', () => {
       render(<DrawingToolbar {...defaultProps} />);
 
-      expect(
-        screen.getByLabelText(/drawing type/i)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(/drawing type/i)).toBeInTheDocument();
     });
   });
 
@@ -157,9 +157,15 @@ describe('DrawingToolbar Component', () => {
       render(<DrawingToolbar {...defaultProps} />);
 
       const toggles = screen.getByTestId('layer-toggles');
-      expect(within(toggles).getByRole('button', { name: /av elements/i })).toBeInTheDocument();
-      expect(within(toggles).getByRole('button', { name: /annotations/i })).toBeInTheDocument();
-      expect(within(toggles).getByRole('button', { name: /dimensions/i })).toBeInTheDocument();
+      expect(
+        within(toggles).getByRole('button', { name: /av elements/i })
+      ).toBeInTheDocument();
+      expect(
+        within(toggles).getByRole('button', { name: /annotations/i })
+      ).toBeInTheDocument();
+      expect(
+        within(toggles).getByRole('button', { name: /dimensions/i })
+      ).toBeInTheDocument();
     });
 
     it('indicates visible layers with active state', () => {
@@ -212,7 +218,9 @@ describe('DrawingToolbar Component', () => {
       const buttons = within(toggles).getAllByRole('button');
 
       buttons.forEach((button) => {
-        expect(button.querySelector('[data-testid*="visibility-icon"]')).toBeInTheDocument();
+        expect(
+          button.querySelector('[data-testid*="visibility-icon"]')
+        ).toBeInTheDocument();
       });
     });
 
@@ -246,9 +254,7 @@ describe('DrawingToolbar Component', () => {
     it('renders export button', () => {
       render(<DrawingToolbar {...defaultProps} />);
 
-      expect(
-        screen.getByRole('button', { name: /export/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /export/i })).toBeInTheDocument();
     });
 
     it('calls onExport when clicked', async () => {
@@ -299,9 +305,7 @@ describe('DrawingToolbar Component', () => {
     it('renders print button', () => {
       render(<DrawingToolbar {...defaultProps} />);
 
-      expect(
-        screen.getByRole('button', { name: /print/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /print/i })).toBeInTheDocument();
     });
 
     it('calls onPrint when clicked', async () => {
@@ -456,9 +460,13 @@ describe('DrawingToolbar Component', () => {
       const selector = screen.getByTestId('drawing-type-selector');
       await user.click(selector);
 
-      expect(screen.getByRole('option', { name: /electrical line diagram/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('option', { name: /electrical line diagram/i })
+      ).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /room elevation/i })).toBeInTheDocument();
-      expect(screen.getByRole('option', { name: /reflected ceiling plan/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('option', { name: /reflected ceiling plan/i })
+      ).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /rack elevation/i })).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /cable schedule/i })).toBeInTheDocument();
       expect(screen.getByRole('option', { name: /floor plan/i })).toBeInTheDocument();
@@ -577,7 +585,9 @@ describe('DrawingToolbar Component', () => {
 
   describe('Props Updates', () => {
     it('updates when currentType prop changes', () => {
-      const { rerender } = render(<DrawingToolbar {...defaultProps} currentType="electrical" />);
+      const { rerender } = render(
+        <DrawingToolbar {...defaultProps} currentType="electrical" />
+      );
 
       expect(screen.getByTestId('drawing-type-selector')).toHaveValue('electrical');
 
@@ -599,7 +609,9 @@ describe('DrawingToolbar Component', () => {
 
       rerender(<DrawingToolbar {...defaultProps} layers={updatedLayers} />);
 
-      expect(screen.getByRole('button', { name: /av elements/i })).not.toHaveClass('active');
+      expect(screen.getByRole('button', { name: /av elements/i })).not.toHaveClass(
+        'active'
+      );
     });
   });
 });

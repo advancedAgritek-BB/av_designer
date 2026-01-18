@@ -438,12 +438,7 @@ describe('DesignCanvas Component', () => {
 
     it('accepts dropped equipment from equipment palette', () => {
       const onEquipmentDrop = vi.fn();
-      render(
-        <DesignCanvas
-          {...defaultProps}
-          onEquipmentDrop={onEquipmentDrop}
-        />
-      );
+      render(<DesignCanvas {...defaultProps} onEquipmentDrop={onEquipmentDrop} />);
 
       const canvas = screen.getByTestId('design-canvas');
 
@@ -655,7 +650,10 @@ describe('DesignCanvas Component', () => {
       );
 
       const equipment = screen.getByTestId('placed-equipment-pe-1');
-      expect(equipment).toHaveAttribute('aria-label', expect.stringContaining('Poly Studio X50'));
+      expect(equipment).toHaveAttribute(
+        'aria-label',
+        expect.stringContaining('Poly Studio X50')
+      );
     });
 
     it('canvas is focusable for keyboard interaction', () => {
@@ -717,11 +715,7 @@ describe('DesignCanvas Component', () => {
 
       const startTime = performance.now();
       render(
-        <DesignCanvas
-          {...defaultProps}
-          room={largeRoom}
-          equipmentMap={equipmentMap}
-        />
+        <DesignCanvas {...defaultProps} room={largeRoom} equipmentMap={equipmentMap} />
       );
       const endTime = performance.now();
 

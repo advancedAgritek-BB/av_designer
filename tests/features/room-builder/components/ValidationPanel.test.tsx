@@ -38,7 +38,9 @@ describe('ValidationPanel', () => {
     it('renders panel heading', () => {
       render(<ValidationPanel items={[]} title="Validation Results" />);
 
-      expect(screen.getByRole('heading', { name: 'Validation Results' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Validation Results' })
+      ).toBeInTheDocument();
     });
 
     it('uses default heading when no title provided', () => {
@@ -105,12 +107,18 @@ describe('ValidationPanel', () => {
   describe('Warning Display', () => {
     it('renders warning items', () => {
       const items: ValidationItem[] = [
-        { id: 'warn-1', type: 'warning', message: 'Equipment placement may obstruct traffic' },
+        {
+          id: 'warn-1',
+          type: 'warning',
+          message: 'Equipment placement may obstruct traffic',
+        },
       ];
 
       render(<ValidationPanel items={items} />);
 
-      expect(screen.getByText('Equipment placement may obstruct traffic')).toBeInTheDocument();
+      expect(
+        screen.getByText('Equipment placement may obstruct traffic')
+      ).toBeInTheDocument();
     });
 
     it('displays warning icon for warning items', () => {
@@ -270,7 +278,9 @@ describe('ValidationPanel', () => {
 
       render(<ValidationPanel items={items} />);
 
-      expect(screen.getByText('Projector overlaps with display screen by 2 feet')).toBeInTheDocument();
+      expect(
+        screen.getByText('Projector overlaps with display screen by 2 feet')
+      ).toBeInTheDocument();
     });
 
     it('renders item with field reference', () => {
@@ -329,7 +339,12 @@ describe('ValidationPanel', () => {
       const user = userEvent.setup();
       const handleDismiss = vi.fn();
       const items: ValidationItem[] = [
-        { id: 'warn-1', type: 'warning', message: 'Dismissable warning', dismissible: true },
+        {
+          id: 'warn-1',
+          type: 'warning',
+          message: 'Dismissable warning',
+          dismissible: true,
+        },
       ];
 
       render(<ValidationPanel items={items} onDismiss={handleDismiss} />);
@@ -355,7 +370,9 @@ describe('ValidationPanel', () => {
         { id: 'sug-1', type: 'suggestion', message: 'Optional suggestion' },
       ];
 
-      render(<ValidationPanel items={items} onDismiss={vi.fn()} allowDismissSuggestions />);
+      render(
+        <ValidationPanel items={items} onDismiss={vi.fn()} allowDismissSuggestions />
+      );
 
       expect(screen.getByRole('button', { name: /dismiss/i })).toBeInTheDocument();
     });
@@ -485,9 +502,7 @@ describe('ValidationPanel', () => {
     });
 
     it('hides items when loading', () => {
-      const items: ValidationItem[] = [
-        { id: 'err-1', type: 'error', message: 'Error' },
-      ];
+      const items: ValidationItem[] = [{ id: 'err-1', type: 'error', message: 'Error' }];
 
       render(<ValidationPanel items={items} isLoading />);
 
@@ -503,13 +518,17 @@ describe('ValidationPanel', () => {
     it('applies compact variant class', () => {
       render(<ValidationPanel items={[]} variant="compact" />);
 
-      expect(screen.getByTestId('validation-panel')).toHaveClass('validation-panel--compact');
+      expect(screen.getByTestId('validation-panel')).toHaveClass(
+        'validation-panel--compact'
+      );
     });
 
     it('applies inline variant class', () => {
       render(<ValidationPanel items={[]} variant="inline" />);
 
-      expect(screen.getByTestId('validation-panel')).toHaveClass('validation-panel--inline');
+      expect(screen.getByTestId('validation-panel')).toHaveClass(
+        'validation-panel--inline'
+      );
     });
 
     it('applies custom className', () => {

@@ -287,7 +287,10 @@ describe('Room React Query Hooks', () => {
       });
 
       await act(async () => {
-        await result.current.mutateAsync({ id: 'room-1', data: { name: 'Updated Room' } });
+        await result.current.mutateAsync({
+          id: 'room-1',
+          data: { name: 'Updated Room' },
+        });
       });
 
       expect(roomService.update).toHaveBeenCalledWith('room-1', { name: 'Updated Room' });
@@ -302,10 +305,16 @@ describe('Room React Query Hooks', () => {
       });
 
       await act(async () => {
-        await result.current.mutateAsync({ id: 'room-1', data: { width: 25, length: 35 } });
+        await result.current.mutateAsync({
+          id: 'room-1',
+          data: { width: 25, length: 35 },
+        });
       });
 
-      expect(roomService.update).toHaveBeenCalledWith('room-1', { width: 25, length: 35 });
+      expect(roomService.update).toHaveBeenCalledWith('room-1', {
+        width: 25,
+        length: 35,
+      });
     });
   });
 
@@ -385,7 +394,9 @@ describe('Room React Query Hooks', () => {
         mountType: 'ceiling',
       };
 
-      vi.mocked(roomService.addPlacedEquipment).mockRejectedValue(new Error('Room not found'));
+      vi.mocked(roomService.addPlacedEquipment).mockRejectedValue(
+        new Error('Room not found')
+      );
 
       const { result } = renderHook(() => useAddPlacedEquipment(), {
         wrapper: createWrapper(),
@@ -433,7 +444,10 @@ describe('Room React Query Hooks', () => {
 
       await act(async () => {
         try {
-          await result.current.mutateAsync({ roomId: 'room-1', placedEquipmentId: 'nonexistent' });
+          await result.current.mutateAsync({
+            roomId: 'room-1',
+            placedEquipmentId: 'nonexistent',
+          });
         } catch {
           // Expected
         }

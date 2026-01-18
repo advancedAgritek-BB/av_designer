@@ -319,7 +319,9 @@ describe('isValidDrawingLayer', () => {
 
   it('should return false for invalid element in elements array', () => {
     const invalidElement = { id: '', type: 'invalid' };
-    expect(isValidDrawingLayer({ ...validLayer, elements: [invalidElement] })).toBe(false);
+    expect(isValidDrawingLayer({ ...validLayer, elements: [invalidElement] })).toBe(
+      false
+    );
   });
 
   it('should return true for layer with multiple valid elements', () => {
@@ -331,7 +333,9 @@ describe('isValidDrawingLayer', () => {
       rotation: 0,
       properties: { content: 'Label' },
     };
-    expect(isValidDrawingLayer({ ...validLayer, elements: [validElement, element2] })).toBe(true);
+    expect(
+      isValidDrawingLayer({ ...validLayer, elements: [validElement, element2] })
+    ).toBe(true);
   });
 });
 

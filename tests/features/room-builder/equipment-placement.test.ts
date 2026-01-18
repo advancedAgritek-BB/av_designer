@@ -236,7 +236,14 @@ describe('Equipment Placement Logic', () => {
       };
       const existing: PlacedEquipment[] = [
         { id: 'pe-1', equipmentId: 'eq-1', x: 5, y: 5, rotation: 0, mountType: 'floor' },
-        { id: 'pe-2', equipmentId: 'eq-1', x: 20, y: 20, rotation: 0, mountType: 'floor' },
+        {
+          id: 'pe-2',
+          equipmentId: 'eq-1',
+          x: 20,
+          y: 20,
+          rotation: 0,
+          mountType: 'floor',
+        },
       ];
       const equipmentMap = new Map([['eq-1', mockEquipment]]);
 
@@ -514,11 +521,7 @@ describe('Equipment Placement Logic', () => {
       // mockEquipment.dimensions: width=1, depth=0.5
       // Centering: x = 10 - 0.5 = 9.5, y = 15 - 0.25 = 14.75
       // Snap to grid: x = 10 (rounds 9.5), y = 15 (rounds 14.75)
-      const result = calculatePlacementPosition(
-        { x: 10, y: 15 },
-        mockEquipment,
-        true
-      );
+      const result = calculatePlacementPosition({ x: 10, y: 15 }, mockEquipment, true);
       expect(result.x).toBe(10);
       expect(result.y).toBe(15);
     });
@@ -590,7 +593,14 @@ describe('Equipment Placement Logic', () => {
         mountType: 'floor',
       };
       const existing: PlacedEquipment[] = [
-        { id: 'pe-1', equipmentId: 'eq-1', x: 10, y: 15, rotation: 0, mountType: 'floor' },
+        {
+          id: 'pe-1',
+          equipmentId: 'eq-1',
+          x: 10,
+          y: 15,
+          rotation: 0,
+          mountType: 'floor',
+        },
       ];
       const equipmentMap = new Map([['eq-1', mockEquipment]]);
 

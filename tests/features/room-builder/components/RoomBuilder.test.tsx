@@ -33,7 +33,12 @@ vi.mock('@/features/standards/rule-engine', () => ({
   },
 }));
 
-import { useRoom, useUpdateRoom, useAddPlacedEquipment, useUpdatePlacedEquipment } from '@/features/room-builder/use-rooms';
+import {
+  useRoom,
+  useUpdateRoom,
+  useAddPlacedEquipment,
+  useUpdatePlacedEquipment,
+} from '@/features/room-builder/use-rooms';
 import { useEquipmentList } from '@/features/equipment/use-equipment';
 import { ruleEngine } from '@/features/standards/rule-engine';
 
@@ -340,7 +345,9 @@ describe('RoomBuilder', () => {
 
       expect(screen.getByText(/selected equipment/i)).toBeInTheDocument();
       // Equipment name appears in both palette and selection details
-      const sidebar = screen.getByText(/selected equipment/i).closest('.room-builder__selection-details');
+      const sidebar = screen
+        .getByText(/selected equipment/i)
+        .closest('.room-builder__selection-details');
       expect(sidebar).toHaveTextContent('Poly Studio X50');
     });
   });
@@ -408,7 +415,14 @@ describe('RoomBuilder', () => {
     it('displays validation errors', () => {
       vi.mocked(ruleEngine.validateDesign).mockReturnValue({
         isValid: false,
-        errors: [{ ruleId: 'rule-1', ruleName: 'Size Check', message: 'Room too small for equipment', severity: 'error' }],
+        errors: [
+          {
+            ruleId: 'rule-1',
+            ruleName: 'Size Check',
+            message: 'Room too small for equipment',
+            severity: 'error',
+          },
+        ],
         warnings: [],
         suggestions: [],
       });
@@ -422,7 +436,14 @@ describe('RoomBuilder', () => {
       vi.mocked(ruleEngine.validateDesign).mockReturnValue({
         isValid: true,
         errors: [],
-        warnings: [{ ruleId: 'rule-2', ruleName: 'Redundancy', message: 'Consider adding backup microphone', severity: 'warning' }],
+        warnings: [
+          {
+            ruleId: 'rule-2',
+            ruleName: 'Redundancy',
+            message: 'Consider adding backup microphone',
+            severity: 'warning',
+          },
+        ],
         suggestions: [],
       });
 
@@ -544,7 +565,9 @@ describe('RoomBuilder', () => {
     it('has heading with room name', () => {
       render(<RoomBuilder roomId="room-1" />, { wrapper: createWrapper() });
 
-      expect(screen.getByRole('heading', { name: 'Conference Room A' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Conference Room A' })
+      ).toBeInTheDocument();
     });
 
     it('announces selection changes to screen readers', async () => {
@@ -557,7 +580,9 @@ describe('RoomBuilder', () => {
 
       // There are multiple status roles, check any one contains "selected"
       const statusElements = screen.getAllByRole('status');
-      const hasSelectedText = statusElements.some(el => /selected/i.test(el.textContent || ''));
+      const hasSelectedText = statusElements.some((el) =>
+        /selected/i.test(el.textContent || '')
+      );
       expect(hasSelectedText).toBe(true);
     });
   });

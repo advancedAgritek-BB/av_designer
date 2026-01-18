@@ -350,7 +350,9 @@ describe('DrawingService', () => {
         update: mockUpdate,
       } as unknown as ReturnType<typeof supabase.from>);
 
-      const result = await service.update('drawing-1', { type: 'elevation' as DrawingType });
+      const result = await service.update('drawing-1', {
+        type: 'elevation' as DrawingType,
+      });
 
       expect(mockUpdate).toHaveBeenCalledWith({ type: 'elevation' });
       expect(mockEq).toHaveBeenCalledWith('id', 'drawing-1');

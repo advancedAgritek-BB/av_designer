@@ -342,7 +342,11 @@ describe('Drawing React Query Hooks', () => {
         });
       });
 
-      expect(drawingService.create).toHaveBeenCalledWith('room-1', 'electrical', undefined);
+      expect(drawingService.create).toHaveBeenCalledWith(
+        'room-1',
+        'electrical',
+        undefined
+      );
     });
 
     it('creates drawing with optional layers', async () => {
@@ -360,7 +364,9 @@ describe('Drawing React Query Hooks', () => {
         });
       });
 
-      expect(drawingService.create).toHaveBeenCalledWith('room-1', 'electrical', [mockLayer]);
+      expect(drawingService.create).toHaveBeenCalledWith('room-1', 'electrical', [
+        mockLayer,
+      ]);
     });
 
     it('handles create error', async () => {
@@ -424,7 +430,9 @@ describe('Drawing React Query Hooks', () => {
         });
       });
 
-      expect(drawingService.update).toHaveBeenCalledWith('drawing-1', { type: 'elevation' });
+      expect(drawingService.update).toHaveBeenCalledWith('drawing-1', {
+        type: 'elevation',
+      });
     });
 
     it('updates drawing layers', async () => {
