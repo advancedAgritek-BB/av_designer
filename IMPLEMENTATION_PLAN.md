@@ -239,12 +239,12 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/equipment/components/EquipmentList.tsx`
-- [ ] Add category filtering tabs
-- [ ] Add search input
-- [ ] Display equipment in responsive grid
-- [ ] Show loading and empty states
-- [ ] Write tests in `tests/features/equipment/components/EquipmentList.test.tsx`
+- [x] Create `src/features/equipment/components/EquipmentList.tsx`
+- [x] Add category filtering tabs
+- [x] Add search input
+- [x] Display equipment in responsive grid
+- [x] Show loading and empty states
+- [x] Write tests in `tests/features/equipment/components/EquipmentList.test.tsx`
 
 ### Task 3.6: Create Equipment Form Component
 
@@ -419,6 +419,17 @@
 - **Task 2.7: Export UI Components** (2026-01-18)
   - src/components/ui/index.ts exports: Button, Input, Card, CardHeader, CardBody, CardFooter
   - src/components/layout/index.ts exports: Sidebar, Header, Shell
+
+- **Task 3.5: Create Equipment List Page** (2026-01-18)
+  - TDD approach: wrote 38 tests first, watched them fail, then implemented
+  - Features: category filtering tabs (All, Video, Audio, Control, Infrastructure)
+  - Search input with debounced query and clear button
+  - Responsive grid layout for equipment cards
+  - States: loading (with skeleton animation), empty, error (with retry)
+  - Props: selectedId, favoriteIds, onSelect, onFavoriteToggle
+  - Accessibility: proper ARIA roles, keyboard navigation for tabs
+  - CSS: shimmer loading animation, focus states, golden accent for active tab
+  - Exports via src/features/equipment/components/EquipmentList.tsx
 
 ---
 
