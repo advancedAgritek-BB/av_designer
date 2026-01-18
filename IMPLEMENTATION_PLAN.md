@@ -35,12 +35,11 @@
 
 ### Task 1.2: Configure TailwindCSS with Design Tokens
 
-- [ ] Install TailwindCSS, PostCSS, Autoprefixer
-- [ ] Create `postcss.config.js`
-- [ ] Create `tailwind.config.ts` with Revolut-inspired color tokens
-- [ ] Create `src/styles/globals.css` with base styles and component classes
-- [ ] Import globals.css in `src/main.tsx`
-- [ ] Verify dark theme renders correctly
+- [x] Install TailwindCSS, PostCSS, Autoprefixer
+- [x] Create `postcss.config.js`
+- [x] Create `src/styles/globals.css` with Tailwind v4 @theme config and component classes
+- [x] Import globals.css in `src/main.tsx`
+- [x] Verify dark theme renders correctly
 
 ### Task 1.3: Set Up Project Directory Structure
 
@@ -221,6 +220,12 @@
   - Configured Vite with path aliases and Tauri settings
   - Rust backend builds successfully
   - Frontend dev server runs on port 1420
+
+- **Task 1.2: Configure TailwindCSS with Design Tokens** (2026-01-17)
+  - Tailwind CSS v4 with @theme configuration
+  - Revolut-inspired dark theme color palette
+  - Component utility classes (card, btn, input, pill)
+  - Design system fully functional
 
 ---
 
