@@ -503,11 +503,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/types/drawing.ts` with Drawing, DrawingLayer, DrawingElement interfaces
-- [ ] Add DrawingType constants (electrical, elevation, rcp, rack, cable_schedule, floor_plan)
-- [ ] Add LayerType and ElementType constants
-- [ ] Create DrawingOverride interface for manual adjustments
-- [ ] Write tests in `tests/types/drawing.test.ts`
+- [x] Create `src/types/drawing.ts` with Drawing, DrawingLayer, DrawingElement interfaces
+- [x] Add DrawingType constants (electrical, elevation, rcp, rack, cable_schedule, floor_plan)
+- [x] Add LayerType and ElementType constants
+- [x] Create DrawingOverride interface for manual adjustments
+- [x] Write tests in `tests/types/drawing.test.ts`
 
 ### Task 6.2: Create Drawing Service Layer
 
