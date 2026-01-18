@@ -285,7 +285,86 @@
 
 ## Phase 4: Standards Engine
 
-*Tasks to be added when Phase 3 is complete*
+**Required Skills for ALL Phase 4 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns (for UI components)
+
+### Task 4.1: Create Standards Type Definitions
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/types/standards.ts` with Standards interfaces
+- [ ] Add RULE_DIMENSIONS, RULE_EXPRESSION_TYPES, RULE_ASPECTS constants
+- [ ] Add DIMENSION_PRIORITY for conflict resolution
+- [ ] Create Rule, RuleCondition, Standard, ValidationResult interfaces
+- [ ] Write tests in `tests/types/standards.test.ts`
+
+### Task 4.2: Create Rule Evaluation Engine
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/standards/rule-engine.ts`
+- [ ] Implement evaluateCondition method (equals, not_equals, contains, greater_than, less_than, in)
+- [ ] Implement evaluateRule method with condition matching
+- [ ] Implement evaluateExpression for simple constraint parsing
+- [ ] Implement validateDesign with severity levels
+- [ ] Write tests in `tests/features/standards/rule-engine.test.ts`
+
+### Task 4.3: Create Standards Service Layer
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/standards/standards-service.ts`
+- [ ] Implement CRUD operations for standards and rules
+- [ ] Implement getByDimension and search methods
+- [ ] Add row mapping from snake_case to camelCase
+- [ ] Write tests in `tests/features/standards/standards-service.test.ts`
+
+### Task 4.4: Create Standards React Query Hooks
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [ ] Create `src/features/standards/use-standards.ts`
+- [ ] Implement useStandardsList, useStandard hooks
+- [ ] Implement useRules, useRulesByAspect hooks
+- [ ] Implement mutations with cache invalidation
+- [ ] Write tests in `tests/features/standards/use-standards.test.tsx`
+
+### Task 4.5: Create Standards List Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/standards/components/StandardsList.tsx`
+- [ ] Display hierarchical standards tree
+- [ ] Add filtering by dimension
+- [ ] Show loading and empty states
+- [ ] Write tests in `tests/features/standards/components/StandardsList.test.tsx`
+
+### Task 4.6: Create Rule Editor Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/standards/components/RuleEditor.tsx`
+- [ ] Add condition builder UI
+- [ ] Add expression editor
+- [ ] Support create and edit modes
+- [ ] Write tests in `tests/features/standards/components/RuleEditor.test.tsx`
+
+### Task 4.7: Export Standards Feature
+
+- [ ] Create `src/features/standards/index.ts` with all exports
+- [ ] Wire Standards page to App.tsx routing
+- [ ] Connect to sidebar navigation
+
+### Phase 4 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [ ] Visual review of all components
+- [ ] Run full validation (`./scripts/check.sh --full`)
+- [ ] Update ARCHITECTURE.md with standards feature structure
+- [ ] Invoke `@superpowers:requesting-code-review`
+- [ ] Commit Phase 4 work
 
 ---
 
