@@ -632,11 +632,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/quoting/quote-service.ts`
-- [ ] Implement CRUD operations (getAll, getById, create, update, delete)
-- [ ] Implement getByProject and getByRoom methods
-- [ ] Add row mapping from snake_case to camelCase
-- [ ] Write tests in `tests/features/quoting/quote-service.test.ts`
+- [x] Create `src/features/quoting/quote-service.ts`
+- [x] Implement CRUD operations (getAll, getById, create, update, delete)
+- [x] Implement getByProject and getByRoom methods
+- [x] Add row mapping from snake_case to camelCase
+- [x] Write tests in `tests/features/quoting/quote-service.test.ts`
 
 ### Task 7.3: Create Quote React Query Hooks
 
