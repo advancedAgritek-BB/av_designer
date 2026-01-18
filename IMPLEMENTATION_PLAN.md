@@ -572,11 +572,11 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/drawings/components/DrawingsPage.tsx`
-- [ ] Compose canvas, toolbar, and layer panel
-- [ ] Add drawing type switching and preview
-- [ ] Integrate with Rust backend for generation
-- [ ] Write tests in `tests/features/drawings/components/DrawingsPage.test.tsx`
+- [x] Create `src/features/drawings/components/DrawingsPage.tsx`
+- [x] Compose canvas, toolbar, and layer panel
+- [x] Add drawing type switching and preview
+- [x] Integrate with Rust backend for generation
+- [x] Write tests in `tests/features/drawings/components/DrawingsPage.test.tsx`
 
 ### Task 6.9: Export Drawings Feature
 

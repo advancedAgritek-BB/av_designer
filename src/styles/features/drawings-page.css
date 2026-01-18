@@ -1,0 +1,339 @@
+/**
+ * Drawings Page Styles
+ *
+ * Styles for the drawings page component with sidebar, canvas,
+ * and properties panel layout.
+ */
+
+@layer components {
+  .drawings-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-bg-primary);
+  }
+
+  .drawings-page--loading,
+  .drawings-page--error,
+  .drawings-page--empty {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drawings-page__message {
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+  }
+
+  .drawings-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Header */
+  .drawings-page__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .drawings-page__title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .drawings-page__actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .drawings-page__btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .drawings-page__btn:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .drawings-page__btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .drawings-page__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .drawings-page__btn:disabled:hover {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .drawings-page__btn--primary {
+    background-color: var(--color-accent-blue);
+    border-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .drawings-page__btn--primary:hover {
+    background-color: color-mix(in srgb, var(--color-accent-blue) 85%, black);
+    border-color: color-mix(in srgb, var(--color-accent-blue) 85%, black);
+  }
+
+  .drawings-page__btn--danger {
+    color: var(--color-status-error);
+    border-color: var(--color-status-error);
+  }
+
+  .drawings-page__btn--danger:hover {
+    background-color: color-mix(in srgb, var(--color-status-error) 15%, transparent);
+    border-color: var(--color-status-error);
+  }
+
+  /* Create menu */
+  .drawings-page__create-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 100;
+    min-width: 200px;
+    margin-top: 4px;
+    padding: 4px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .drawings-page__create-option {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .drawings-page__create-option:hover {
+    background-color: var(--color-bg-tertiary);
+  }
+
+  .drawings-page__create-option:focus-visible {
+    outline: none;
+    background-color: var(--color-bg-tertiary);
+    box-shadow: inset 0 0 0 2px var(--color-accent-blue);
+  }
+
+  /* Confirm dialog */
+  .drawings-page__confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .drawings-page__confirm-dialog {
+    padding: 24px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .drawings-page__confirm-dialog p {
+    margin: 0 0 16px 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+  }
+
+  .drawings-page__confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  /* Error display */
+  .drawings-page__error {
+    padding: 12px 24px;
+    background-color: color-mix(in srgb, var(--color-status-error) 15%, transparent);
+    border-bottom: 1px solid var(--color-status-error);
+    color: var(--color-status-error);
+    font-size: 13px;
+  }
+
+  /* Content layout */
+  .drawings-page__content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .drawings-page__sidebar {
+    width: 240px;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .drawings-page__sidebar-title {
+    margin: 0 0 16px 0;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .drawings-page__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .drawings-page__list-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+  }
+
+  .drawings-page__list-item:hover {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent-blue);
+  }
+
+  .drawings-page__list-item:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .drawings-page__list-item.active {
+    background-color: color-mix(in srgb, var(--color-accent-gold) 15%, transparent);
+    border-color: var(--color-accent-gold);
+  }
+
+  .drawings-page__item-type {
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .drawings-page__item-date {
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+  }
+
+  /* Canvas area */
+  .drawings-page__canvas-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .drawings-page__stats {
+    display: flex;
+    gap: 16px;
+    padding: 8px 16px;
+    background-color: var(--color-bg-tertiary);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: 12px;
+  }
+
+  /* Properties panel */
+  .drawings-page__properties {
+    width: 260px;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border-left: 1px solid var(--color-border);
+    overflow-y: auto;
+  }
+
+  .drawings-page__properties-title {
+    margin: 0 0 16px 0;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .drawings-page__property {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .drawings-page__property:last-child {
+    border-bottom: none;
+  }
+
+  .drawings-page__property-label {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+
+  .drawings-page__property-value {
+    color: var(--color-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Preview mode */
+  .drawings-page.preview-mode .drawings-page__sidebar {
+    display: none;
+  }
+
+  .drawings-page.preview-mode .drawings-page__properties {
+    display: none;
+  }
+
+  .drawings-page.preview-mode .drawings-page__canvas-area {
+    max-width: 100%;
+  }
+}
