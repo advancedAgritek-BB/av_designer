@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 5 - Room Builder (Complete)
+**Phase:** 6 - Drawing Generation (Starting)
 
 ### Implemented
 

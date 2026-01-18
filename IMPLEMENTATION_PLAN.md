@@ -6,7 +6,7 @@
 
 ---
 
-## Current Phase: 5 - Room Builder
+## Current Phase: 6 - Drawing Generation
 
 ---
 
@@ -494,7 +494,105 @@
 
 ## Phase 6: Drawing Generation
 
-*Tasks to be added when Phase 5 is complete*
+**Required Skills for ALL Phase 6 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns (for UI components)
+- `@frontend-design:frontend-design` - Canvas and drawing UI components
+
+### Task 6.1: Create Drawing Type Definitions
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/types/drawing.ts` with Drawing, DrawingLayer, DrawingElement interfaces
+- [ ] Add DrawingType constants (electrical, elevation, rcp, rack, cable_schedule, floor_plan)
+- [ ] Add LayerType and ElementType constants
+- [ ] Create DrawingOverride interface for manual adjustments
+- [ ] Write tests in `tests/types/drawing.test.ts`
+
+### Task 6.2: Create Drawing Service Layer
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src/features/drawings/drawing-service.ts`
+- [ ] Implement CRUD operations (getAll, getById, create, update, delete)
+- [ ] Implement getByRoom and getByType methods
+- [ ] Add row mapping from snake_case to camelCase
+- [ ] Write tests in `tests/features/drawings/drawing-service.test.ts`
+
+### Task 6.3: Create Drawing React Query Hooks
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [ ] Create `src/features/drawings/use-drawings.ts`
+- [ ] Implement useDrawingsList, useDrawingsByRoom, useDrawing hooks
+- [ ] Implement mutations with cache invalidation
+- [ ] Write tests in `tests/features/drawings/use-drawings.test.tsx`
+
+### Task 6.4: Create Electrical Line Diagram Generator (Rust)
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src-tauri/src/drawings/mod.rs`
+- [ ] Create `src-tauri/src/drawings/electrical.rs`
+- [ ] Implement Tauri command for generating electrical diagrams
+- [ ] Add signal flow analysis from room equipment data
+- [ ] Write Rust tests in `src-tauri/src/drawings/electrical.rs`
+
+### Task 6.5: Create Drawing Canvas Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/drawings/components/DrawingCanvas.tsx`
+- [ ] Implement layer rendering with visibility controls
+- [ ] Add zoom, pan, and selection tools
+- [ ] Display drawing elements with proper styling
+- [ ] Write tests in `tests/features/drawings/components/DrawingCanvas.test.tsx`
+
+### Task 6.6: Create Drawing Toolbar Component
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/drawings/components/DrawingToolbar.tsx`
+- [ ] Add drawing type selector (electrical, elevation, RCP, etc.)
+- [ ] Add layer visibility toggles
+- [ ] Add export and print buttons
+- [ ] Write tests in `tests/features/drawings/components/DrawingToolbar.test.tsx`
+
+### Task 6.7: Create PDF Export (Rust)
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [ ] Create `src-tauri/src/export/mod.rs`
+- [ ] Create `src-tauri/src/export/pdf.rs`
+- [ ] Implement PDF generation from drawing data
+- [ ] Add title block and page layout support
+- [ ] Write Rust tests in `src-tauri/src/export/pdf.rs`
+
+### Task 6.8: Create Drawings Page
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
+
+- [ ] Create `src/features/drawings/components/DrawingsPage.tsx`
+- [ ] Compose canvas, toolbar, and layer panel
+- [ ] Add drawing type switching and preview
+- [ ] Integrate with Rust backend for generation
+- [ ] Write tests in `tests/features/drawings/components/DrawingsPage.test.tsx`
+
+### Task 6.9: Export Drawings Feature
+
+- [ ] Create `src/features/drawings/index.ts` with all exports
+- [ ] Wire Drawings page to App.tsx routing
+- [ ] Verify sidebar navigation already connected
+
+### Phase 6 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [ ] Visual review of all components
+- [ ] Run full validation (`./scripts/check.sh --full`)
+- [ ] Update ARCHITECTURE.md with drawings feature structure
+- [ ] Invoke `@superpowers:requesting-code-review`
+- [ ] Commit Phase 6 work
 
 ---
 
