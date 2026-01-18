@@ -542,21 +542,21 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/drawings/components/DrawingCanvas.tsx`
-- [ ] Implement layer rendering with visibility controls
-- [ ] Add zoom, pan, and selection tools
-- [ ] Display drawing elements with proper styling
-- [ ] Write tests in `tests/features/drawings/components/DrawingCanvas.test.tsx`
+- [x] Create `src/features/drawings/components/DrawingCanvas.tsx`
+- [x] Implement layer rendering with visibility controls
+- [x] Add zoom, pan, and selection tools
+- [x] Display drawing elements with proper styling
+- [x] Write tests in `tests/features/drawings/components/DrawingCanvas.test.tsx`
 
 ### Task 6.6: Create Drawing Toolbar Component
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/drawings/components/DrawingToolbar.tsx`
-- [ ] Add drawing type selector (electrical, elevation, RCP, etc.)
-- [ ] Add layer visibility toggles
-- [ ] Add export and print buttons
-- [ ] Write tests in `tests/features/drawings/components/DrawingToolbar.test.tsx`
+- [x] Create `src/features/drawings/components/DrawingToolbar.tsx`
+- [x] Add drawing type selector (electrical, elevation, RCP, etc.)
+- [x] Add layer visibility toggles
+- [x] Add export and print buttons
+- [x] Write tests in `tests/features/drawings/components/DrawingToolbar.test.tsx`
 
 ### Task 6.7: Create PDF Export (Rust)
 
