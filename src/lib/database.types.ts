@@ -193,9 +193,74 @@ export interface Database {
       standards: {
         Row: {
           id: string;
+          node_id: string;
+          rules: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          node_id: string;
+          rules?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          node_id?: string;
+          rules?: Json;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'standards_node_id_fkey';
+            columns: ['node_id'];
+            referencedRelation: 'standard_nodes';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      standard_nodes: {
+        Row: {
+          id: string;
+          name: string;
+          parent_id: string | null;
+          type: string;
+          order: number;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          parent_id?: string | null;
+          type: string;
+          order?: number;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          parent_id?: string | null;
+          type?: string;
+          order?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'standard_nodes_parent_id_fkey';
+            columns: ['parent_id'];
+            referencedRelation: 'standard_nodes';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      rules: {
+        Row: {
+          id: string;
           name: string;
           description: string;
-          rules: Json;
+          aspect: string;
+          expression_type: string;
+          conditions: Json;
+          expression: string;
           priority: number;
           is_active: boolean;
           created_at: string;
@@ -205,7 +270,10 @@ export interface Database {
           id?: string;
           name: string;
           description?: string;
-          rules?: Json;
+          aspect: string;
+          expression_type: string;
+          conditions?: Json;
+          expression: string;
           priority?: number;
           is_active?: boolean;
           created_at?: string;
@@ -215,7 +283,10 @@ export interface Database {
           id?: string;
           name?: string;
           description?: string;
-          rules?: Json;
+          aspect?: string;
+          expression_type?: string;
+          conditions?: Json;
+          expression?: string;
           priority?: number;
           is_active?: boolean;
           created_at?: string;
