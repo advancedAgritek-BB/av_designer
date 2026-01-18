@@ -513,11 +513,11 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/drawings/drawing-service.ts`
-- [ ] Implement CRUD operations (getAll, getById, create, update, delete)
-- [ ] Implement getByRoom and getByType methods
-- [ ] Add row mapping from snake_case to camelCase
-- [ ] Write tests in `tests/features/drawings/drawing-service.test.ts`
+- [x] Create `src/features/drawings/drawing-service.ts`
+- [x] Implement CRUD operations (getAll, getById, create, update, delete)
+- [x] Implement getByRoom and getByType methods
+- [x] Add row mapping from snake_case to camelCase
+- [x] Write tests in `tests/features/drawings/drawing-service.test.ts`
 
 ### Task 6.3: Create Drawing React Query Hooks
 

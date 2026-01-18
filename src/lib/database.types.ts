@@ -358,6 +358,40 @@ export interface Database {
           },
         ];
       };
+      drawings: {
+        Row: {
+          id: string;
+          room_id: string;
+          type: string;
+          layers: Json;
+          overrides: Json;
+          generated_at: string;
+        };
+        Insert: {
+          id?: string;
+          room_id: string;
+          type: string;
+          layers?: Json;
+          overrides?: Json;
+          generated_at?: string;
+        };
+        Update: {
+          id?: string;
+          room_id?: string;
+          type?: string;
+          layers?: Json;
+          overrides?: Json;
+          generated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'drawings_room_id_fkey';
+            columns: ['room_id'];
+            referencedRelation: 'rooms';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
