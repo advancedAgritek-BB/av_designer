@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import { useAppStore } from '@/stores/app-store';
+import { getRouteByMode } from '@/router';
 import type { AppMode } from '@/types';
 
 interface NavItem {
@@ -25,29 +27,50 @@ const supportNavItems: NavItem[] = [
   { mode: 'settings', label: 'Settings', icon: <SettingsIcon /> },
 ];
 
-function NavItemButton({
+/**
+ * Get the route path for a nav item.
+ * For room-specific routes (room_design, drawings, quoting),
+ * returns a generic path if no room is selected.
+ */
+function getNavItemPath(mode: AppMode, currentRoomId: string | null): string {
+  const route = getRouteByMode(mode);
+
+  // For room-specific routes, substitute the roomId or use a placeholder
+  if (route.includes(':roomId')) {
+    if (currentRoomId) {
+      return route.replace(':roomId', currentRoomId);
+    }
+    // If no room is selected, navigate to projects to select a room
+    return '/projects';
+  }
+
+  return route;
+}
+
+function NavItemLink({
   item,
   isActive,
   isExpanded,
-  onClick,
+  currentRoomId,
 }: {
   item: NavItem;
   isActive: boolean;
   isExpanded: boolean;
-  onClick: () => void;
+  currentRoomId: string | null;
 }) {
+  const path = getNavItemPath(item.mode, currentRoomId);
+
   return (
-    <button
-      type="button"
+    <Link
+      to={path}
       className={`nav-item ${isActive ? 'nav-item-active' : ''}`}
-      onClick={onClick}
       aria-current={isActive ? 'page' : undefined}
     >
       <span data-testid="nav-icon" aria-hidden="true" className="nav-icon">
         {item.icon}
       </span>
       <span className={isExpanded ? '' : 'sr-only'}>{item.label}</span>
-    </button>
+    </Link>
   );
 }
 
@@ -64,7 +87,7 @@ function SectionHeading({
 export function Sidebar() {
   const currentMode = useAppStore((state) => state.currentMode);
   const sidebarExpanded = useAppStore((state) => state.sidebarExpanded);
-  const setMode = useAppStore((state) => state.setMode);
+  const currentRoomId = useAppStore((state) => state.currentRoomId);
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
 
   return (
@@ -84,12 +107,12 @@ export function Sidebar() {
       {/* Main Navigation */}
       <div className="sidebar-section">
         {mainNavItems.map((item) => (
-          <NavItemButton
+          <NavItemLink
             key={item.mode}
             item={item}
             isActive={currentMode === item.mode}
             isExpanded={sidebarExpanded}
-            onClick={() => setMode(item.mode)}
+            currentRoomId={currentRoomId}
           />
         ))}
       </div>
@@ -101,12 +124,12 @@ export function Sidebar() {
       <div className="sidebar-section">
         <SectionHeading isExpanded={sidebarExpanded}>Libraries</SectionHeading>
         {libraryNavItems.map((item) => (
-          <NavItemButton
+          <NavItemLink
             key={item.mode}
             item={item}
             isActive={currentMode === item.mode}
             isExpanded={sidebarExpanded}
-            onClick={() => setMode(item.mode)}
+            currentRoomId={currentRoomId}
           />
         ))}
       </div>
@@ -117,12 +140,12 @@ export function Sidebar() {
       {/* Support Section */}
       <div className="sidebar-section">
         {supportNavItems.map((item) => (
-          <NavItemButton
+          <NavItemLink
             key={item.mode}
             item={item}
             isActive={currentMode === item.mode}
             isExpanded={sidebarExpanded}
-            onClick={() => setMode(item.mode)}
+            currentRoomId={currentRoomId}
           />
         ))}
       </div>

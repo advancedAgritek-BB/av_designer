@@ -76,7 +76,11 @@
   }
 
   .quote-card-selected {
-    background-color: color-mix(in srgb, var(--color-accent-gold) 10%, var(--color-bg-secondary));
+    background-color: color-mix(
+      in srgb,
+      var(--color-accent-gold) 10%,
+      var(--color-bg-secondary)
+    );
     border-color: var(--color-accent-gold);
   }
 

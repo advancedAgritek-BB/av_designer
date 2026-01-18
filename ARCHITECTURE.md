@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-18
-**Status:** Phase 7 Complete - Quoting & BOM System
+**Status:** Phase 8 Complete - MVP Ready
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 8 - Integration & MVP Completion (Next)
+**Phase:** 8 Complete - MVP Ready
 
 ### Implemented
 
@@ -56,10 +56,18 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Room builder (types, service, hooks, canvas, placement, validation)
 - [x] Drawing generation (types, service, hooks, canvas, toolbar, page, Rust generators)
 - [x] Quoting system (types, service, hooks, BOM generator, pricing engine, components)
+- [x] Application router (React Router with lazy loading)
+- [x] Page components (all feature pages with routing)
+- [x] Supabase database schema (migrations, RLS policies, indexes)
+- [x] End-to-end integration tests
 
-### In Progress
+### Next Steps
 
-- Phase 8: Integration & MVP Completion (next)
+- User authentication integration
+- Supabase production deployment
+- Real data integration (replace mock data)
+- PDF export implementation
+- Offline mode with SQLite cache
 
 ---
 
@@ -90,7 +98,21 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 av_designer/
 ├── src/                          # Frontend source
 │   ├── main.tsx                  # React entry point
-│   ├── App.tsx                   # Root component with design system demo
+│   ├── App.tsx                   # Root component with router integration
+│   ├── router.tsx                # Application routes with lazy loading
+│   ├── routes.ts                 # Route constants and navigation helpers
+│   ├── pages/                    # Page components
+│   │   ├── HomePage.tsx          # Landing page
+│   │   ├── ProjectsPage.tsx      # Projects list page
+│   │   ├── EquipmentPage.tsx     # Equipment catalog page
+│   │   ├── StandardsPage.tsx     # Standards management page
+│   │   ├── RoomDesignPage.tsx    # Room builder page wrapper
+│   │   ├── DrawingsPageWrapper.tsx # Drawings page wrapper
+│   │   ├── QuotesPage.tsx        # Quotes page wrapper
+│   │   ├── TemplatesPage.tsx     # Templates page
+│   │   ├── SettingsPage.tsx      # Settings page
+│   │   ├── NotFoundPage.tsx      # 404 page
+│   │   └── index.ts              # Page exports
 │   ├── components/               # Shared components
 │   │   ├── ui/                   # Design system primitives
 │   │   │   ├── Button.tsx        # Button with variants, sizes, loading
@@ -192,7 +214,8 @@ av_designer/
 │       │   ├── room-builder-page.css
 │       │   ├── drawing-canvas.css
 │       │   ├── drawing-toolbar.css
-│       │   └── drawings-page.css
+│       │   ├── drawings-page.css
+│       │   └── quoting.css       # Quote card and page styles
 │       └── utilities.css         # Helper classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
@@ -209,12 +232,17 @@ av_designer/
 │   │       ├── mod.rs            # Module exports
 │   │       └── pdf.rs            # PDF export with title blocks
 │   └── Cargo.toml
+├── supabase/                     # Supabase configuration
+│   ├── config.toml               # Supabase project config
+│   └── migrations/               # Database migrations
+│       └── 001_initial_schema.sql # Initial schema with all tables
 ├── docs/plans/                   # Planning documents
 ├── scripts/                      # Build scripts
 │   └── check.sh                  # Validation script (format, lint, test)
 ├── tests/                        # Test files
 │   ├── unit/                     # Unit tests
 │   │   ├── app.test.tsx          # App component tests
+│   │   ├── router.test.tsx       # Router tests (54 tests)
 │   │   ├── components/
 │   │   │   ├── ui/
 │   │   │   │   ├── Button.test.tsx   # Button tests (27 tests)
@@ -269,6 +297,11 @@ av_designer/
 │   │   ├── room.test.ts          # Room type tests (96 tests)
 │   │   ├── drawing.test.ts       # Drawing type tests (105 tests)
 │   │   └── quote.test.ts         # Quote type tests (131 tests)
+│   ├── e2e/                      # End-to-end integration tests
+│   │   ├── setup.tsx             # E2E test utilities
+│   │   ├── navigation.test.tsx   # Navigation flow tests
+│   │   ├── create-room.test.tsx  # Room creation workflow tests
+│   │   └── generate-quote.test.tsx # Quote generation workflow tests
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -732,6 +765,103 @@ interface QuoteTotals {
 
 ---
 
+### 6. Application Routing
+
+**Purpose:** Client-side routing with lazy loading and mode synchronization.
+
+**Location:** `src/router.tsx`, `src/routes.ts`, `src/pages/`
+
+**Key Features:**
+- React Router v6 with BrowserRouter
+- Lazy-loaded page components for code splitting
+- Route constants and path builders
+- Mode-to-route bidirectional mapping
+- 404 handling with NotFoundPage
+- Route guards (prepared for future auth)
+
+**Route Structure:**
+```typescript
+const ROUTES = {
+  HOME: '/',
+  PROJECTS: '/projects',
+  ROOM_DESIGN: '/rooms/:roomId/design',
+  DRAWINGS: '/rooms/:roomId/drawings',
+  QUOTING: '/rooms/:roomId/quotes',
+  STANDARDS: '/standards',
+  EQUIPMENT: '/equipment',
+  TEMPLATES: '/templates',
+  SETTINGS: '/settings',
+};
+```
+
+**Navigation Helpers:**
+| Function | Description |
+|----------|-------------|
+| getRouteByMode | Get route path for an AppMode |
+| getModeByPath | Get AppMode for a given path |
+| isValidRoute | Check if a path is a valid route |
+| buildRoomDesignPath | Build design path with roomId |
+| buildDrawingsPath | Build drawings path with roomId |
+| buildQuotesPath | Build quotes path with roomId |
+
+**Page Components:**
+| Page | Route | Description |
+|------|-------|-------------|
+| HomePage | / | Landing page with dashboard |
+| ProjectsPage | /projects | Project list and management |
+| EquipmentPage | /equipment | Equipment catalog |
+| StandardsPage | /standards | Standards management |
+| RoomDesignPage | /rooms/:roomId/design | Room builder |
+| DrawingsPageWrapper | /rooms/:roomId/drawings | Drawing generation |
+| QuotesPage | /rooms/:roomId/quotes | Quoting system |
+| TemplatesPage | /templates | Template library |
+| SettingsPage | /settings | Application settings |
+| NotFoundPage | * | 404 error page |
+
+**Status:** Complete (54 router tests + E2E tests)
+
+---
+
+### 7. Database Schema
+
+**Purpose:** PostgreSQL database with Supabase for cloud data storage.
+
+**Location:** `supabase/migrations/001_initial_schema.sql`
+
+**Tables:**
+| Table | Description |
+|-------|-------------|
+| users | User profiles (linked to Supabase Auth) |
+| clients | Client/customer records |
+| projects | AV design projects |
+| equipment | Equipment catalog with specs |
+| rooms | Room designs with placement data |
+| room_equipment | Junction table for equipment placement |
+| standard_nodes | Hierarchical standards structure |
+| standards | Standards with rules |
+| rules | Validation rules for designs |
+| quotes | Generated quotes |
+| drawings | Drawing metadata |
+
+**Key Features:**
+- UUID primary keys with uuid-ossp extension
+- Custom enums for categories, statuses, types
+- JSONB columns for flexible data (dimensions, electrical, placement)
+- Row Level Security (RLS) for all tables
+- Automatic updated_at triggers
+- Full-text search index on equipment
+- Comprehensive indexes for common queries
+
+**RLS Policies:**
+- Users can only access their own projects
+- Room access inherited from project ownership
+- Equipment viewable by all authenticated users
+- Standards/rules viewable by all, editable by admins
+
+**Status:** Complete (schema ready for deployment)
+
+---
+
 ## Data Flow
 
 ```
@@ -800,6 +930,8 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-18 | Phase 4 complete: Standards Engine - Types (24 tests), Rule Engine (44 tests), Service (26 tests), Hooks (28 tests), StandardsList (37 tests), RuleEditor (36 tests) - Total: 626 tests |
 | 2026-01-18 | Phase 5 complete: Room Builder - Types (96 tests), Service (23 tests), Hooks (21 tests), Placement (39 tests), DesignCanvas (43 tests), RoomPropertiesPanel (35 tests), ValidationPanel (41 tests), RoomBuilder (33 tests) - Total: 989 tests |
 | 2026-01-18 | Phase 6 complete: Drawing Generation - Types (105 tests), Service (27 tests), Hooks (27 tests), DrawingCanvas (63 tests), DrawingToolbar (49 tests), DrawingsPage (49 tests), Rust electrical/PDF modules - Total: 1309 tests |
+| 2026-01-18 | Phase 7 complete: Quoting System - Types (131 tests), Service (25 tests), Hooks (22 tests), BOM Generator (22 tests), Pricing Engine (42 tests), QuoteCard (44 tests), QuotePage (44 tests) - Total: 1639 tests |
+| 2026-01-18 | Phase 8 complete: Integration & MVP - Router (54 tests), Pages (11 components), Supabase schema (12 tables with RLS), E2E tests (3 test suites) - Total: 1742 tests - MVP Ready |
 
 ---
 

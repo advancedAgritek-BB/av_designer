@@ -1,7 +1,20 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import { Shell } from '@/components/layout/Shell';
+
+// Helper to render Shell with router context
+function renderShell(
+  children: React.ReactNode = 'Content',
+  props: Omit<React.ComponentProps<typeof Shell>, 'children'> = {}
+) {
+  return render(
+    <MemoryRouter>
+      <Shell {...props}>{children}</Shell>
+    </MemoryRouter>
+  );
+}
 
 // Mock the stores
 const mockAppStore = {
@@ -51,44 +64,40 @@ describe('Shell', () => {
 
   describe('Structure', () => {
     it('renders without crashing', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
     it('renders a container element with shell class', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       expect(container.querySelector('.shell')).toBeInTheDocument();
     });
 
     it('renders Sidebar component', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(
         screen.getByRole('navigation', { name: /main navigation/i })
       ).toBeInTheDocument();
     });
 
     it('renders Header component', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
     it('renders main content area', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByRole('main')).toBeInTheDocument();
     });
 
     it('renders children inside main content area', () => {
-      render(
-        <Shell>
-          <div data-testid="test-content">Test Content</div>
-        </Shell>
-      );
+      renderShell(<div data-testid="test-content">Test Content</div>);
       const main = screen.getByRole('main');
       expect(within(main).getByTestId('test-content')).toBeInTheDocument();
     });
 
     it('renders sidebar, header, and main in correct layout order', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const shell = container.querySelector('.shell');
       expect(shell).toBeInTheDocument();
 
@@ -103,22 +112,22 @@ describe('Shell', () => {
   describe('Sidebar Integration', () => {
     it('sidebar reflects expanded state from store', () => {
       mockAppStore.sidebarExpanded = true;
-      render(<Shell>Content</Shell>);
+      renderShell();
       const nav = screen.getByRole('navigation', { name: /main navigation/i });
       expect(nav).toHaveAttribute('data-expanded', 'true');
     });
 
     it('sidebar reflects collapsed state from store', () => {
       mockAppStore.sidebarExpanded = false;
-      render(<Shell>Content</Shell>);
+      renderShell();
       const nav = screen.getByRole('navigation', { name: /main navigation/i });
       expect(nav).toHaveAttribute('data-expanded', 'false');
     });
 
     it('sidebar shows active mode from store', () => {
       mockAppStore.currentMode = 'projects';
-      render(<Shell>Content</Shell>);
-      const activeItem = screen.getByRole('button', { name: /projects/i });
+      renderShell();
+      const activeItem = screen.getByRole('link', { name: /projects/i });
       expect(activeItem).toHaveAttribute('aria-current', 'page');
     });
   });
@@ -126,7 +135,7 @@ describe('Shell', () => {
   describe('Header Integration', () => {
     it('header shows current mode in breadcrumb', () => {
       mockAppStore.currentMode = 'equipment';
-      render(<Shell>Content</Shell>);
+      renderShell();
       const header = screen.getByRole('banner');
       expect(within(header).getByText('Equipment')).toBeInTheDocument();
     });
@@ -134,7 +143,7 @@ describe('Shell', () => {
     it('header shows project context when set', () => {
       mockAppStore.currentProjectId = 'proj-1';
       mockProjectStore.projects = [{ id: 'proj-1', name: 'Test Project' }];
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByText('Test Project')).toBeInTheDocument();
     });
 
@@ -145,20 +154,20 @@ describe('Shell', () => {
       mockProjectStore.rooms = [
         { id: 'room-1', name: 'Conference Room A', projectId: 'proj-1' },
       ];
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByText('Conference Room A')).toBeInTheDocument();
     });
   });
 
   describe('Layout', () => {
     it('has flex layout with sidebar on left', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const shell = container.querySelector('.shell');
       expect(shell).toHaveClass('shell');
     });
 
     it('main wrapper contains header and main content', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const mainWrapper = container.querySelector('.shell-main-wrapper');
       expect(mainWrapper).toBeInTheDocument();
 
@@ -169,13 +178,13 @@ describe('Shell', () => {
     });
 
     it('main content area has shell-content class', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const main = container.querySelector('main');
       expect(main).toHaveClass('shell-content');
     });
 
     it('main content area fills available space', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const mainWrapper = container.querySelector('.shell-main-wrapper');
       expect(mainWrapper).toHaveClass('shell-main-wrapper');
     });
@@ -183,13 +192,13 @@ describe('Shell', () => {
 
   describe('Responsive Behavior', () => {
     it('shell has full viewport height', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const shell = container.querySelector('.shell');
       expect(shell).toHaveClass('shell');
     });
 
     it('content area is scrollable', () => {
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const main = container.querySelector('.shell-content');
       expect(main).toHaveClass('shell-content');
     });
@@ -198,7 +207,7 @@ describe('Shell', () => {
   describe('Header Callbacks', () => {
     it('passes onSearchClick callback to header', async () => {
       const onSearchClick = vi.fn();
-      render(<Shell onSearchClick={onSearchClick}>Content</Shell>);
+      renderShell('Content', { onSearchClick });
 
       const searchButton = screen.getByRole('button', { name: /search/i });
       await userEvent.click(searchButton);
@@ -208,7 +217,7 @@ describe('Shell', () => {
 
     it('passes onUserMenuClick callback to header', async () => {
       const onUserMenuClick = vi.fn();
-      render(<Shell onUserMenuClick={onUserMenuClick}>Content</Shell>);
+      renderShell('Content', { onUserMenuClick });
 
       const userButton = screen.getByRole('button', { name: /user menu/i });
       await userEvent.click(userButton);
@@ -217,44 +226,44 @@ describe('Shell', () => {
     });
 
     it('passes userInitials to header', () => {
-      render(<Shell userInitials="JD">Content</Shell>);
+      renderShell('Content', { userInitials: 'JD' });
       expect(screen.getByText('JD')).toBeInTheDocument();
     });
   });
 
   describe('Accessibility', () => {
     it('main content area has role="main"', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByRole('main')).toBeInTheDocument();
     });
 
     it('header has role="banner"', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(screen.getByRole('banner')).toBeInTheDocument();
     });
 
     it('sidebar has role="navigation"', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       expect(
         screen.getByRole('navigation', { name: /main navigation/i })
       ).toBeInTheDocument();
     });
 
     it('skip link exists for accessibility', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       const skipLink = screen.getByRole('link', { name: /skip to main content/i });
       expect(skipLink).toBeInTheDocument();
       expect(skipLink).toHaveAttribute('href', '#main-content');
     });
 
     it('main content area has id for skip link target', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       const main = screen.getByRole('main');
       expect(main).toHaveAttribute('id', 'main-content');
     });
 
     it('skip link is visually hidden by default', () => {
-      render(<Shell>Content</Shell>);
+      renderShell();
       const skipLink = screen.getByRole('link', { name: /skip to main content/i });
       expect(skipLink).toHaveClass('shell-skip-link');
     });
@@ -262,13 +271,13 @@ describe('Shell', () => {
 
   describe('Custom Props', () => {
     it('applies custom className to shell container', () => {
-      const { container } = render(<Shell className="custom-class">Content</Shell>);
+      const { container } = renderShell('Content', { className: 'custom-class' });
       const shell = container.querySelector('.shell');
       expect(shell).toHaveClass('custom-class');
     });
 
     it('spreads additional props to shell container', () => {
-      const { container } = render(<Shell data-testid="custom-shell">Content</Shell>);
+      const { container } = renderShell('Content', { 'data-testid': 'custom-shell' });
       const shell = container.querySelector('.shell');
       expect(shell).toHaveAttribute('data-testid', 'custom-shell');
     });
@@ -276,11 +285,7 @@ describe('Shell', () => {
 
   describe('Loading State', () => {
     it('can render loading content in main area', () => {
-      render(
-        <Shell>
-          <div data-testid="loading-spinner">Loading...</div>
-        </Shell>
-      );
+      renderShell(<div data-testid="loading-spinner">Loading...</div>);
       const main = screen.getByRole('main');
       expect(within(main).getByTestId('loading-spinner')).toBeInTheDocument();
     });
@@ -288,7 +293,7 @@ describe('Shell', () => {
 
   describe('Empty State', () => {
     it('can render empty content in main area', () => {
-      render(<Shell>{null}</Shell>);
+      renderShell(null);
       const main = screen.getByRole('main');
       expect(main).toBeInTheDocument();
       expect(main).toBeEmptyDOMElement();
@@ -297,12 +302,12 @@ describe('Shell', () => {
 
   describe('Multiple Children', () => {
     it('renders multiple children in main area', () => {
-      render(
-        <Shell>
+      renderShell(
+        <>
           <div data-testid="child-1">Child 1</div>
           <div data-testid="child-2">Child 2</div>
           <div data-testid="child-3">Child 3</div>
-        </Shell>
+        </>
       );
       const main = screen.getByRole('main');
       expect(within(main).getByTestId('child-1')).toBeInTheDocument();
@@ -314,14 +319,14 @@ describe('Shell', () => {
   describe('Sidebar Collapse Transition', () => {
     it('main wrapper adjusts when sidebar is expanded', () => {
       mockAppStore.sidebarExpanded = true;
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const mainWrapper = container.querySelector('.shell-main-wrapper');
       expect(mainWrapper).toHaveAttribute('data-sidebar-expanded', 'true');
     });
 
     it('main wrapper adjusts when sidebar is collapsed', () => {
       mockAppStore.sidebarExpanded = false;
-      const { container } = render(<Shell>Content</Shell>);
+      const { container } = renderShell();
       const mainWrapper = container.querySelector('.shell-main-wrapper');
       expect(mainWrapper).toHaveAttribute('data-sidebar-expanded', 'false');
     });
