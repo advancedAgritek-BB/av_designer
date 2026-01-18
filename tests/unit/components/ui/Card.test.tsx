@@ -167,7 +167,11 @@ describe('Card', () => {
     it('applies default padding (md)', () => {
       render(<Card data-testid="card">Content</Card>);
       const card = screen.getByTestId('card');
-      expect(card).not.toHaveClass('card-padding-none', 'card-padding-sm', 'card-padding-lg');
+      expect(card).not.toHaveClass(
+        'card-padding-none',
+        'card-padding-sm',
+        'card-padding-lg'
+      );
     });
 
     it('applies no padding when padding is none', () => {

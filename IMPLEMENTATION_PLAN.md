@@ -144,10 +144,10 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/layout/Sidebar.tsx` with navigation items
-- [ ] Add collapsed/expanded states with icon rail
-- [ ] Highlight active item with golden accent
-- [ ] Connect to app-store for state
+- [x] Create `src/components/layout/Sidebar.tsx` with navigation items
+- [x] Add collapsed/expanded states with icon rail
+- [x] Highlight active item with golden accent
+- [x] Connect to app-store for state
 
 ### Task 2.5: Create Header Component
 
@@ -295,6 +295,17 @@
   - Features: title/description props on CardHeader, keyboard activation (Enter/Space)
   - Accessibility: role="button" and tabIndex for interactive cards
   - Exports via src/components/ui/index.ts
+
+- **Task 2.4: Create Sidebar Component** (2026-01-18)
+  - TDD approach: wrote 45 tests first, watched them fail, then implemented
+  - Features: navigation items for all app modes, branding, section headings
+  - States: expanded (220px) and collapsed (64px icon rail)
+  - Active highlighting: golden accent background and text color
+  - Sections: Main (Home, Projects, Room Design, Drawings, Quoting, Standards), Libraries (Equipment, Templates), Settings
+  - Toggle button to collapse/expand with keyboard support
+  - Accessibility: aria-label on nav, aria-current on active item, aria-hidden on icons
+  - Connected to app-store for currentMode, sidebarExpanded, setMode, toggleSidebar
+  - Custom Lucide-style SVG icons (20px, 1.5px stroke)
 
 ---
 
