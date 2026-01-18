@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
-**Last Updated:** 2026-01-17
-**Status:** Phase 1 Complete - Project Foundation
+**Last Updated:** 2026-01-18
+**Status:** Phase 2 Complete - Design System & Core Components
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 1 - Project Foundation (Complete)
+**Phase:** 2 - Design System & Core Components (Complete)
 
 ### Implemented
 
@@ -49,7 +49,8 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Testing setup (Vitest + React Testing Library)
 - [x] Linting/formatting (ESLint 9 + Prettier)
 - [x] Rust backend structure (commands + database modules)
-- [ ] Core UI components
+- [x] Core UI components (Button, Input, Card)
+- [x] Layout components (Sidebar, Header, Shell)
 - [ ] Equipment database
 - [ ] Standards engine
 - [ ] Room builder
@@ -58,7 +59,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ### In Progress
 
-- Phase 2: Design System & Core Components
+- Phase 3: Equipment Database
 
 ---
 
@@ -90,8 +91,16 @@ av_designer/
 │   ├── main.tsx                  # React entry point
 │   ├── App.tsx                   # Root component with design system demo
 │   ├── components/               # Shared components
-│   │   ├── ui/                   # Design system primitives (planned)
-│   │   └── layout/               # Shell, Sidebar, Header (planned)
+│   │   ├── ui/                   # Design system primitives
+│   │   │   ├── Button.tsx        # Button with variants, sizes, loading
+│   │   │   ├── Input.tsx         # Input with label, error, helper
+│   │   │   ├── Card.tsx          # Card with header, body, footer slots
+│   │   │   └── index.ts          # Component exports
+│   │   └── layout/               # Layout components
+│   │       ├── Sidebar.tsx       # Navigation sidebar with collapse
+│   │       ├── Header.tsx        # Breadcrumbs, search, user menu
+│   │       ├── Shell.tsx         # Main app shell layout
+│   │       └── index.ts          # Component exports
 │   ├── features/                 # Feature modules
 │   │   ├── equipment/            # Equipment library (planned)
 │   │   ├── room-builder/         # Room design canvas (planned)
@@ -124,7 +133,16 @@ av_designer/
 │   └── check.sh                  # Validation script (format, lint, test)
 ├── tests/                        # Test files
 │   ├── unit/                     # Unit tests
-│   │   └── app.test.tsx          # App component tests
+│   │   ├── app.test.tsx          # App component tests
+│   │   ├── components/
+│   │   │   ├── ui/
+│   │   │   │   ├── Button.test.tsx   # Button tests (27 tests)
+│   │   │   │   ├── Input.test.tsx    # Input tests (38 tests)
+│   │   │   │   └── Card.test.tsx     # Card tests (45 tests)
+│   │   │   └── layout/
+│   │   │       ├── Sidebar.test.tsx  # Sidebar tests (45 tests)
+│   │   │       └── Header.test.tsx   # Header tests (38 tests)
+│   │   └── Shell.test.tsx        # Shell tests (35 tests)
 │   └── setup.ts                  # Test setup with jsdom
 ├── .env.example                  # Environment variable template
 ├── eslint.config.js              # ESLint 9 flat config
@@ -133,6 +151,43 @@ av_designer/
 ├── vite.config.ts                # Vite configuration
 └── tsconfig.json                 # TypeScript configuration
 ```
+
+---
+
+## Component Library
+
+### UI Components
+
+Located in `src/components/ui/`
+
+| Component | Props | Description |
+|-----------|-------|-------------|
+| Button | `variant`, `size`, `loading`, `disabled` | Primary action button with 4 variants (primary, secondary, ghost, danger), 3 sizes |
+| Input | `label`, `error`, `helperText`, `size`, `required` | Form input with label, error/helper text, 3 sizes |
+| Card | `variant`, `padding`, `hoverable`, `selected`, `onClick` | Container with optional header/body/footer slots, 2 variants |
+| CardHeader | `title`, `description` | Card header with optional title and description |
+| CardBody | - | Card content area |
+| CardFooter | - | Card footer for actions |
+
+### Layout Components
+
+Located in `src/components/layout/`
+
+| Component | Props | Description |
+|-----------|-------|-------------|
+| Shell | `userInitials`, `onSearchClick`, `onUserMenuClick` | Main app layout combining Sidebar + Header + content |
+| Sidebar | - | Navigation sidebar with collapse, connected to app-store |
+| Header | `userInitials`, `onSearchClick`, `onUserMenuClick` | Breadcrumbs + search + user menu, context-aware |
+
+### Design System Classes
+
+Defined in `src/styles/globals.css`:
+
+- **Buttons:** `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-ghost`, `.btn-danger`, `.btn-sm`, `.btn-lg`
+- **Inputs:** `.input`, `.input-error`, `.input-sm`, `.input-lg`, `.label`, `.input-wrapper`
+- **Cards:** `.card`, `.card-elevated`, `.card-hoverable`, `.card-selected`, `.card-header`, `.card-body`, `.card-footer`
+- **Layout:** `.shell`, `.sidebar`, `.header`, `.nav-item`, `.nav-item-active`
+- **Pills:** `.pill`, `.pill-quoting`, `.pill-review`, `.pill-ordered`, `.pill-progress`, `.pill-hold`
 
 ---
 
@@ -291,6 +346,7 @@ Based on Revolut dark theme with golden accent.
 |------|--------|
 | 2026-01-17 | Initial architecture document created |
 | 2026-01-17 | Phase 1 complete: Tauri 2.x, React 19, TypeScript 5, TailwindCSS 4, Zustand 5, Supabase client, Vitest, ESLint 9, Prettier, Rust backend modules |
+| 2026-01-18 | Phase 2 complete: Design System & Core Components - Button (27 tests), Input (38 tests), Card (45 tests), Sidebar (45 tests), Header (38 tests), Shell (35 tests) - Total: 234 tests |
 
 ---
 

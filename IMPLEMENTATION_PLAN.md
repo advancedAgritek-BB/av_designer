@@ -6,7 +6,7 @@
 
 ---
 
-## Current Phase: 1 - Project Foundation
+## Current Phase: 2 - Design System & Core Components (Completing)
 
 ---
 
@@ -174,9 +174,9 @@
 
 → Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
 
-- [ ] Visual review of all components
-- [ ] Run full validation
-- [ ] Update ARCHITECTURE.md with component structure
+- [x] Visual review of all components
+- [x] Run full validation
+- [x] Update ARCHITECTURE.md with component structure
 - [ ] Invoke `@superpowers:requesting-code-review`
 - [ ] Commit Phase 2 work
 
