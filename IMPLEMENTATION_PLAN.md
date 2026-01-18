@@ -128,9 +128,9 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@web-design-guidelines`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/components/ui/Input.tsx` with label, error, helper text
-- [ ] Add size variants (sm, md, lg)
-- [ ] Write tests for Input component
+- [x] Create `src/components/ui/Input.tsx` with label, error, helper text
+- [x] Add size variants (sm, md, lg)
+- [x] Write tests for Input component
 
 ### Task 2.3: Create Card Component
 
@@ -274,6 +274,15 @@
   - Button variants: primary, secondary, ghost, danger
   - States: disabled (with aria-disabled), loading (with spinner and aria-busy)
   - Sizes: sm, md (default), lg
+  - Uses forwardRef for proper ref forwarding
+  - Exports via src/components/ui/index.ts
+
+- **Task 2.2: Create Input Component** (2026-01-18)
+  - TDD approach: wrote 38 tests first, watched them fail, then implemented
+  - Features: label, error message, helper text, required indicator
+  - Sizes: sm, md (default), lg
+  - States: disabled, error (with aria-invalid), required
+  - Accessibility: aria-describedby for error/helper, label association via htmlFor
   - Uses forwardRef for proper ref forwarding
   - Exports via src/components/ui/index.ts
 
