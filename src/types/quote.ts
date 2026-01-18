@@ -54,11 +54,15 @@ export interface QuoteTotals {
 export interface QuoteItem {
   id: string;
   equipmentId: string;
+  name: string;
+  category: string;
   quantity: number;
   unitCost: number;
   unitPrice: number;
+  extendedCost: number;
+  extendedPrice: number;
   margin: number;
-  total: number;
+  marginPercentage: number;
   status: ItemStatus;
   notes?: string;
 }
@@ -148,6 +152,13 @@ export function isValidQuoteItem(value: unknown): value is QuoteItem {
   )
     return false;
 
+  // Check name
+  if (!('name' in obj) || typeof obj.name !== 'string' || obj.name === '') return false;
+
+  // Check category
+  if (!('category' in obj) || typeof obj.category !== 'string' || obj.category === '')
+    return false;
+
   // Check quantity (positive integer)
   if (!('quantity' in obj) || typeof obj.quantity !== 'number') return false;
   if (obj.quantity <= 0 || !Number.isInteger(obj.quantity)) return false;
@@ -160,12 +171,20 @@ export function isValidQuoteItem(value: unknown): value is QuoteItem {
   if (!('unitPrice' in obj) || typeof obj.unitPrice !== 'number') return false;
   if ((obj.unitPrice as number) < 0) return false;
 
+  // Check extendedCost (non-negative)
+  if (!('extendedCost' in obj) || typeof obj.extendedCost !== 'number') return false;
+  if ((obj.extendedCost as number) < 0) return false;
+
+  // Check extendedPrice (non-negative)
+  if (!('extendedPrice' in obj) || typeof obj.extendedPrice !== 'number') return false;
+  if ((obj.extendedPrice as number) < 0) return false;
+
   // Check margin (can be negative for loss leaders)
   if (!('margin' in obj) || typeof obj.margin !== 'number') return false;
 
-  // Check total (non-negative)
-  if (!('total' in obj) || typeof obj.total !== 'number') return false;
-  if ((obj.total as number) < 0) return false;
+  // Check marginPercentage
+  if (!('marginPercentage' in obj) || typeof obj.marginPercentage !== 'number')
+    return false;
 
   // Check status
   if (!('status' in obj) || typeof obj.status !== 'string') return false;
@@ -290,15 +309,23 @@ function generateId(): string {
 /**
  * Create default QuoteItem with specified equipment ID
  */
-export function createDefaultQuoteItem(equipmentId: string): QuoteItem {
+export function createDefaultQuoteItem(
+  equipmentId: string,
+  name: string,
+  category: string
+): QuoteItem {
   return {
     id: generateId(),
     equipmentId,
+    name,
+    category,
     quantity: 1,
     unitCost: 0,
     unitPrice: 0,
+    extendedCost: 0,
+    extendedPrice: 0,
     margin: 0,
-    total: 0,
+    marginPercentage: 0,
     status: 'quoting',
   };
 }

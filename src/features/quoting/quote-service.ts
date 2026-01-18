@@ -22,11 +22,15 @@ import type {
 interface QuoteItemDbRow {
   id: string;
   equipment_id: string;
+  name: string;
+  category: string;
   quantity: number;
   unit_cost: number;
   unit_price: number;
+  extended_cost: number;
+  extended_price: number;
   margin: number;
-  total: number;
+  margin_percentage: number;
   status: ItemStatus;
   notes?: string;
 }
@@ -215,11 +219,15 @@ export class QuoteService {
     return items.map((item) => ({
       id: item.id,
       equipmentId: item.equipment_id,
+      name: item.name,
+      category: item.category,
       quantity: item.quantity,
       unitCost: item.unit_cost,
       unitPrice: item.unit_price,
+      extendedCost: item.extended_cost,
+      extendedPrice: item.extended_price,
       margin: item.margin,
-      total: item.total,
+      marginPercentage: item.margin_percentage,
       status: item.status,
       ...(item.notes && { notes: item.notes }),
     }));
@@ -293,11 +301,15 @@ export class QuoteService {
     return items.map((item) => ({
       id: item.id,
       equipment_id: item.equipmentId,
+      name: item.name,
+      category: item.category,
       quantity: item.quantity,
       unit_cost: item.unitCost,
       unit_price: item.unitPrice,
+      extended_cost: item.extendedCost,
+      extended_price: item.extendedPrice,
       margin: item.margin,
-      total: item.total,
+      margin_percentage: item.marginPercentage,
       status: item.status,
       ...(item.notes && { notes: item.notes }),
     }));

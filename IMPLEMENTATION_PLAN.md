@@ -681,12 +681,12 @@
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`, `@frontend-design:frontend-design`
 
-- [ ] Create `src/features/quoting/components/QuotePage.tsx`
-- [ ] Display quote sections with expandable item lists
-- [ ] Add inline editing for quantities and margins
-- [ ] Show live total calculations
-- [ ] Add export/print functionality
-- [ ] Write tests in `tests/features/quoting/components/QuotePage.test.tsx`
+- [x] Create `src/features/quoting/components/QuotePage.tsx`
+- [x] Display quote sections with expandable item lists
+- [x] Add inline editing for quantities and margins
+- [x] Show live total calculations
+- [x] Add export/print functionality
+- [x] Write tests in `tests/features/quoting/components/QuotePage.test.tsx`
 
 ### Task 7.8: Export Quoting Feature
 

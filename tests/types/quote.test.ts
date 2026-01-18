@@ -212,11 +212,15 @@ describe('isValidQuoteItem', () => {
   const validItem: QuoteItem = {
     id: 'item-1',
     equipmentId: 'equip-123',
+    name: 'Test Equipment',
+    category: 'video',
     quantity: 2,
     unitCost: 500,
     unitPrice: 750,
-    margin: 250,
-    total: 1500,
+    extendedCost: 1000,
+    extendedPrice: 1500,
+    margin: 500,
+    marginPercentage: 33.33,
     status: 'quoting',
   };
 
@@ -304,13 +308,45 @@ describe('isValidQuoteItem', () => {
     expect(isValidQuoteItem(rest)).toBe(false);
   });
 
-  it('should return false for missing total', () => {
-    const { total: _, ...rest } = validItem;
+  it('should return false for missing extendedCost', () => {
+    const { extendedCost: _, ...rest } = validItem;
     expect(isValidQuoteItem(rest)).toBe(false);
   });
 
-  it('should return false for negative total', () => {
-    expect(isValidQuoteItem({ ...validItem, total: -100 })).toBe(false);
+  it('should return false for negative extendedCost', () => {
+    expect(isValidQuoteItem({ ...validItem, extendedCost: -100 })).toBe(false);
+  });
+
+  it('should return false for missing extendedPrice', () => {
+    const { extendedPrice: _, ...rest } = validItem;
+    expect(isValidQuoteItem(rest)).toBe(false);
+  });
+
+  it('should return false for negative extendedPrice', () => {
+    expect(isValidQuoteItem({ ...validItem, extendedPrice: -100 })).toBe(false);
+  });
+
+  it('should return false for missing marginPercentage', () => {
+    const { marginPercentage: _, ...rest } = validItem;
+    expect(isValidQuoteItem(rest)).toBe(false);
+  });
+
+  it('should return false for missing name', () => {
+    const { name: _, ...rest } = validItem;
+    expect(isValidQuoteItem(rest)).toBe(false);
+  });
+
+  it('should return false for empty name', () => {
+    expect(isValidQuoteItem({ ...validItem, name: '' })).toBe(false);
+  });
+
+  it('should return false for missing category', () => {
+    const { category: _, ...rest } = validItem;
+    expect(isValidQuoteItem(rest)).toBe(false);
+  });
+
+  it('should return false for empty category', () => {
+    expect(isValidQuoteItem({ ...validItem, category: '' })).toBe(false);
   });
 
   it('should return false for missing status', () => {
@@ -347,11 +383,15 @@ describe('isValidQuoteSection', () => {
   const validItem: QuoteItem = {
     id: 'item-1',
     equipmentId: 'equip-123',
+    name: 'Test Equipment',
+    category: 'video',
     quantity: 2,
     unitCost: 500,
     unitPrice: 750,
-    margin: 250,
-    total: 1500,
+    extendedCost: 1000,
+    extendedPrice: 1500,
+    margin: 500,
+    marginPercentage: 33.33,
     status: 'quoting',
   };
 
@@ -469,11 +509,15 @@ describe('isValidQuote', () => {
   const validItem: QuoteItem = {
     id: 'item-1',
     equipmentId: 'equip-123',
+    name: 'Test Equipment',
+    category: 'video',
     quantity: 2,
     unitCost: 500,
     unitPrice: 750,
-    margin: 250,
-    total: 1500,
+    extendedCost: 1000,
+    extendedPrice: 1500,
+    margin: 500,
+    marginPercentage: 33.33,
     status: 'quoting',
   };
 
@@ -704,26 +748,30 @@ describe('createDefaultQuoteTotals', () => {
 
 describe('createDefaultQuoteItem', () => {
   it('should create quote item with required fields', () => {
-    const item = createDefaultQuoteItem('equip-123');
+    const item = createDefaultQuoteItem('equip-123', 'Test Item', 'video');
     expect(item.id).toBeDefined();
     expect(item.id.length).toBeGreaterThan(0);
     expect(item.equipmentId).toBe('equip-123');
+    expect(item.name).toBe('Test Item');
+    expect(item.category).toBe('video');
     expect(item.quantity).toBe(1);
     expect(item.unitCost).toBe(0);
     expect(item.unitPrice).toBe(0);
+    expect(item.extendedCost).toBe(0);
+    expect(item.extendedPrice).toBe(0);
     expect(item.margin).toBe(0);
-    expect(item.total).toBe(0);
+    expect(item.marginPercentage).toBe(0);
     expect(item.status).toBe('quoting');
   });
 
   it('should create valid quote item', () => {
-    const item = createDefaultQuoteItem('equip-123');
+    const item = createDefaultQuoteItem('equip-123', 'Test Item', 'video');
     expect(isValidQuoteItem(item)).toBe(true);
   });
 
   it('should create unique ids for each call', () => {
-    const item1 = createDefaultQuoteItem('equip-123');
-    const item2 = createDefaultQuoteItem('equip-123');
+    const item1 = createDefaultQuoteItem('equip-123', 'Test Item', 'video');
+    const item2 = createDefaultQuoteItem('equip-123', 'Test Item', 'video');
     expect(item1.id).not.toBe(item2.id);
   });
 });
@@ -795,11 +843,15 @@ describe('Quote Types - Edge Cases', () => {
     const items: QuoteItem[] = Array.from({ length: 10 }, (_, i) => ({
       id: `item-${i}`,
       equipmentId: `equip-${i}`,
+      name: `Item ${i}`,
+      category: `category-${i % 3}`,
       quantity: i + 1,
       unitCost: 100 * (i + 1),
       unitPrice: 150 * (i + 1),
-      margin: 50 * (i + 1),
-      total: 150 * (i + 1) * (i + 1),
+      extendedCost: 100 * (i + 1) * (i + 1),
+      extendedPrice: 150 * (i + 1) * (i + 1),
+      margin: 50 * (i + 1) * (i + 1),
+      marginPercentage: 33.33,
       status: 'quoting' as ItemStatus,
     }));
 
@@ -808,7 +860,9 @@ describe('Quote Types - Edge Cases', () => {
       name: `Section ${i}`,
       category: `category-${i}`,
       items: items.slice(i * 2, i * 2 + 2),
-      subtotal: items.slice(i * 2, i * 2 + 2).reduce((sum, item) => sum + item.total, 0),
+      subtotal: items
+        .slice(i * 2, i * 2 + 2)
+        .reduce((sum, item) => sum + item.extendedPrice, 0),
     }));
 
     const quote: Quote = {
@@ -838,11 +892,15 @@ describe('Quote Types - Edge Cases', () => {
     const item: QuoteItem = {
       id: 'item-max',
       equipmentId: 'equip-max',
+      name: 'Expensive Item',
+      category: 'premium',
       quantity: 1000,
       unitCost: 1000000,
       unitPrice: 1500000,
-      margin: 500000,
-      total: 1500000000,
+      extendedCost: 1000000000,
+      extendedPrice: 1500000000,
+      margin: 500000000,
+      marginPercentage: 33.33,
       status: 'ordered',
     };
     expect(isValidQuoteItem(item)).toBe(true);
@@ -852,11 +910,15 @@ describe('Quote Types - Edge Cases', () => {
     const item: QuoteItem = {
       id: 'item-at-cost',
       equipmentId: 'equip-1',
+      name: 'At Cost Item',
+      category: 'misc',
       quantity: 1,
       unitCost: 1000,
       unitPrice: 1000,
+      extendedCost: 1000,
+      extendedPrice: 1000,
       margin: 0,
-      total: 1000,
+      marginPercentage: 0,
       status: 'quoting',
     };
     expect(isValidQuoteItem(item)).toBe(true);
@@ -866,11 +928,15 @@ describe('Quote Types - Edge Cases', () => {
     const item: QuoteItem = {
       id: 'item-loss',
       equipmentId: 'equip-1',
+      name: 'Loss Leader',
+      category: 'promotional',
       quantity: 1,
       unitCost: 1000,
       unitPrice: 800,
+      extendedCost: 1000,
+      extendedPrice: 800,
       margin: -200,
-      total: 800,
+      marginPercentage: -25,
       status: 'quoting',
     };
     expect(isValidQuoteItem(item)).toBe(true);
