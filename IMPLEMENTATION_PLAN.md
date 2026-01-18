@@ -314,21 +314,22 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/standards/standards-service.ts`
-- [ ] Implement CRUD operations for standards and rules
-- [ ] Implement getByDimension and search methods
-- [ ] Add row mapping from snake_case to camelCase
-- [ ] Write tests in `tests/features/standards/standards-service.test.ts`
+- [x] Create `src/features/standards/standards-service.ts`
+- [x] Implement CRUD operations for standards, nodes, and rules
+- [x] Implement getNodesByParent, getRulesByAspect, searchRules methods
+- [x] Add row mapping from snake_case to camelCase
+- [x] Write tests in `tests/features/standards/standards-service.test.ts`
 
 ### Task 4.4: Create Standards React Query Hooks
 
 → Skills: `@superpowers:test-driven-development`, `@react-best-practices`
 
-- [ ] Create `src/features/standards/use-standards.ts`
-- [ ] Implement useStandardsList, useStandard hooks
-- [ ] Implement useRules, useRulesByAspect hooks
-- [ ] Implement mutations with cache invalidation
-- [ ] Write tests in `tests/features/standards/use-standards.test.tsx`
+- [x] Create `src/features/standards/use-standards.ts`
+- [x] Implement useStandardsList, useStandard hooks
+- [x] Implement useNodesList, useNodesByParent hooks
+- [x] Implement useRulesList, useRulesByAspect, useRulesSearch hooks
+- [x] Implement mutations with cache invalidation
+- [x] Write tests in `tests/features/standards/use-standards.test.tsx`
 
 ### Task 4.5: Create Standards List Component
 
