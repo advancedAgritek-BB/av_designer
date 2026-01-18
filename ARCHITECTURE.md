@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
 **Last Updated:** 2026-01-17
-**Status:** Initial - Pre-Implementation
+**Status:** Phase 1 Complete - Project Foundation
 
 ---
 
@@ -38,12 +38,17 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** Pre-Implementation (Phase 0)
+**Phase:** 1 - Project Foundation (Complete)
 
 ### Implemented
 
-- [ ] Project foundation (Tauri + React + TypeScript)
-- [ ] Design system with Tailwind tokens
+- [x] Project foundation (Tauri 2.x + React 19 + TypeScript 5)
+- [x] Design system with Tailwind CSS v4 @theme tokens
+- [x] State management (Zustand with devtools)
+- [x] Supabase client with typed database
+- [x] Testing setup (Vitest + React Testing Library)
+- [x] Linting/formatting (ESLint 9 + Prettier)
+- [x] Rust backend structure (commands + database modules)
 - [ ] Core UI components
 - [ ] Equipment database
 - [ ] Standards engine
@@ -53,7 +58,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ### In Progress
 
-- Initial project setup and tooling
+- Phase 2: Design System & Core Components
 
 ---
 
@@ -61,16 +66,19 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 | Layer | Technology | Version | Purpose |
 |-------|------------|---------|---------|
-| Desktop Shell | Tauri | 2.x | Native desktop app with Rust backend |
-| Frontend | React | 18.x | UI components and interactions |
-| Language | TypeScript | 5.x | Type-safe frontend development |
-| Build Tool | Vite | 5.x | Fast bundling and HMR |
-| Styling | TailwindCSS | 3.x | Utility-first CSS with design tokens |
-| State | Zustand | 4.x | Lightweight client state management |
-| Data Fetching | React Query | 5.x | Server state and caching |
+| Desktop Shell | Tauri | 2.9.x | Native desktop app with Rust backend |
+| Frontend | React | 19.x | UI components and interactions |
+| Language | TypeScript | 5.9.x | Type-safe frontend development (strict mode) |
+| Build Tool | Vite | 7.x | Fast bundling and HMR |
+| Styling | TailwindCSS | 4.x | Utility-first CSS with @theme tokens |
+| State | Zustand | 5.x | Lightweight client state management |
+| Data Fetching | Supabase JS | 2.x | Server state, auth, realtime |
 | Cloud DB | Supabase | - | PostgreSQL, Auth, Storage |
-| Local DB | SQLite | - | Offline cache via Rust |
-| Backend | Rust | 1.7x | CAD parsing, drawing generation |
+| Local DB | SQLite | - | Offline cache via Rust (planned) |
+| Backend | Rust | 1.8x | CAD parsing, drawing generation |
+| Testing | Vitest | 4.x | Unit and integration tests |
+| Linting | ESLint | 9.x | Flat config with TypeScript/React plugins |
+| Formatting | Prettier | 3.x | Code formatting |
 
 ---
 
@@ -80,30 +88,50 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 av_designer/
 ├── src/                          # Frontend source
 │   ├── main.tsx                  # React entry point
-│   ├── App.tsx                   # Root component
+│   ├── App.tsx                   # Root component with design system demo
 │   ├── components/               # Shared components
-│   │   ├── ui/                   # Design system primitives
-│   │   └── layout/               # Shell, Sidebar, Header
+│   │   ├── ui/                   # Design system primitives (planned)
+│   │   └── layout/               # Shell, Sidebar, Header (planned)
 │   ├── features/                 # Feature modules
-│   │   ├── equipment/            # Equipment library
-│   │   ├── room-builder/         # Room design canvas
-│   │   ├── standards/            # Standards engine
-│   │   ├── drawings/             # Drawing generation
-│   │   └── quoting/              # Quote/BOM system
+│   │   ├── equipment/            # Equipment library (planned)
+│   │   ├── room-builder/         # Room design canvas (planned)
+│   │   ├── standards/            # Standards engine (planned)
+│   │   ├── drawings/             # Drawing generation (planned)
+│   │   └── quoting/              # Quote/BOM system (planned)
 │   ├── lib/                      # Utilities
-│   ├── stores/                   # Global state
-│   ├── hooks/                    # Shared hooks
+│   │   ├── supabase.ts           # Supabase client
+│   │   └── database.types.ts     # Database type definitions
+│   ├── stores/                   # Zustand state stores
+│   │   ├── app-store.ts          # App-wide state (mode, sidebar)
+│   │   ├── project-store.ts      # Projects and rooms
+│   │   └── equipment-store.ts    # Equipment catalog
+│   ├── hooks/                    # Shared hooks (planned)
 │   ├── types/                    # Global types
+│   │   └── index.ts              # Core domain types
 │   └── styles/                   # Global CSS
+│       └── globals.css           # Tailwind @theme + component classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
 │   │   ├── main.rs               # Entry point
+│   │   ├── lib.rs                # App library with command registration
 │   │   ├── commands/             # Tauri IPC commands
+│   │   │   └── mod.rs            # greet, get_app_info
 │   │   └── database/             # SQLite operations
+│   │       └── mod.rs            # DatabaseManager (placeholder)
 │   └── Cargo.toml
 ├── docs/plans/                   # Planning documents
 ├── scripts/                      # Build scripts
-└── tests/                        # Test files
+│   └── check.sh                  # Validation script (format, lint, test)
+├── tests/                        # Test files
+│   ├── unit/                     # Unit tests
+│   │   └── app.test.tsx          # App component tests
+│   └── setup.ts                  # Test setup with jsdom
+├── .env.example                  # Environment variable template
+├── eslint.config.js              # ESLint 9 flat config
+├── .prettierrc                   # Prettier configuration
+├── vitest.config.ts              # Vitest configuration
+├── vite.config.ts                # Vite configuration
+└── tsconfig.json                 # TypeScript configuration
 ```
 
 ---
@@ -262,6 +290,7 @@ Based on Revolut dark theme with golden accent.
 | Date | Change |
 |------|--------|
 | 2026-01-17 | Initial architecture document created |
+| 2026-01-17 | Phase 1 complete: Tauri 2.x, React 19, TypeScript 5, TailwindCSS 4, Zustand 5, Supabase client, Vitest, ESLint 9, Prettier, Rust backend modules |
 
 ---
 
