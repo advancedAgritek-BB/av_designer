@@ -1,0 +1,556 @@
+/**
+ * Quoting Feature Styles
+ *
+ * Styles for QuoteCard and QuotePage components,
+ * following the dark theme design system.
+ */
+
+@layer components {
+  /* ============================================================================
+   * Quote Status Pills
+   * ============================================================================ */
+
+  .quote-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .quote-status-draft {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+  }
+
+  .quote-status-quoting {
+    background-color: var(--color-pill-quoting-bg);
+    color: var(--color-pill-quoting-text);
+  }
+
+  .quote-status-client_review {
+    background-color: var(--color-pill-review-bg);
+    color: var(--color-pill-review-text);
+  }
+
+  .quote-status-approved {
+    background-color: var(--color-pill-ordered-bg);
+    color: var(--color-pill-ordered-text);
+  }
+
+  .quote-status-ordered {
+    background-color: var(--color-pill-progress-bg);
+    color: var(--color-pill-progress-text);
+  }
+
+  /* ============================================================================
+   * Quote Card Component
+   * ============================================================================ */
+
+  .quote-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    border-radius: 8px;
+    transition: all 0.15s ease;
+  }
+
+  .quote-card-interactive {
+    cursor: pointer;
+  }
+
+  .quote-card-interactive:hover {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-accent-blue);
+  }
+
+  .quote-card-interactive:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .quote-card-selected {
+    background-color: color-mix(in srgb, var(--color-accent-gold) 10%, var(--color-bg-secondary));
+    border-color: var(--color-accent-gold);
+  }
+
+  .quote-card-compact {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  /* Card Header */
+  .quote-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .quote-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .quote-card-id {
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .quote-card-version {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+  }
+
+  /* Room Info */
+  .quote-card-room {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
+
+  .quote-card-room svg {
+    color: var(--color-text-tertiary);
+  }
+
+  /* Total */
+  .quote-card-total {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .quote-total-amount {
+    color: var(--color-text-primary);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* Margin Display */
+  .quote-margin {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .quote-margin-high {
+    color: var(--color-status-success);
+  }
+
+  .quote-margin-normal {
+    color: var(--color-text-secondary);
+  }
+
+  .quote-margin-low {
+    color: var(--color-status-error);
+  }
+
+  /* Details Breakdown */
+  .quote-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-bg-tertiary);
+  }
+
+  .quote-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .quote-detail-label {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+  }
+
+  .quote-detail-value {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Footer */
+  .quote-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-bg-tertiary);
+  }
+
+  .quote-card-updated {
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+  }
+
+  /* Action Buttons */
+  .quote-card-actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .quote-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .quote-action-btn:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+  }
+
+  .quote-action-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .quote-action-primary {
+    background-color: var(--color-accent-blue);
+    color: var(--color-text-primary);
+  }
+
+  .quote-action-primary:hover {
+    background-color: color-mix(in srgb, var(--color-accent-blue) 85%, black);
+  }
+
+  /* ============================================================================
+   * Quote Page Component
+   * ============================================================================ */
+
+  .quote-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 24px;
+    background-color: var(--color-bg-primary);
+    gap: 24px;
+  }
+
+  .quote-page-loading {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quote-loading-state {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+  }
+
+  /* Page Header */
+  .quote-page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-bg-tertiary);
+  }
+
+  .quote-page-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .quote-page-title {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .quote-page-id {
+    color: var(--color-text-primary);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .quote-page-version {
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .quote-page-meta {
+    display: flex;
+    gap: 16px;
+  }
+
+  .quote-page-room {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+  }
+
+  .quote-page-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Empty State */
+  .quote-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px;
+    color: var(--color-text-tertiary);
+    font-size: 14px;
+  }
+
+  /* Sections Container */
+  .quote-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ============================================================================
+   * Quote Section Component
+   * ============================================================================ */
+
+  .quote-section {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .quote-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: var(--color-bg-tertiary);
+  }
+
+  .quote-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .quote-section-toggle:hover {
+    color: var(--color-text-primary);
+  }
+
+  .quote-section-toggle:focus-visible {
+    outline: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .quote-section-name {
+    flex: 1;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .quote-section-subtotal {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* ============================================================================
+   * Quote Items Table
+   * ============================================================================ */
+
+  .quote-items-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .quote-items-table thead {
+    background-color: var(--color-bg-primary);
+  }
+
+  .quote-items-table th {
+    padding: 10px 16px;
+    color: var(--color-text-tertiary);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .quote-items-table th:nth-child(2),
+  .quote-items-table th:nth-child(3),
+  .quote-items-table th:nth-child(4),
+  .quote-items-table th:nth-child(5) {
+    text-align: right;
+    width: 120px;
+  }
+
+  /* Item Row */
+  .quote-item-row {
+    border-top: 1px solid var(--color-bg-tertiary);
+    transition: background-color 0.15s ease;
+  }
+
+  .quote-item-row:hover {
+    background-color: var(--color-bg-primary);
+  }
+
+  .quote-item-row td {
+    padding: 12px 16px;
+  }
+
+  .quote-item-name {
+    color: var(--color-text-primary);
+    font-size: 13px;
+  }
+
+  .quote-item-qty,
+  .quote-item-unit-price,
+  .quote-item-extended,
+  .quote-item-margin {
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .quote-item-unit-price,
+  .quote-item-extended {
+    color: var(--color-text-secondary);
+  }
+
+  /* Editable Inputs */
+  .quote-item-qty input,
+  .quote-item-margin input {
+    width: 70px;
+    padding: 4px 8px;
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    font-size: 13px;
+    text-align: right;
+    transition: all 0.15s ease;
+  }
+
+  .quote-item-qty input:hover:not(:disabled),
+  .quote-item-margin input:hover:not(:disabled) {
+    border-color: var(--color-accent-blue);
+  }
+
+  .quote-item-qty input:focus,
+  .quote-item-margin input:focus {
+    outline: none;
+    border-color: var(--color-accent-blue);
+    background-color: var(--color-bg-secondary);
+  }
+
+  .quote-item-qty input:disabled,
+  .quote-item-margin input:disabled {
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+  }
+
+  .quote-item-margin {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  .quote-margin-symbol {
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+  }
+
+  /* ============================================================================
+   * Quote Totals
+   * ============================================================================ */
+
+  .quote-totals {
+    padding: 20px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    border-radius: 8px;
+  }
+
+  .quote-totals-table {
+    width: 300px;
+    margin-left: auto;
+    border-collapse: collapse;
+  }
+
+  .quote-totals-row th,
+  .quote-totals-row td {
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .quote-totals-row th {
+    text-align: left;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .quote-totals-row td {
+    text-align: right;
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .quote-totals-subtotal {
+    border-top: 1px solid var(--color-bg-tertiary);
+  }
+
+  .quote-totals-subtotal th,
+  .quote-totals-subtotal td {
+    padding-top: 12px;
+  }
+
+  .quote-totals-grand th,
+  .quote-totals-grand td {
+    padding-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .quote-totals-grand {
+    border-top: 2px solid var(--color-bg-tertiary);
+  }
+
+  .quote-totals-margin {
+    border-top: 1px solid var(--color-bg-tertiary);
+  }
+
+  .quote-totals-margin td {
+    color: var(--color-accent-gold);
+  }
+}

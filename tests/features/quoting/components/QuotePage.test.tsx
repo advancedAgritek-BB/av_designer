@@ -47,7 +47,7 @@ const mockItem1: QuoteItem = {
   extendedPrice: 6000,
   margin: 1000,
   marginPercentage: 16.67,
-  status: 'included',
+  status: 'quoting',
 };
 
 const mockItem2: QuoteItem = {
@@ -62,7 +62,7 @@ const mockItem2: QuoteItem = {
   extendedPrice: 3600,
   margin: 600,
   marginPercentage: 16.67,
-  status: 'included',
+  status: 'quoting',
 };
 
 const mockItem3: QuoteItem = {
@@ -77,7 +77,7 @@ const mockItem3: QuoteItem = {
   extendedPrice: 2400,
   margin: 400,
   marginPercentage: 16.67,
-  status: 'included',
+  status: 'quoting',
 };
 
 const mockVideoSection: QuoteSection = {

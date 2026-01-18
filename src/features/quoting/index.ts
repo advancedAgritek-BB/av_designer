@@ -15,6 +15,7 @@
 // ============================================================================
 
 export { QuoteService, quoteService } from './quote-service';
+export type { CreateQuoteInput } from './quote-service';
 
 // ============================================================================
 // React Query Hooks
@@ -58,6 +59,7 @@ export {
   calculateTax,
   calculateQuoteTotals,
   type LaborConfig,
+  type LaborResult,
   type TaxConfig,
   type PricingResult,
 } from './pricing-engine';
