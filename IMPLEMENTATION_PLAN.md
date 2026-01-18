@@ -293,22 +293,22 @@
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/types/standards.ts` with Standards interfaces
-- [ ] Add RULE_DIMENSIONS, RULE_EXPRESSION_TYPES, RULE_ASPECTS constants
-- [ ] Add DIMENSION_PRIORITY for conflict resolution
-- [ ] Create Rule, RuleCondition, Standard, ValidationResult interfaces
-- [ ] Write tests in `tests/types/standards.test.ts`
+- [x] Create `src/types/standards.ts` with Standards interfaces
+- [x] Add RULE_DIMENSIONS, RULE_EXPRESSION_TYPES, RULE_ASPECTS constants
+- [x] Add DIMENSION_PRIORITY for conflict resolution
+- [x] Create Rule, RuleCondition, Standard, ValidationResult interfaces
+- [x] Write tests in `tests/types/standards.test.ts`
 
 ### Task 4.2: Create Rule Evaluation Engine
 
 → Skills: `@superpowers:test-driven-development`
 
-- [ ] Create `src/features/standards/rule-engine.ts`
-- [ ] Implement evaluateCondition method (equals, not_equals, contains, greater_than, less_than, in)
-- [ ] Implement evaluateRule method with condition matching
-- [ ] Implement evaluateExpression for simple constraint parsing
-- [ ] Implement validateDesign with severity levels
-- [ ] Write tests in `tests/features/standards/rule-engine.test.ts`
+- [x] Create `src/features/standards/rule-engine.ts`
+- [x] Implement evaluateCondition method (equals, not_equals, contains, greater_than, less_than, in)
+- [x] Implement evaluateRule method with condition matching
+- [x] Implement evaluateExpression for simple constraint parsing
+- [x] Implement validateDesign with severity levels
+- [x] Write tests in `tests/features/standards/rule-engine.test.ts`
 
 ### Task 4.3: Create Standards Service Layer
 
