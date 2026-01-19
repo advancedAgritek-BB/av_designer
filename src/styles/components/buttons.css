@@ -10,7 +10,9 @@
     justify-content: center;
     gap: 8px;
     border-radius: 8px;
-    font-weight: 500;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-normal);
     transition:
       background-color 0.15s,
       color 0.15s,
@@ -73,12 +75,12 @@
   }
 
   .btn-sm {
-    font-size: 12px;
+    font-size: var(--text-sm);
     padding: 6px 12px;
   }
 
   .btn-lg {
-    font-size: 16px;
+    font-size: var(--text-md);
     padding: 12px 24px;
   }
 }

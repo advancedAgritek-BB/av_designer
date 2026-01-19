@@ -10,6 +10,8 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 8px 12px;
+    font-size: var(--text-base);
+    font-weight: var(--font-normal);
     color: var(--color-text-primary);
   }
 
@@ -38,12 +40,12 @@
   }
 
   .input-sm {
-    font-size: 12px;
+    font-size: var(--text-sm);
     padding: 6px 10px;
   }
 
   .input-lg {
-    font-size: 16px;
+    font-size: var(--text-md);
     padding: 12px 16px;
   }
 
@@ -57,8 +59,8 @@
   /* Label */
   .label {
     display: block;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
     color: var(--color-text-secondary);
     margin-bottom: 4px;
   }
