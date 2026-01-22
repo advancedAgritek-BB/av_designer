@@ -1,0 +1,417 @@
+/**
+ * Dashboard Feature Styles
+ *
+ * Styles for the dashboard page layout, stats cards,
+ * and content grid. Additional panel styles in dashboard-panels.css.
+ */
+
+@layer components {
+  /* ============================================================================
+   * Dashboard Page Layout
+   * ============================================================================ */
+
+  .dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    min-height: 100vh;
+    background-color: var(--color-bg-primary);
+  }
+
+  .dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .dashboard-title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .dashboard-subtitle {
+    margin: 4px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .dashboard-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* ============================================================================
+   * Stats Cards Grid
+   * ============================================================================ */
+
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 1200px) {
+    .dashboard-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .dashboard-stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .stat-card:hover {
+    border-color: var(--color-accent-blue);
+    transform: translateY(-2px);
+  }
+
+  .stat-card-interactive {
+    cursor: pointer;
+  }
+
+  .stat-card-interactive:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stat-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: var(--color-text-primary);
+  }
+
+  .stat-card-icon-projects {
+    background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-purple));
+  }
+
+  .stat-card-icon-quotes {
+    background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-orange));
+  }
+
+  .stat-card-icon-pending {
+    background: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-pink));
+  }
+
+  .stat-card-icon-notifications {
+    background: linear-gradient(135deg, var(--color-accent-teal), var(--color-accent-green));
+  }
+
+  .stat-card-trend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .stat-card-trend-up {
+    background-color: color-mix(in srgb, var(--color-status-success) 15%, transparent);
+    color: var(--color-status-success);
+  }
+
+  .stat-card-trend-down {
+    background-color: color-mix(in srgb, var(--color-status-error) 15%, transparent);
+    color: var(--color-status-error);
+  }
+
+  .stat-card-trend-neutral {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+  }
+
+  .stat-card-value {
+    color: var(--color-text-primary);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .stat-card-label {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .stat-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+  }
+
+  .stat-card-meta-highlight {
+    color: var(--color-accent-blue);
+    font-weight: 600;
+  }
+
+  /* ============================================================================
+   * Dashboard Content Grid
+   * ============================================================================ */
+
+  .dashboard-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 1024px) {
+    .dashboard-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dashboard-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* ============================================================================
+   * Dashboard Panel (Shared)
+   * ============================================================================ */
+
+  .dashboard-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .dashboard-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--color-bg-tertiary);
+  }
+
+  .dashboard-panel-title {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .dashboard-panel-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dashboard-panel-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .dashboard-panel-link:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .dashboard-panel-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent-blue);
+  }
+
+  .dashboard-panel-body {
+    padding: 16px 20px;
+  }
+
+  .dashboard-panel-body-compact {
+    padding: 0;
+  }
+
+  /* ============================================================================
+   * Empty States
+   * ============================================================================ */
+
+  .dashboard-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .dashboard-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-bg-tertiary);
+    border-radius: 12px;
+    color: var(--color-text-tertiary);
+  }
+
+  .dashboard-empty-title {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .dashboard-empty-description {
+    margin: 0;
+    color: var(--color-text-tertiary);
+    font-size: 13px;
+    max-width: 280px;
+  }
+
+  .dashboard-empty-action {
+    margin-top: 8px;
+  }
+
+  /* ============================================================================
+   * Loading States
+   * ============================================================================ */
+
+  .dashboard-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+
+  .dashboard-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: dashboard-skeleton-shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+
+  @keyframes dashboard-skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .dashboard-skeleton-stat {
+    height: 120px;
+  }
+
+  .dashboard-skeleton-row {
+    height: 72px;
+    margin-bottom: 1px;
+  }
+
+  .dashboard-skeleton-card {
+    height: 160px;
+  }
+
+  /* ============================================================================
+   * Project Status Pills (Dashboard variant)
+   * ============================================================================ */
+
+  .dashboard-status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .dashboard-status-draft {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+  }
+
+  .dashboard-status-quoting {
+    background-color: var(--color-pill-quoting-bg);
+    color: var(--color-pill-quoting-text);
+  }
+
+  .dashboard-status-client_review {
+    background-color: var(--color-pill-review-bg);
+    color: var(--color-pill-review-text);
+  }
+
+  .dashboard-status-ordered {
+    background-color: var(--color-pill-ordered-bg);
+    color: var(--color-pill-ordered-text);
+  }
+
+  .dashboard-status-in_progress {
+    background-color: var(--color-pill-progress-bg);
+    color: var(--color-pill-progress-text);
+  }
+
+  .dashboard-status-on_hold {
+    background-color: color-mix(in srgb, var(--color-accent-orange) 20%, transparent);
+    color: var(--color-accent-orange);
+  }
+
+  .dashboard-status-completed {
+    background-color: color-mix(in srgb, var(--color-status-success) 20%, transparent);
+    color: var(--color-status-success);
+  }
+
+  .dashboard-status-cancelled {
+    background-color: color-mix(in srgb, var(--color-status-error) 20%, transparent);
+    color: var(--color-status-error);
+  }
+}

@@ -31,6 +31,8 @@
 @import './utilities.css';
 
 /* Features - Feature-specific styles */
+@import './features/dashboard.css';
+@import './features/dashboard-panels.css';
 @import './features/equipment-card.css';
 @import './features/equipment-list.css';
 @import './features/equipment-form.css';
