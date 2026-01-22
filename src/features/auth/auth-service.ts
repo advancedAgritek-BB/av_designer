@@ -21,6 +21,22 @@ import type {
 } from './auth-types';
 
 // ============================================================================
+// Custom Error Classes
+// ============================================================================
+
+export type AuthErrorCode = 'OAUTH_ERROR' | 'AUTH_ERROR' | 'DATABASE_ERROR';
+
+export class AuthError extends Error {
+  constructor(
+    message: string,
+    public readonly code: AuthErrorCode
+  ) {
+    super(message);
+    this.name = 'AuthError';
+  }
+}
+
+// ============================================================================
 // Type Mappers
 // ============================================================================
 
@@ -192,6 +208,41 @@ export class AuthService {
   static async signOut() {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
+  }
+
+  /**
+   * Sign in with Google OAuth
+   */
+  static async signInWithGoogle(): Promise<void> {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    });
+    if (error) {
+      throw new AuthError(error.message, 'OAUTH_ERROR');
+    }
+  }
+
+  /**
+   * Sign in with Microsoft OAuth
+   */
+  static async signInWithMicrosoft(): Promise<void> {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'azure',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        scopes: 'email profile openid',
+      },
+    });
+    if (error) {
+      throw new AuthError(error.message, 'OAUTH_ERROR');
+    }
   }
 
   /**
