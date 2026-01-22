@@ -1,7 +1,7 @@
 # AV Designer - Architecture
 
-**Last Updated:** 2026-01-18
-**Status:** Phase 8 Complete - MVP Ready
+**Last Updated:** 2026-01-22
+**Status:** Phase 9 - Full Functionality Implementation
 
 ---
 
@@ -38,7 +38,7 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 
 ## Current State
 
-**Phase:** 8 Complete - MVP Ready
+**Phase:** 9 In Progress - Full Functionality
 
 ### Implemented
 
@@ -61,13 +61,24 @@ AV Designer is a desktop application for AV engineering subcontract work. It ena
 - [x] Supabase database schema (migrations, RLS policies, indexes)
 - [x] End-to-end integration tests
 
-### Next Steps
+### Phase 9 Additions (In Progress)
 
-- User authentication integration
-- Supabase production deployment
-- Real data integration (replace mock data)
-- PDF export implementation
-- Offline mode with SQLite cache
+- [x] Environment validation with clear error messages for missing Supabase config
+- [x] Logging utility (`src/lib/logger.ts`) for structured dev/prod logging
+- [x] Error boundaries for graceful React error handling
+- [x] OAuth authentication (Google and Microsoft via Supabase)
+- [x] Auth pages (Login, Signup, OAuth callback)
+- [x] Auth routes (/login, /signup, /auth/callback)
+- [x] Type-safe database mappers for JSONB columns
+- [x] Comprehensive seed data (35 equipment items, standards, rules)
+
+### Remaining Work
+
+- [ ] Templates feature completion (mount types, connections, preview)
+- [ ] Equipment import with Excel support
+- [ ] Email notification templates and retry logic
+- [ ] PDF export implementation
+- [ ] Offline mode with SQLite cache
 
 ---
 
@@ -105,6 +116,7 @@ av_designer/
 │   │   ├── HomePage.tsx          # Landing page
 │   │   ├── ProjectsPage.tsx      # Projects list page
 │   │   ├── EquipmentPage.tsx     # Equipment catalog page
+│   │   ├── AuthCallbackPage.tsx  # OAuth redirect handler
 │   │   ├── StandardsPage.tsx     # Standards management page
 │   │   ├── RoomDesignPage.tsx    # Room builder page wrapper
 │   │   ├── DrawingsPageWrapper.tsx # Drawings page wrapper
@@ -175,9 +187,23 @@ av_designer/
 │   │       │   ├── QuoteCard.tsx         # Quote summary card
 │   │       │   └── QuotePage.tsx         # Full quote page with editing
 │   │       └── index.ts              # Public feature exports
+│   │   └── auth/                 # Authentication feature
+│   │       ├── auth-service.ts       # Auth operations with OAuth
+│   │       ├── use-auth.ts           # Auth hooks (useAuth, useRequireAuth, etc.)
+│   │       ├── components/
+│   │       │   ├── LoginPage.tsx         # Login with OAuth buttons
+│   │       │   ├── SignupPage.tsx        # Signup page
+│   │       │   ├── LoginForm.tsx         # Email/password login form
+│   │       │   ├── SignupForm.tsx        # Registration form
+│   │       │   ├── AuthGuard.tsx         # Route protection component
+│   │       │   └── OAuthButtons.tsx      # Google/Microsoft OAuth buttons
+│   │       └── index.ts              # Public feature exports
 │   ├── lib/                      # Utilities
 │   │   ├── supabase.ts           # Supabase client
-│   │   └── database.types.ts     # Database type definitions
+│   │   ├── supabase-env.ts       # Environment detection utility
+│   │   ├── logger.ts             # Structured logging (dev/prod)
+│   │   ├── database.types.ts     # Database type definitions
+│   │   └── database-mappers.ts   # Type-safe JSON column mappers
 │   ├── stores/                   # Zustand state stores
 │   │   ├── app-store.ts          # App-wide state (mode, sidebar)
 │   │   ├── project-store.ts      # Projects and rooms
@@ -189,7 +215,8 @@ av_designer/
 │   │   ├── standards.ts          # Standards, rules, conditions types
 │   │   ├── room.ts               # Room, placement, mount types
 │   │   ├── drawing.ts            # Drawing, layer, element types
-│   │   └── quote.ts              # Quote, section, item, totals types
+│   │   ├── quote.ts              # Quote, section, item, totals types
+│   │   └── database-json.ts      # Types for database JSONB columns
 │   └── styles/                   # Modular CSS
 │       ├── globals.css           # Entry point (imports all modules)
 │       ├── theme.css             # Tailwind @theme tokens
@@ -215,7 +242,8 @@ av_designer/
 │       │   ├── drawing-canvas.css
 │       │   ├── drawing-toolbar.css
 │       │   ├── drawings-page.css
-│       │   └── quoting.css       # Quote card and page styles
+│       │   ├── quoting.css       # Quote card and page styles
+│       │   └── auth.css          # Auth page styles
 │       └── utilities.css         # Helper classes
 ├── src-tauri/                    # Rust backend
 │   ├── src/
@@ -234,6 +262,7 @@ av_designer/
 │   └── Cargo.toml
 ├── supabase/                     # Supabase configuration
 │   ├── config.toml               # Supabase project config
+│   ├── seed.sql                  # Seed data (35 equipment, standards, rules)
 │   └── migrations/               # Database migrations
 │       └── 001_initial_schema.sql # Initial schema with all tables
 ├── docs/plans/                   # Planning documents
@@ -822,7 +851,67 @@ const ROUTES = {
 
 ---
 
-### 7. Database Schema
+### 7. Authentication
+
+**Purpose:** User authentication with email/password and OAuth providers.
+
+**Location:** `src/features/auth/`
+
+**Key Features:**
+- Email/password authentication via Supabase Auth
+- OAuth authentication (Google, Microsoft)
+- Session management with automatic refresh
+- Protected routes via AuthGuard
+- Environment-aware error messages (local vs production)
+
+**Key Types:**
+```typescript
+interface AuthState {
+  user: User | null;
+  session: Session | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+type OAuthProvider = 'google' | 'azure';
+```
+
+**Components:**
+| Component | Description |
+|-----------|-------------|
+| LoginPage | Login page with OAuth buttons and email form |
+| SignupPage | Registration page with email form |
+| LoginForm | Email/password login form |
+| SignupForm | Registration form with validation |
+| OAuthButtons | Google and Microsoft OAuth buttons |
+| AuthGuard | Route protection component |
+
+**Hooks:**
+| Hook | Description |
+|------|-------------|
+| useAuth | Main auth hook with login, logout, signup |
+| useRequireAuth | Returns requireAuth flag for protected routes |
+| useCurrentUser | Access current user |
+| useCurrentOrg | Access current organization |
+| useCurrentTeam | Access current team |
+| useAuthError | Access auth error state |
+
+**Auth Service:**
+| Method | Description |
+|--------|-------------|
+| signInWithEmail | Email/password login |
+| signUpWithEmail | Email registration |
+| signInWithOAuth | OAuth login (Google, Microsoft) |
+| signOut | Logout and clear session |
+| getSession | Get current session |
+| onAuthStateChange | Subscribe to auth changes |
+
+**Status:** Complete (auth tests in feature tests)
+
+---
+
+### 8. Database Schema
 
 **Purpose:** PostgreSQL database with Supabase for cloud data storage.
 
@@ -932,6 +1021,7 @@ Based on Revolut dark theme with golden accent.
 | 2026-01-18 | Phase 6 complete: Drawing Generation - Types (105 tests), Service (27 tests), Hooks (27 tests), DrawingCanvas (63 tests), DrawingToolbar (49 tests), DrawingsPage (49 tests), Rust electrical/PDF modules - Total: 1309 tests |
 | 2026-01-18 | Phase 7 complete: Quoting System - Types (131 tests), Service (25 tests), Hooks (22 tests), BOM Generator (22 tests), Pricing Engine (42 tests), QuoteCard (44 tests), QuotePage (44 tests) - Total: 1639 tests |
 | 2026-01-18 | Phase 8 complete: Integration & MVP - Router (54 tests), Pages (11 components), Supabase schema (12 tables with RLS), E2E tests (3 test suites) - Total: 1742 tests - MVP Ready |
+| 2026-01-22 | Phase 9 in progress: Full Functionality - OAuth auth (Google/Microsoft), auth pages (login, signup, callback), environment validation, logging utility, error boundaries, database mappers, seed data (35 equipment items, standards, rules) - Total: 1748 tests |
 
 ---
 
