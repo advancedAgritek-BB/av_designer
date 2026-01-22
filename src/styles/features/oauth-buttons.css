@@ -1,0 +1,70 @@
+/**
+ * OAuth Buttons Component Styles
+ *
+ * Styles for Google and Microsoft OAuth sign-in buttons.
+ */
+
+@layer components {
+  .oauth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .oauth-error {
+    padding: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    color: var(--color-status-error);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .oauth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+
+  .oauth-btn:hover:not(:disabled) {
+    background: var(--color-bg-tertiary);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .oauth-btn:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-bg-primary),
+      0 0 0 4px var(--color-accent-blue);
+  }
+
+  .oauth-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .oauth-btn svg {
+    flex-shrink: 0;
+  }
+
+  .oauth-btn-google:hover:not(:disabled) {
+    border-color: #4285f4;
+  }
+
+  .oauth-btn-microsoft:hover:not(:disabled) {
+    border-color: #00a4ef;
+  }
+}
