@@ -1,0 +1,9 @@
+/**
+ * Templates Feature Styles
+ */
+
+.template-editor {
+  max-height: 70dvh;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}

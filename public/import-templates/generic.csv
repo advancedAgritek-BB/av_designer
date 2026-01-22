@@ -1,0 +1,9 @@
+manufacturer,model,sku,category,subcategory,description,cost,msrp,weight
+Poly,Studio X50,PLY-X50-001,video,codecs,Video bar for small rooms,899.00,1299.00,3.5
+Poly,Studio X70,PLY-X70-001,video,codecs,Video bar for medium rooms,1899.00,2499.00,5.2
+Logitech,Rally Bar,LOG-RB-001,video,codecs,Premium video bar,2999.00,3999.00,7.8
+Logitech,Rally Bar Mini,LOG-RBM-001,video,codecs,Compact video bar,1999.00,2999.00,4.2
+Crestron,UC-ENGINE,CRS-UCE-001,control,processors,UC collaboration engine,2499.00,3299.00,2.8
+Biamp,TesiraFORTE AI,BIA-TFI-001,audio,dsp,Digital signal processor,4999.00,5999.00,6.1
+Shure,MXA920,SHU-MXA920-001,audio,microphones,Ceiling array microphone,2499.00,2899.00,4.5
+QSC,Core 110f,QSC-C110F-001,audio,dsp,Audio DSP processor,2999.00,3499.00,3.2

@@ -1,0 +1,72 @@
+/**
+ * User Menu Styles
+ */
+
+@layer components {
+  .user-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+  }
+
+  .user-menu {
+    position: absolute;
+    top: 64px;
+    right: 24px;
+    width: 240px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .user-menu-header {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--border-default);
+    background-color: var(--bg-elevated);
+  }
+
+  .user-menu-name {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+  }
+
+  .user-menu-email {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  .user-menu-items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-menu-item {
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: left;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .user-menu-item:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .user-menu-item-danger {
+    color: var(--status-error);
+  }
+
+  .user-menu-item-danger:hover {
+    color: var(--status-error);
+  }
+}

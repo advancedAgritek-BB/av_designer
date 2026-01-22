@@ -1,0 +1,32 @@
+/**
+ * Primitive Tokens - Raw Values
+ *
+ * These are the raw color values. Never use directly in components.
+ * Use semantic tokens from semantic.css instead.
+ */
+
+@theme {
+  /* Background primitives (Linear-style near-black) */
+  --primitive-black: #0a0a0b;
+  --primitive-gray-950: #111113;
+  --primitive-gray-900: #18181b;
+  --primitive-gray-850: #1f1f23;
+
+  /* Text primitives */
+  --primitive-white: #ffffff;
+  --primitive-gray-400: #a1a1aa;
+  --primitive-gray-500: #71717a;
+  --primitive-gray-700: #52525b;
+
+  /* Accent primitives (muted, Linear-style) */
+  --primitive-blue: #5c9ee8;
+  --primitive-blue-hover: #7ab3f0;
+  --primitive-yellow: #e2b93b;
+  --primitive-indigo: #8b8bce;
+  --primitive-coral: #e07a6b;
+  --primitive-cyan: #4dbac1;
+  --primitive-green: #5fba7d;
+  --primitive-orange: #e09a5c;
+  --primitive-pink: #d97aa3;
+  --primitive-gray: #8b8b93;
+}

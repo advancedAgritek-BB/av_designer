@@ -1,0 +1,8 @@
+/**
+ * Token System Index
+ *
+ * Import this file to get all design tokens.
+ */
+
+@import './primitives.css';
+@import './semantic.css';

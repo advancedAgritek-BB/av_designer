@@ -1,0 +1,236 @@
+/**
+ * Equipment Import Styles
+ *
+ * Styles for CSV import flow components
+ */
+
+/* =============================================================================
+   File Uploader
+   ============================================================================= */
+
+.file-uploader {
+  width: 100%;
+}
+
+.file-uploader__dropzone {
+  padding: 3rem 2rem;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.file-uploader__dropzone:hover,
+.file-uploader__dropzone--dragging {
+  border-color: var(--color-accent-gold);
+  background-color: var(--color-accent-gold-alpha);
+}
+
+.file-uploader__dropzone--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.file-uploader__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-text-tertiary);
+}
+
+.file-uploader__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-uploader__spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================================================================
+   Column Mapper
+   ============================================================================= */
+
+.column-mapper {
+  /* Container styles */
+}
+
+.column-mapper__distributor {
+  margin-bottom: 1.5rem;
+}
+
+.column-mapper__table {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-secondary);
+  padding: 0.75rem;
+}
+
+.column-mapper__preview {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.column-mapper__preview table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.column-mapper__preview th,
+.column-mapper__preview td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-alpha);
+}
+
+.column-mapper__preview tr:last-child td {
+  border-bottom: none;
+}
+
+.column-mapper__templates {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* =============================================================================
+   Validation Preview
+   ============================================================================= */
+
+.validation-preview {
+  /* Container styles */
+}
+
+.validation-preview__summary {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.validation-preview__stat {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.validation-preview__stat:hover,
+.validation-preview__stat--active {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border);
+}
+
+.validation-preview__stat-value {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.validation-preview__stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.validation-preview__filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.validation-preview__table {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.validation-preview__table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.validation-preview__table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.validation-preview__errors {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+/* =============================================================================
+   Import Summary
+   ============================================================================= */
+
+.import-summary {
+  /* Container styles */
+}
+
+/* =============================================================================
+   Template Downloader
+   ============================================================================= */
+
+.template-downloader {
+  padding: 1rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+/* =============================================================================
+   Responsive Adjustments
+   ============================================================================= */
+
+@media (max-width: 640px) {
+  .file-uploader__dropzone {
+    padding: 2rem 1rem;
+  }
+
+  .column-mapper__table {
+    max-height: 200px;
+  }
+
+  .validation-preview__summary {
+    overflow-x: auto;
+  }
+
+  .validation-preview__stat {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .validation-preview__stat-value {
+    font-size: var(--font-size-base);
+  }
+
+  .validation-preview__table {
+    max-height: 300px;
+    font-size: var(--font-size-xs);
+  }
+}

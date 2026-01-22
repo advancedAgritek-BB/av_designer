@@ -1,0 +1,150 @@
+/**
+ * Semantic Tokens - Theme-Aware
+ *
+ * Use these tokens in components. They map to primitives
+ * and automatically adapt to theme changes.
+ */
+
+/* Dark theme (default) */
+:root,
+[data-theme='dark'] {
+  /* Background */
+  --bg-canvas: var(--primitive-black);
+  --bg-surface: var(--primitive-gray-950);
+  --bg-elevated: var(--primitive-gray-900);
+  --bg-overlay: var(--primitive-gray-850);
+
+  /* Gradient (Revolut-style navy glow) */
+  --gradient-glow: rgba(13, 26, 45, 0.7);
+  --gradient-mid: rgba(13, 26, 45, 0.3);
+
+  /* Text */
+  --text-primary: var(--primitive-white);
+  --text-secondary: var(--primitive-gray-400);
+  --text-tertiary: var(--primitive-gray-500);
+  --text-muted: var(--primitive-gray-700);
+
+  /* Borders */
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-emphasis: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Accent (primary action color) */
+  --accent-primary: var(--primitive-blue);
+  --accent-primary-hover: var(--primitive-blue-hover);
+
+  /* Status */
+  --status-success: var(--primitive-green);
+  --status-warning: var(--primitive-orange);
+  --status-error: var(--primitive-coral);
+  --status-info: var(--primitive-cyan);
+
+  /* Category colors (tags, badges, icons) */
+  --category-blue: var(--primitive-blue);
+  --category-indigo: var(--primitive-indigo);
+  --category-cyan: var(--primitive-cyan);
+  --category-green: var(--primitive-green);
+  --category-yellow: var(--primitive-yellow);
+  --category-orange: var(--primitive-orange);
+  --category-coral: var(--primitive-coral);
+  --category-pink: var(--primitive-pink);
+  --category-gray: var(--primitive-gray);
+
+  /* Interactive states */
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --bg-active: rgba(255, 255, 255, 0.1);
+  --bg-selected: rgba(92, 158, 232, 0.16);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 48px rgba(0, 0, 0, 0.4);
+  --shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-focus: 0 0 0 2px var(--accent-primary);
+  --shadow-focus-ring: 0 0 0 4px rgba(92, 158, 232, 0.25);
+  --shadow-glow: 0 0 20px rgba(92, 158, 232, 0.08);
+  --card-hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.3);
+
+  /* Buttons */
+  --btn-primary-bg: var(--accent-primary);
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: var(--accent-primary-hover);
+  --btn-secondary-bg: var(--bg-elevated);
+  --btn-secondary-text: var(--text-primary);
+  --btn-secondary-hover: var(--bg-overlay);
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-secondary);
+  --btn-ghost-hover: var(--bg-hover);
+}
+
+/* Light theme (future) */
+[data-theme='light'] {
+  /* Background */
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-overlay: #e2e8f0;
+
+  /* Gradient */
+  --gradient-glow: rgba(15, 23, 42, 0.08);
+  --gradient-mid: rgba(15, 23, 42, 0.03);
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Borders */
+  --border-default: rgba(15, 23, 42, 0.08);
+  --border-emphasis: rgba(15, 23, 42, 0.12);
+  --border-hover: rgba(15, 23, 42, 0.18);
+
+  /* Accent */
+  --accent-primary: #2563eb;
+  --accent-primary-hover: #1d4ed8;
+
+  /* Status */
+  --status-success: var(--primitive-green);
+  --status-warning: var(--primitive-orange);
+  --status-error: var(--primitive-coral);
+  --status-info: var(--primitive-cyan);
+
+  /* Category colors */
+  --category-blue: #2563eb;
+  --category-indigo: #4f46e5;
+  --category-cyan: #0891b2;
+  --category-green: #16a34a;
+  --category-yellow: #ca8a04;
+  --category-orange: #ea580c;
+  --category-coral: #e11d48;
+  --category-pink: #db2777;
+  --category-gray: #64748b;
+
+  /* Interactive states */
+  --bg-hover: rgba(15, 23, 42, 0.06);
+  --bg-active: rgba(15, 23, 42, 0.1);
+  --bg-selected: rgba(37, 99, 235, 0.12);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 8px rgba(15, 23, 42, 0.12), 0 8px 16px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.14), 0 16px 48px rgba(15, 23, 42, 0.12);
+  --shadow-inset: inset 0 1px 2px rgba(15, 23, 42, 0.12);
+  --shadow-focus: 0 0 0 2px rgba(37, 99, 235, 0.4);
+  --shadow-focus-ring: 0 0 0 4px rgba(37, 99, 235, 0.2);
+  --shadow-glow: 0 0 18px rgba(37, 99, 235, 0.1);
+  --card-hover-shadow:
+    0 6px 12px rgba(15, 23, 42, 0.12), 0 12px 24px rgba(15, 23, 42, 0.1);
+
+  /* Buttons */
+  --btn-primary-bg: var(--accent-primary);
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: var(--accent-primary-hover);
+  --btn-secondary-bg: var(--bg-elevated);
+  --btn-secondary-text: var(--text-primary);
+  --btn-secondary-hover: var(--bg-overlay);
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: var(--text-secondary);
+  --btn-ghost-hover: var(--bg-hover);
+}
