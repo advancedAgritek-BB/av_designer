@@ -7,7 +7,6 @@
 
 import type { Json } from './database.types';
 import type {
-  PlacedEquipment,
   DrawingLayer,
   DrawingElement,
   RuleCondition,
