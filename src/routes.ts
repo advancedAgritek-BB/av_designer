@@ -15,6 +15,9 @@ import type { AppMode } from '@/types';
  */
 export const ROUTES = {
   HOME: '/',
+  LOGIN: '/login',
+  SIGNUP: '/signup',
+  AUTH_CALLBACK: '/auth/callback',
   PROJECTS: '/projects',
   ROOM_DESIGN: '/rooms/:roomId/design',
   DRAWINGS: '/rooms/:roomId/drawings',
@@ -91,6 +94,9 @@ export function isValidRoute(path: string): boolean {
   // Check static routes
   const staticRoutes = [
     '/',
+    '/login',
+    '/signup',
+    '/auth/callback',
     '/projects',
     '/standards',
     '/equipment',
