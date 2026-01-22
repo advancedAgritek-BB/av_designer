@@ -1,0 +1,61 @@
+/**
+ * Error Boundary Styles
+ *
+ * Styles for error fallback UI displayed when React errors are caught.
+ */
+
+@layer components {
+  /* Full-page error fallback */
+  .error-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px;
+    background: var(--color-bg-primary);
+  }
+
+  .error-fallback-content {
+    max-width: 480px;
+    text-align: center;
+  }
+
+  .error-fallback h2 {
+    margin-bottom: 16px;
+    color: var(--color-text-primary);
+  }
+
+  .error-fallback p {
+    margin-bottom: 24px;
+    color: var(--color-text-secondary);
+  }
+
+  .error-details {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--color-bg-secondary);
+    border-radius: 8px;
+    font-size: var(--text-sm);
+    text-align: left;
+    overflow-x: auto;
+    color: var(--color-status-error);
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* Feature-level error fallback */
+  .feature-error {
+    padding: 32px;
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .feature-error h3 {
+    margin-bottom: 8px;
+    color: var(--color-text-primary);
+  }
+}

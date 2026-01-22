@@ -4,21 +4,20 @@ import type { Database } from './database.types';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    'Supabase environment variables not configured. Copy .env.example to .env.local and add your credentials.'
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+if (!isSupabaseConfigured) {
+  console.error(
+    '[Supabase] Missing configuration.\n' +
+    'Create .env.local with:\n' +
+    '  VITE_SUPABASE_URL=https://your-project.supabase.co\n' +
+    '  VITE_SUPABASE_ANON_KEY=your-anon-key'
   );
 }
 
 export const supabase = createClient<Database>(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key',
-  {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  }
+  supabaseUrl ?? 'https://not-configured.supabase.co',
+  supabaseAnonKey ?? 'not-configured',
 );
 
 export type { Database };

@@ -499,8 +499,10 @@ mod tests {
 
     #[test]
     fn test_page_layout_effective_dimensions_portrait() {
-        let mut layout = PageLayout::default();
-        layout.orientation = PageOrientation::Portrait;
+        let layout = PageLayout {
+            orientation: PageOrientation::Portrait,
+            ..Default::default()
+        };
         let (w, h) = layout.effective_dimensions();
         assert_eq!(w, 612.0);
         assert_eq!(h, 792.0);
@@ -508,8 +510,10 @@ mod tests {
 
     #[test]
     fn test_page_layout_effective_dimensions_landscape() {
-        let mut layout = PageLayout::default();
-        layout.orientation = PageOrientation::Landscape;
+        let layout = PageLayout {
+            orientation: PageOrientation::Landscape,
+            ..Default::default()
+        };
         let (w, h) = layout.effective_dimensions();
         assert_eq!(w, 792.0);
         assert_eq!(h, 612.0);
@@ -526,11 +530,13 @@ mod tests {
 
     #[test]
     fn test_page_layout_drawable_area_custom_margins() {
-        let mut layout = PageLayout::default();
-        layout.margin_left = 72.0; // 1"
-        layout.margin_right = 72.0; // 1"
-        layout.margin_top = 72.0; // 1"
-        layout.margin_bottom = 72.0; // 1"
+        let layout = PageLayout {
+            margin_left: 72.0,   // 1"
+            margin_right: 72.0,  // 1"
+            margin_top: 72.0,    // 1"
+            margin_bottom: 72.0, // 1"
+            ..Default::default()
+        };
 
         let (w, h) = layout.drawable_area();
         // Landscape Letter (792x612) - margins (72 each side)

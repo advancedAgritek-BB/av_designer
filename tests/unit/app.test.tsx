@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '@/App';
 
 // Mock the stores
@@ -39,31 +39,40 @@ describe('App', () => {
     mockAppStore.sidebarExpanded = true;
   });
 
-  it('renders the heading', () => {
+  it('renders the heading', async () => {
     render(<App />);
-    expect(
-      screen.getByRole('heading', { name: /Welcome to AV Designer/i })
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: /Welcome to AV Designer/i })
+      ).toBeInTheDocument();
+    });
   });
 
-  it('renders the design system preview', () => {
+  it('renders the design system preview', async () => {
     render(<App />);
-    expect(screen.getByText(/Design system initialized/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Design system initialized/i)).toBeInTheDocument();
+    });
   });
 
-  it('renders button variants', () => {
+  it('renders button variants', async () => {
     render(<App />);
-    expect(screen.getByRole('button', { name: /^Primary$/i })).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /^Primary$/i })).toBeInTheDocument();
+    });
     expect(screen.getByRole('button', { name: /^Secondary$/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^Ghost$/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^Danger$/i })).toBeInTheDocument();
   });
 
-  it('renders status pills', () => {
+  it('renders status pills', async () => {
     render(<App />);
+    await waitFor(() => {
+      const main = screen.getByRole('main');
+      // Look for pills in main content area to avoid sidebar nav item matches
+      expect(main.querySelector('.pill-quoting')).toBeInTheDocument();
+    });
     const main = screen.getByRole('main');
-    // Look for pills in main content area to avoid sidebar nav item matches
-    expect(main.querySelector('.pill-quoting')).toBeInTheDocument();
     expect(main.querySelector('.pill-review')).toBeInTheDocument();
     expect(main.querySelector('.pill-ordered')).toBeInTheDocument();
   });
@@ -76,7 +85,7 @@ describe('App', () => {
     ).toBeInTheDocument();
     // Shell includes header
     expect(screen.getByRole('banner')).toBeInTheDocument();
-    // Shell includes main content area
+    // Shell includes main content area (at minimum the loading fallback)
     expect(screen.getByRole('main')).toBeInTheDocument();
   });
 

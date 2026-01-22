@@ -6,7 +6,7 @@
 
 ---
 
-## Current Phase: 7 - Quoting & BOM System
+## Current Phase: 8 - Integration & MVP Completion
 
 ---
 
@@ -718,7 +718,82 @@
 
 ## Phase 8: Integration & MVP Completion
 
-*Tasks to be added when Phase 7 is complete*
+**Required Skills for ALL Phase 8 tasks:**
+- `@superpowers:test-driven-development` - Write tests first
+- `@react-best-practices` - Performance and patterns (for UI components)
+- `@pg:design-postgres-tables` - For database schema design (Task 8.3)
+
+### Task 8.1: Create App Router
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [x] Create `src/router.tsx` with route definitions for all feature pages
+- [x] Implement route constants and navigation helpers
+- [x] Add route-based code splitting with lazy loading
+- [x] Write tests in `tests/unit/router.test.tsx`
+
+### Task 8.2: Wire Up All Feature Pages
+
+→ Skills: `@superpowers:test-driven-development`, `@react-best-practices`
+
+- [x] Modify `src/App.tsx` to use the router
+- [x] Update Sidebar navigation to use router links
+- [x] Add breadcrumb integration with current route (via RouteModeSync)
+- [x] Implement route guards for protected pages (if needed) - N/A for MVP
+- [x] Write integration tests for navigation flow
+
+### Task 8.3: Create Supabase Database Migrations
+
+→ Skills: `@superpowers:test-driven-development`, `@pg:design-postgres-tables`
+
+- [x] Create `supabase/migrations/001_initial_schema.sql`
+- [x] Design `equipment` table with full attributes from PRD
+- [x] Design `projects` and `rooms` tables
+- [x] Design `placed_equipment` table with JSON placement data
+- [x] Design `standards` and `rules` tables for validation engine
+- [x] Design `quotes` and `quote_items` tables
+- [x] Design `clients` and `users` tables with roles
+- [x] Add Row Level Security (RLS) policies
+- [x] Create indexes for common queries
+
+### Task 8.4: End-to-End Integration Testing
+
+→ Skills: `@superpowers:test-driven-development`
+
+- [x] Create `tests/e2e/setup.tsx` with test utilities
+- [x] Create `tests/e2e/create-room.test.tsx` - Room creation workflow
+- [x] Create `tests/e2e/generate-quote.test.tsx` - Quote generation workflow
+- [x] Create `tests/e2e/navigation.test.tsx` - App navigation flow
+- [x] Verify all feature pages render correctly
+
+### Task 8.5: Final Build & Package
+
+→ Skills: `@superpowers:verification-before-completion`
+
+- [x] Run full validation (`./scripts/check.sh --full`)
+- [x] Build Tauri application for current platform
+- [x] Verify built application launches and functions
+- [x] Document any build or runtime issues (none - builds successfully)
+
+### Phase 8 Completion
+
+→ Skills: `@superpowers:requesting-code-review`, `@superpowers:verification-before-completion`
+
+- [x] Visual review of complete application
+- [x] Run full validation (`./scripts/check.sh --full`)
+- [x] Update ARCHITECTURE.md with final MVP state
+- [x] Invoke `@superpowers:requesting-code-review`
+- [x] Commit Phase 8 work
+
+**Code Review Summary (2026-01-18):**
+- Assessment: Ready to merge ✅
+- Issues fixed:
+  - Aligned platform_type enum with TypeScript PLATFORMS constant
+  - Aligned drawing_type enum with TypeScript DrawingType constant
+  - Aligned ecosystem CHECK constraint with TypeScript ECOSYSTEMS
+  - Aligned tier CHECK constraint with TypeScript TIERS
+- Strengths: Clean router architecture, comprehensive database schema with RLS, proper lazy loading, excellent test coverage (1742 tests)
+- All validation checks pass
 
 ---
 
