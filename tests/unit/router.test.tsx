@@ -279,7 +279,7 @@ describe('AppRoutes Component', () => {
     renderWithRouter(<AppRoutes />, '/');
 
     await waitFor(() => {
-      expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+      expect(screen.getByTestId('home-page')).toBeInTheDocument();
     });
   });
 
@@ -419,7 +419,7 @@ describe('Route Protection (future)', () => {
     renderWithRouter(<AppRoutes />, '/');
 
     await waitFor(() => {
-      expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+      expect(screen.getByTestId('home-page')).toBeInTheDocument();
     });
   });
 

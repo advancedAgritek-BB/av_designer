@@ -32,6 +32,38 @@ vi.mock('@/stores/project-store', () => ({
     selector(mockProjectStore),
 }));
 
+// Mock the dashboard data hook
+vi.mock('@/features/dashboard/hooks/use-dashboard-data', () => ({
+  useDashboardData: () => ({
+    stats: {
+      totalProjects: 0,
+      activeProjects: 0,
+      projectsByStatus: {},
+      totalQuotes: 0,
+      quotesValue: 0,
+      pendingApprovalCount: 0,
+      notificationCount: 0,
+    },
+    recentProjects: [],
+    quotePipeline: [],
+    unreadNotifications: [],
+    isLoading: false,
+    isError: false,
+    error: null,
+  }),
+}));
+
+// Mock the auth store
+vi.mock('@/features/auth/auth-store', () => ({
+  useAuthStore: (selector: (state: { user: null }) => unknown) =>
+    selector({ user: null }),
+}));
+
+// Mock the notifications hooks
+vi.mock('@/features/notifications/use-notifications', () => ({
+  useMarkAllAsRead: () => ({ mutate: vi.fn() }),
+}));
+
 describe('App', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -39,42 +71,35 @@ describe('App', () => {
     mockAppStore.sidebarExpanded = true;
   });
 
-  it('renders the heading', async () => {
+  it('renders the dashboard heading', async () => {
     render(<App />);
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: /Welcome to AV Designer/i })
+        screen.getByRole('heading', { name: /Dashboard/i })
       ).toBeInTheDocument();
     });
   });
 
-  it('renders the design system preview', async () => {
+  it('renders the dashboard stats cards', async () => {
     render(<App />);
     await waitFor(() => {
-      expect(screen.getByText(/Design system initialized/i)).toBeInTheDocument();
+      expect(screen.getByText(/Active Projects/i)).toBeInTheDocument();
     });
   });
 
-  it('renders button variants', async () => {
+  it('renders quick action buttons', async () => {
     render(<App />);
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /^Primary$/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /New Project/i })).toBeInTheDocument();
     });
-    expect(screen.getByRole('button', { name: /^Secondary$/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /^Ghost$/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /^Danger$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /New Room/i })).toBeInTheDocument();
   });
 
-  it('renders status pills', async () => {
+  it('renders the home page with dashboard', async () => {
     render(<App />);
     await waitFor(() => {
-      const main = screen.getByRole('main');
-      // Look for pills in main content area to avoid sidebar nav item matches
-      expect(main.querySelector('.pill-quoting')).toBeInTheDocument();
+      expect(screen.getByTestId('home-page')).toBeInTheDocument();
     });
-    const main = screen.getByRole('main');
-    expect(main.querySelector('.pill-review')).toBeInTheDocument();
-    expect(main.querySelector('.pill-ordered')).toBeInTheDocument();
   });
 
   it('renders the Shell layout', () => {

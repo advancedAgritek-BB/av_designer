@@ -29,4 +29,14 @@
   --primitive-orange: #e09a5c;
   --primitive-pink: #d97aa3;
   --primitive-gray: #8b8b93;
+
+  /* Blueprint / Technical Design palette */
+  --primitive-blueprint-dark: #0c1621;
+  --primitive-blueprint-mid: #122233;
+  --primitive-blueprint-glow: #00d4ff;
+  --primitive-blueprint-accent: #00a8cc;
+  --primitive-blueprint-grid: rgba(0, 180, 216, 0.12);
+  --primitive-blueprint-grid-emphasis: rgba(0, 212, 255, 0.25);
+  --primitive-gold-warm: #fbbf24;
+  --primitive-gold-glow: rgba(251, 191, 36, 0.4);
 }

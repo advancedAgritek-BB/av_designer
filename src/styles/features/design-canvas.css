@@ -1,24 +1,58 @@
 /**
  * Design Canvas Styles
  *
- * Styles for the interactive room design canvas with zoom, pan, and equipment placement.
+ * Technical Blueprint aesthetic - architectural CAD meets premium design tool.
+ * Features: blueprint grid, glass-morphic elements, sophisticated animations.
  */
 
 @layer components {
   .design-canvas {
+    --canvas-bg: linear-gradient(
+      135deg,
+      var(--primitive-blueprint-dark) 0%,
+      #0a1118 50%,
+      var(--primitive-blueprint-dark) 100%
+    );
+    --grid-color: var(--primitive-blueprint-grid);
+    --grid-emphasis: var(--primitive-blueprint-grid-emphasis);
+    --glow-primary: var(--primitive-blueprint-glow);
+    --glow-secondary: var(--primitive-blueprint-accent);
+    --equipment-bg: linear-gradient(135deg, #1a3a52 0%, #0f2a3d 100%);
+    --equipment-border: var(--primitive-blueprint-accent);
+    --equipment-selected-glow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.2);
+    --glass-bg: rgba(18, 34, 51, 0.85);
+    --glass-border: rgba(0, 180, 216, 0.15);
+
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 400px;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    min-height: 500px;
+    background: var(--canvas-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(0, 212, 255, 0.05),
+      0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .design-canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0, 168, 204, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .design-canvas:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-accent-blue);
+    box-shadow:
+      inset 0 1px 0 rgba(0, 212, 255, 0.1),
+      0 0 0 2px rgba(0, 212, 255, 0.3),
+      0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
   .design-canvas--empty {
@@ -27,175 +61,426 @@
   }
 
   .design-canvas__empty-message {
-    color: var(--color-text-tertiary);
+    color: var(--text-tertiary);
     font-size: 14px;
   }
 
   .design-canvas.drop-target {
-    background-color: color-mix(
-      in srgb,
-      var(--color-accent-blue) 10%,
-      var(--color-bg-secondary)
+    background: linear-gradient(
+      135deg,
+      rgba(0, 180, 216, 0.08) 0%,
+      var(--primitive-blueprint-dark) 50%,
+      rgba(0, 180, 216, 0.08) 100%
     );
-    border-color: var(--color-accent-blue);
+    border-color: var(--glow-primary);
+    box-shadow:
+      inset 0 0 60px rgba(0, 212, 255, 0.1),
+      0 0 0 1px var(--glow-primary),
+      0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
-  /* Toolbar */
+  /* Toolbar - Glass morphic style */
   .design-canvas__toolbar {
+    position: relative;
+    z-index: 10;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border-bottom: 1px solid var(--color-border);
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .design-canvas__toolbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 212, 255, 0.3) 50%,
+      transparent 100%
+    );
   }
 
   .design-canvas__btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    height: 32px;
-    padding: 0 8px;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    color: var(--color-text-secondary);
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.2);
+    border-radius: 8px;
+    color: var(--text-secondary);
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .design-canvas__btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
 
   .design-canvas__btn:hover {
-    background-color: var(--color-bg-primary);
-    border-color: var(--color-accent-blue);
-    color: var(--color-text-primary);
+    background: rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.4);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.15);
+  }
+
+  .design-canvas__btn:hover::before {
+    opacity: 1;
+  }
+
+  .design-canvas__btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 212, 255, 0.1);
   }
 
   .design-canvas__btn:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-accent-blue);
+    box-shadow:
+      0 0 0 2px rgba(0, 212, 255, 0.4),
+      0 4px 12px rgba(0, 212, 255, 0.15);
   }
 
   .design-canvas__zoom-level {
-    min-width: 48px;
-    padding: 0 8px;
-    color: var(--color-text-secondary);
-    font-size: 12px;
+    min-width: 56px;
+    padding: 0 12px;
+    color: var(--glow-primary);
+    font-size: 13px;
     font-family: var(--font-mono);
+    font-weight: 600;
     text-align: center;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
   }
 
-  /* Viewport */
+  .design-canvas__toolbar-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 6px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 180, 216, 0.3) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Viewport - fills available space */
   .design-canvas__viewport {
     position: relative;
+    z-index: 1;
     flex: 1;
-    margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 180, 216, 0.3) transparent;
   }
 
-  /* Grid */
+  .design-canvas__viewport::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .design-canvas__viewport::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .design-canvas__viewport::-webkit-scrollbar-thumb {
+    background: rgba(0, 180, 216, 0.3);
+    border-radius: 4px;
+  }
+
+  .design-canvas__viewport::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 180, 216, 0.5);
+  }
+
+  /* Inner container for room + grid positioning */
+  .design-canvas__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  /* Blueprint Grid */
   .design-canvas__grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image:
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    pointer-events: none;
+    animation: gridFadeIn 0.6s ease-out;
+    border-radius: 4px;
+  }
+
+  .design-canvas__grid::before {
+    content: '';
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
-    pointer-events: none;
+      linear-gradient(to right, var(--grid-emphasis) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-emphasis) 1px, transparent 1px);
+    background-size: calc(var(--grid-size, 20px) * 5) calc(var(--grid-size, 20px) * 5);
+    opacity: 0.6;
   }
 
-  /* Room Boundary */
+  @keyframes gridFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Room Boundary - Architectural outline */
   .design-canvas__boundary {
-    position: relative;
-    border: 2px solid var(--color-accent-gold);
-    border-radius: 2px;
-    background-color: var(--color-bg-primary);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--glow-primary);
+    border-radius: 4px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 180, 216, 0.03) 0%,
+      rgba(0, 168, 204, 0.02) 100%
+    );
+    box-shadow:
+      inset 0 0 40px rgba(0, 212, 255, 0.05),
+      0 0 30px rgba(0, 212, 255, 0.1);
+    animation: boundaryGlow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes boundaryGlow {
+    from {
+      box-shadow:
+        inset 0 0 40px rgba(0, 212, 255, 0.05),
+        0 0 30px rgba(0, 212, 255, 0.1);
+    }
+    to {
+      box-shadow:
+        inset 0 0 50px rgba(0, 212, 255, 0.08),
+        0 0 40px rgba(0, 212, 255, 0.15);
+    }
+  }
+
+  .design-canvas__boundary::before,
+  .design-canvas__boundary::after {
+    content: '';
+    position: absolute;
+    background: var(--glow-primary);
+  }
+
+  /* Corner markers for architectural feel */
+  .design-canvas__boundary::before {
+    top: -2px;
+    left: -2px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--glow-primary);
+    border-right: none;
+    border-bottom: none;
+    background: transparent;
+  }
+
+  .design-canvas__boundary::after {
+    bottom: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--glow-primary);
+    border-left: none;
+    border-top: none;
+    background: transparent;
   }
 
   .design-canvas__dimension {
     position: absolute;
-    padding: 2px 6px;
-    background-color: var(--color-accent-gold);
-    color: var(--color-bg-primary);
+    padding: 4px 10px;
+    background: linear-gradient(135deg, rgba(0, 180, 216, 0.9) 0%, rgba(0, 168, 204, 0.9) 100%);
+    color: #0a1118;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: var(--font-mono);
+    letter-spacing: 0.02em;
     white-space: nowrap;
+    border-radius: 4px;
+    box-shadow:
+      0 2px 8px rgba(0, 212, 255, 0.3),
+      0 0 20px rgba(0, 212, 255, 0.2);
   }
 
   .design-canvas__dimension--width {
-    bottom: -20px;
+    bottom: -28px;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .design-canvas__dimension--length {
     top: 50%;
-    right: -60px;
+    right: -48px;
     transform: translateY(-50%) rotate(90deg);
+    transform-origin: center;
   }
 
-  /* Equipment */
+  /* Equipment Items - 3D treatment */
   .design-canvas__equipment {
     position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 20px;
-    min-height: 20px;
-    background-color: var(--color-accent-blue);
-    border: 2px solid color-mix(in srgb, var(--color-accent-blue) 80%, black);
-    border-radius: 4px;
+    min-width: 24px;
+    min-height: 24px;
+    background: var(--equipment-bg);
+    border: 2px solid var(--equipment-border);
+    border-radius: 6px;
     cursor: move;
-    transition: box-shadow 0.15s ease;
+    transition:
+      box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.25s ease;
     user-select: none;
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .design-canvas__equipment::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 40%
+    );
+    pointer-events: none;
   }
 
   .design-canvas__equipment:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border-color: var(--glow-primary);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    z-index: 10;
   }
 
   .design-canvas__equipment.selected {
-    border-color: var(--color-accent-gold);
+    border-color: var(--primitive-gold-warm);
     box-shadow:
-      0 0 0 2px var(--color-bg-primary),
-      0 0 0 4px var(--color-accent-gold);
+      var(--equipment-selected-glow),
+      0 0 30px var(--primitive-gold-glow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 20;
+  }
+
+  .design-canvas__equipment.selected::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 1px dashed rgba(251, 191, 36, 0.5);
+    border-radius: 10px;
+    animation: selectionPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes selectionPulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   .design-canvas__equipment-label {
     position: absolute;
-    bottom: 100%;
+    bottom: calc(100% + 8px);
     left: 50%;
-    transform: translateX(-50%);
-    padding: 2px 6px;
-    margin-bottom: 4px;
-    background-color: var(--color-bg-tertiary);
-    border-radius: 2px;
-    color: var(--color-text-secondary);
-    font-size: 10px;
+    transform: translateX(-50%) translateY(4px);
+    padding: 6px 12px;
+    background: rgba(18, 34, 51, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 500;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.15s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .design-canvas__equipment-label::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 180, 216, 0.3);
   }
 
   .design-canvas__equipment:hover .design-canvas__equipment-label {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 
-  /* Rotation Handle */
+  /* Rotation Handle - Premium feel */
   .design-canvas__rotation-handle {
     position: absolute;
-    top: -24px;
+    top: -28px;
     left: 50%;
-    width: 16px;
-    height: 16px;
-    background-color: var(--color-accent-gold);
-    border: 2px solid var(--color-bg-primary);
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, var(--primitive-gold-warm) 0%, #f59e0b 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     transform: translateX(-50%);
     cursor: grab;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+    box-shadow:
+      0 2px 8px rgba(251, 191, 36, 0.4),
+      0 0 20px rgba(251, 191, 36, 0.2);
   }
 
   .design-canvas__rotation-handle::before {
@@ -203,25 +488,90 @@
     position: absolute;
     bottom: 100%;
     left: 50%;
-    width: 1px;
-    height: 8px;
-    background-color: var(--color-accent-gold);
+    width: 2px;
+    height: 10px;
+    background: linear-gradient(180deg, transparent 0%, var(--primitive-gold-warm) 100%);
     transform: translateX(-50%);
+  }
+
+  .design-canvas__rotation-handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .design-canvas__rotation-handle:hover {
+    transform: translateX(-50%) scale(1.15);
+    box-shadow:
+      0 4px 12px rgba(251, 191, 36, 0.5),
+      0 0 30px rgba(251, 191, 36, 0.3);
   }
 
   .design-canvas__rotation-handle:active {
     cursor: grabbing;
+    transform: translateX(-50%) scale(1.1);
   }
 
   /* Placeholder */
   .design-canvas__placeholder {
     position: absolute;
-    inset: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-tertiary);
+    gap: 12px;
+    color: var(--text-tertiary);
     font-size: 14px;
     pointer-events: none;
+    text-align: center;
+    max-width: 80%;
+  }
+
+  .design-canvas__placeholder p {
+    margin: 0;
+    padding: 16px 24px;
+    background: rgba(0, 180, 216, 0.05);
+    border: 1px dashed rgba(0, 180, 216, 0.3);
+    border-radius: 8px;
+    animation: placeholderPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes placeholderPulse {
+    0%, 100% {
+      border-color: rgba(0, 180, 216, 0.2);
+      background: rgba(0, 180, 216, 0.03);
+    }
+    50% {
+      border-color: rgba(0, 180, 216, 0.4);
+      background: rgba(0, 180, 216, 0.06);
+    }
+  }
+
+  /* Drop zone indicator */
+  .design-canvas__drop-indicator {
+    position: absolute;
+    border: 2px dashed var(--glow-primary);
+    border-radius: 8px;
+    background: rgba(0, 212, 255, 0.1);
+    pointer-events: none;
+    animation: dropIndicatorPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes dropIndicatorPulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 }

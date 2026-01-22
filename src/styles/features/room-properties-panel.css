@@ -1,18 +1,40 @@
 /**
  * Room Properties Panel Styles
  *
- * Styles for the room configuration panel with dimension inputs and dropdowns.
+ * Technical Blueprint aesthetic - sophisticated form controls with glass morphism.
+ * Configuration panel with dimension inputs, dropdowns, and validation feedback.
  */
 
 @layer components {
   .room-properties-panel {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 180, 216, 0.04) 0%,
+      rgba(0, 168, 204, 0.02) 100%
+    );
+    border: 1px solid rgba(0, 180, 216, 0.12);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .room-properties-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 212, 255, 0.3) 50%,
+      transparent 100%
+    );
   }
 
   .room-properties-panel--empty {
@@ -22,129 +44,254 @@
   }
 
   .room-properties-panel__empty-message {
-    color: var(--color-text-tertiary);
+    color: var(--text-tertiary);
     font-size: 14px;
   }
 
   .room-properties-panel__heading {
     margin: 0;
-    color: var(--color-text-primary);
-    font-size: 16px;
+    color: var(--text-primary);
+    font-size: 14px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .room-properties-panel__heading::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--primitive-blueprint-glow);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
   }
 
   .room-properties-panel__section {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
 
   .room-properties-panel__section-heading {
     margin: 0;
-    color: var(--color-text-secondary);
-    font-size: 12px;
+    padding-bottom: 8px;
+    color: var(--primitive-blueprint-accent);
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .room-properties-panel__field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .room-properties-panel__label {
-    color: var(--color-text-secondary);
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .room-properties-panel__input {
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    color: var(--color-text-primary);
-    font-size: 14px;
-    transition: border-color 0.15s ease;
-  }
-
-  .room-properties-panel__input:focus {
-    outline: none;
-    border-color: var(--color-accent-blue);
-  }
-
-  .room-properties-panel__input--number {
-    width: 80px;
-  }
-
-  .room-properties-panel__input-group {
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(0, 180, 216, 0.15);
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .room-properties-panel__unit {
-    color: var(--color-text-tertiary);
+  .room-properties-panel__section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 180, 216, 0.2) 0%,
+      transparent 100%
+    );
+  }
+
+  .room-properties-panel__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .room-properties-panel__label {
+    color: var(--text-secondary);
     font-size: 12px;
+    font-weight: 500;
+  }
+
+  .room-properties-panel__input {
+    padding: 10px 14px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.15);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+
+  .room-properties-panel__input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .room-properties-panel__input:hover {
+    border-color: rgba(0, 180, 216, 0.3);
+    background: rgba(0, 180, 216, 0.08);
+  }
+
+  .room-properties-panel__input:focus {
+    outline: none;
+    border-color: var(--primitive-blueprint-glow);
+    background: rgba(0, 180, 216, 0.1);
+    box-shadow:
+      0 0 0 3px rgba(0, 212, 255, 0.1),
+      0 0 20px rgba(0, 212, 255, 0.1);
+  }
+
+  .room-properties-panel__input--number {
+    width: 72px;
+    text-align: center;
+    font-weight: 600;
     font-family: var(--font-mono);
   }
 
+  .room-properties-panel__input--number::-webkit-inner-spin-button,
+  .room-properties-panel__input--number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .room-properties-panel__input--number[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  .room-properties-panel__input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .room-properties-panel__unit {
+    color: var(--primitive-blueprint-accent);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
   .room-properties-panel__select {
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    color: var(--color-text-primary);
+    padding: 10px 14px;
+    padding-right: 36px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.15);
+    border-radius: 8px;
+    color: var(--text-primary);
     font-size: 14px;
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300b4d8' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+
+  .room-properties-panel__select:hover {
+    border-color: rgba(0, 180, 216, 0.3);
+    background-color: rgba(0, 180, 216, 0.08);
   }
 
   .room-properties-panel__select:focus {
     outline: none;
-    border-color: var(--color-accent-blue);
+    border-color: var(--primitive-blueprint-glow);
+    background-color: rgba(0, 180, 216, 0.1);
+    box-shadow:
+      0 0 0 3px rgba(0, 212, 255, 0.1),
+      0 0 20px rgba(0, 212, 255, 0.1);
   }
 
+  .room-properties-panel__select option {
+    background: var(--primitive-blueprint-dark);
+    color: var(--text-primary);
+    padding: 8px;
+  }
+
+  /* Validation feedback */
   .room-properties-panel__validation {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 12px;
-    border-radius: 4px;
+    gap: 6px;
+    padding: 14px;
+    border-radius: 10px;
+    animation: validationAppear 0.3s ease-out;
+  }
+
+  @keyframes validationAppear {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .room-properties-panel__validation--errors {
-    background-color: color-mix(
-      in srgb,
-      var(--color-status-error) 10%,
-      var(--color-bg-secondary)
+    background: linear-gradient(
+      135deg,
+      rgba(224, 122, 107, 0.12) 0%,
+      rgba(224, 122, 107, 0.06) 100%
     );
-    border: 1px solid var(--color-status-error);
+    border: 1px solid rgba(224, 122, 107, 0.3);
   }
 
   .room-properties-panel__validation--warnings {
-    background-color: color-mix(
-      in srgb,
-      var(--color-status-warning) 10%,
-      var(--color-bg-secondary)
+    background: linear-gradient(
+      135deg,
+      rgba(224, 154, 92, 0.12) 0%,
+      rgba(224, 154, 92, 0.06) 100%
     );
-    border: 1px solid var(--color-status-warning);
+    border: 1px solid rgba(224, 154, 92, 0.3);
   }
 
   .room-properties-panel__validation-message {
     margin: 0;
-    color: var(--color-text-primary);
-    font-size: 12px;
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .room-properties-panel__validation-message::before {
+    content: '!';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
   }
 
   .room-properties-panel__validation--errors .room-properties-panel__validation-message {
-    color: var(--color-status-error);
+    color: var(--primitive-coral);
   }
 
-  .room-properties-panel__validation--warnings
-    .room-properties-panel__validation-message {
-    color: var(--color-status-warning);
+  .room-properties-panel__validation--errors .room-properties-panel__validation-message::before {
+    background: rgba(224, 122, 107, 0.2);
+    color: var(--primitive-coral);
+  }
+
+  .room-properties-panel__validation--warnings .room-properties-panel__validation-message {
+    color: var(--primitive-orange);
+  }
+
+  .room-properties-panel__validation--warnings .room-properties-panel__validation-message::before {
+    background: rgba(224, 154, 92, 0.2);
+    color: var(--primitive-orange);
+  }
+
+  /* Dimension grid for compact layout */
+  .room-properties-panel__dimension-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .room-properties-panel__dimension-grid .room-properties-panel__field:last-child {
+    grid-column: span 2;
   }
 }

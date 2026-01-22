@@ -1,27 +1,48 @@
 /**
  * Validation Panel Styles
  *
- * Styles for the validation feedback panel with errors, warnings, and suggestions.
+ * Technical Blueprint aesthetic - sophisticated validation feedback
+ * with status indicators and glass morphism effects.
  */
 
 @layer components {
   .validation-panel {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 16px;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    gap: 14px;
+    padding: 18px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 180, 216, 0.04) 0%,
+      rgba(0, 168, 204, 0.02) 100%
+    );
+    border: 1px solid rgba(0, 180, 216, 0.12);
+    border-radius: 14px;
+    position: relative;
+  }
+
+  .validation-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 212, 255, 0.3) 50%,
+      transparent 100%
+    );
   }
 
   .validation-panel--compact {
-    padding: 12px;
-    gap: 8px;
+    padding: 14px;
+    gap: 10px;
   }
 
   .validation-panel--inline {
-    padding: 8px 12px;
+    padding: 10px 14px;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
@@ -29,28 +50,97 @@
 
   .validation-panel__heading {
     margin: 0;
-    color: var(--color-text-primary);
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 13px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .validation-panel__heading::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--primitive-blueprint-glow);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
   }
 
   .validation-panel__empty {
     margin: 0;
-    color: var(--color-text-tertiary);
+    padding: 12px 16px;
+    background: rgba(95, 186, 125, 0.08);
+    border: 1px solid rgba(95, 186, 125, 0.2);
+    border-radius: 10px;
+    color: var(--primitive-green);
     font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .validation-panel__empty::before {
+    content: '✓';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: rgba(95, 186, 125, 0.15);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
   }
 
   .validation-panel__loading {
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
     font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .validation-panel__loading::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0, 180, 216, 0.2);
+    border-top-color: var(--primitive-blueprint-glow);
+    border-radius: 50%;
+    animation: validationSpin 0.8s linear infinite;
+  }
+
+  @keyframes validationSpin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .validation-panel__summary {
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border-radius: 4px;
-    color: var(--color-text-secondary);
-    font-size: 12px;
+    padding: 10px 14px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.1);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .validation-panel__summary-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .validation-panel__summary-count--errors {
+    color: var(--primitive-coral);
+  }
+
+  .validation-panel__summary-count--warnings {
+    color: var(--primitive-orange);
   }
 
   .validation-panel__list {
@@ -72,94 +162,151 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border: none;
-    border-radius: 4px;
-    color: var(--color-text-primary);
-    font-size: 12px;
+    padding: 10px 14px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    transition: all 0.2s ease;
   }
 
   .validation-panel__section-header:hover {
-    background-color: var(--color-bg-primary);
+    background: rgba(0, 180, 216, 0.1);
+    border-color: rgba(0, 180, 216, 0.2);
   }
 
   .validation-panel__section--error .validation-panel__section-header {
-    border-left: 3px solid var(--color-status-error);
+    background: rgba(224, 122, 107, 0.08);
+    border-color: rgba(224, 122, 107, 0.2);
+    border-left: 3px solid var(--primitive-coral);
   }
 
   .validation-panel__section--warning .validation-panel__section-header {
-    border-left: 3px solid var(--color-status-warning);
+    background: rgba(224, 154, 92, 0.08);
+    border-color: rgba(224, 154, 92, 0.2);
+    border-left: 3px solid var(--primitive-orange);
   }
 
   .validation-panel__section--suggestion .validation-panel__section-header {
-    border-left: 3px solid var(--color-accent-blue);
+    background: rgba(0, 180, 216, 0.08);
+    border-color: rgba(0, 180, 216, 0.2);
+    border-left: 3px solid var(--primitive-blueprint-accent);
   }
 
   .validation-panel__section--info .validation-panel__section-header {
-    border-left: 3px solid var(--color-text-tertiary);
+    border-left: 3px solid var(--text-tertiary);
   }
 
   .validation-panel__section-toggle {
-    color: var(--color-text-tertiary);
+    color: var(--text-tertiary);
     font-size: 10px;
+    transition: transform 0.2s ease;
+  }
+
+  .validation-panel__section[aria-expanded='true'] .validation-panel__section-toggle {
+    transform: rotate(180deg);
   }
 
   .validation-panel__item {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-    padding: 8px 12px;
-    background-color: var(--color-bg-tertiary);
-    border-radius: 4px;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(0, 180, 216, 0.04);
+    border: 1px solid rgba(0, 180, 216, 0.08);
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    transition: all 0.2s ease;
+    animation: itemAppear 0.3s ease-out;
+  }
+
+  @keyframes itemAppear {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .validation-panel__item:hover {
-    background-color: var(--color-bg-primary);
+    background: rgba(0, 180, 216, 0.08);
+    border-color: rgba(0, 180, 216, 0.15);
+    transform: translateX(4px);
   }
 
   .validation-panel__item--error {
-    border-left: 3px solid var(--color-status-error);
+    background: rgba(224, 122, 107, 0.06);
+    border-color: rgba(224, 122, 107, 0.15);
+    border-left: 3px solid var(--primitive-coral);
+  }
+
+  .validation-panel__item--error:hover {
+    background: rgba(224, 122, 107, 0.1);
+    border-color: rgba(224, 122, 107, 0.25);
   }
 
   .validation-panel__item--warning {
-    border-left: 3px solid var(--color-status-warning);
+    background: rgba(224, 154, 92, 0.06);
+    border-color: rgba(224, 154, 92, 0.15);
+    border-left: 3px solid var(--primitive-orange);
+  }
+
+  .validation-panel__item--warning:hover {
+    background: rgba(224, 154, 92, 0.1);
+    border-color: rgba(224, 154, 92, 0.25);
   }
 
   .validation-panel__item--suggestion {
-    border-left: 3px solid var(--color-accent-blue);
+    background: rgba(0, 180, 216, 0.06);
+    border-color: rgba(0, 180, 216, 0.15);
+    border-left: 3px solid var(--primitive-blueprint-accent);
+  }
+
+  .validation-panel__item--suggestion:hover {
+    background: rgba(0, 180, 216, 0.1);
+    border-color: rgba(0, 180, 216, 0.25);
   }
 
   .validation-panel__item--info {
-    border-left: 3px solid var(--color-text-tertiary);
+    border-left: 3px solid var(--text-tertiary);
   }
 
   .validation-panel__item-icon {
     flex-shrink: 0;
-    width: 16px;
-    text-align: center;
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
   }
 
   .validation-panel__item--error .validation-panel__item-icon {
-    color: var(--color-status-error);
+    background: rgba(224, 122, 107, 0.15);
+    color: var(--primitive-coral);
   }
 
   .validation-panel__item--warning .validation-panel__item-icon {
-    color: var(--color-status-warning);
+    background: rgba(224, 154, 92, 0.15);
+    color: var(--primitive-orange);
   }
 
   .validation-panel__item--suggestion .validation-panel__item-icon {
-    color: var(--color-accent-blue);
+    background: rgba(0, 180, 216, 0.15);
+    color: var(--primitive-blueprint-accent);
   }
 
   .validation-panel__item--info .validation-panel__item-icon {
-    color: var(--color-text-tertiary);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-tertiary);
   }
 
   .validation-panel__item-content {
@@ -171,13 +318,13 @@
   }
 
   .validation-panel__item-message {
-    color: var(--color-text-primary);
+    color: var(--text-primary);
     font-size: 13px;
     line-height: 1.4;
   }
 
   .validation-panel__item-details {
-    color: var(--color-text-secondary);
+    color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.4;
   }
@@ -187,20 +334,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 4px;
-    color: var(--color-text-tertiary);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text-tertiary);
     font-size: 14px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
   }
 
   .validation-panel__dismiss-btn:hover {
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
   }
 }

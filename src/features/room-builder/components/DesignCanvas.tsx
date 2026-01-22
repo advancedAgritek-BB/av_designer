@@ -272,36 +272,41 @@ export function DesignCanvas({
       </div>
 
       {/* Canvas area */}
-      <div
-        className="design-canvas__viewport"
-        style={{
-          width: canvasWidth,
-          height: canvasHeight,
-        }}
-      >
-        {/* Grid */}
-        {showGrid && (
-          <div
-            data-testid="canvas-grid"
-            data-spacing={GRID_SPACING}
-            className="design-canvas__grid"
-            style={{
-              backgroundSize: `${PIXELS_PER_FOOT * scale}px ${PIXELS_PER_FOOT * scale}px`,
-            }}
-          />
-        )}
-
-        {/* Room Boundary */}
+      <div className="design-canvas__viewport">
+        {/* Inner container for centering */}
         <div
-          data-testid="room-boundary"
-          data-width={room.width}
-          data-length={room.length}
-          className="design-canvas__boundary"
+          className="design-canvas__inner"
           style={{
-            width: canvasWidth,
-            height: canvasHeight,
+            minWidth: canvasWidth + 80,
+            minHeight: canvasHeight + 80,
           }}
         >
+          {/* Grid */}
+          {showGrid && (
+            <div
+              data-testid="canvas-grid"
+              data-spacing={GRID_SPACING}
+              className="design-canvas__grid"
+              style={{
+                width: canvasWidth,
+                height: canvasHeight,
+                backgroundSize: `${PIXELS_PER_FOOT * scale}px ${PIXELS_PER_FOOT * scale}px`,
+                '--grid-size': `${PIXELS_PER_FOOT * scale}px`,
+              } as React.CSSProperties}
+            />
+          )}
+
+          {/* Room Boundary */}
+          <div
+            data-testid="room-boundary"
+            data-width={room.width}
+            data-length={room.length}
+            className="design-canvas__boundary"
+            style={{
+              width: canvasWidth,
+              height: canvasHeight,
+            }}
+          >
           {/* Dimension labels */}
           <span className="design-canvas__dimension design-canvas__dimension--width">
             {room.width} ft
@@ -359,12 +364,13 @@ export function DesignCanvas({
           );
         })}
 
-        {/* Empty state placeholder */}
-        {room.placedEquipment.length === 0 && (
-          <div className="design-canvas__placeholder">
-            <p>Drag equipment from the palette to place it in the room</p>
-          </div>
-        )}
+          {/* Empty state placeholder */}
+          {room.placedEquipment.length === 0 && (
+            <div className="design-canvas__placeholder">
+              <p>Drag equipment from the palette to place it in the room</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -198,9 +198,15 @@ export function useDashboardData(): DashboardData {
     notificationCountQuery.error ||
     unreadNotificationsQuery.error;
 
-  // Extract data with safe defaults
-  const projects = projectsQuery.data ?? [];
-  const quotes = quotesQuery.data ?? [];
+  // Extract data with safe defaults - wrap in useMemo to stabilize references
+  const projects = useMemo<Project[]>(
+    () => projectsQuery.data ?? [],
+    [projectsQuery.data]
+  );
+  const quotes = useMemo<Quote[]>(
+    () => quotesQuery.data ?? [],
+    [quotesQuery.data]
+  );
   const notificationCount = notificationCountQuery.data ?? 0;
   const unreadNotifications = unreadNotificationsQuery.data ?? [];
 
