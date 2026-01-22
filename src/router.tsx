@@ -64,6 +64,14 @@ const NotFoundPage = lazy(() =>
   import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
 
+const LoginPage = lazy(() =>
+  import('@/features/auth').then((m) => ({ default: m.LoginPage }))
+);
+
+const SignupPage = lazy(() =>
+  import('@/features/auth').then((m) => ({ default: m.SignupPage }))
+);
+
 // =============================================================================
 // Loading Fallback
 // =============================================================================
@@ -85,6 +93,8 @@ function PageLoadingFallback() {
  */
 export const RouteConfig = [
   { path: '/', element: <HomePage /> },
+  { path: '/login', element: <LoginPage /> },
+  { path: '/signup', element: <SignupPage /> },
   { path: '/projects', element: <ProjectsPage /> },
   { path: '/equipment', element: <EquipmentPage /> },
   { path: '/standards', element: <StandardsPage /> },
@@ -109,6 +119,8 @@ export function AppRoutes() {
     <Suspense fallback={<PageLoadingFallback />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/equipment" element={<EquipmentPage />} />
         <Route path="/standards" element={<StandardsPage />} />
