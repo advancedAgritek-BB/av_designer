@@ -1,8 +1,9 @@
 import { supabase } from '@/lib/supabase';
+import type { Json } from '@/lib/database.types';
 import type { Equipment, EquipmentCategory, EquipmentFormData } from '@/types/equipment';
 
 /**
- * Database row type with snake_case columns
+ * Database row type matching actual Supabase schema
  */
 interface EquipmentDbRow {
   id: string;
@@ -12,10 +13,10 @@ interface EquipmentDbRow {
   category: EquipmentCategory;
   subcategory: string;
   description: string;
-  cost: number;
-  msrp: number;
+  cost_cents: number;
+  msrp_cents: number;
   dimensions: { height: number; width: number; depth: number };
-  weight: number;
+  weight_lbs: number | null;
   electrical: {
     voltage?: number;
     wattage?: number;
@@ -26,6 +27,12 @@ interface EquipmentDbRow {
   platform_certifications: string[] | null;
   image_url: string | null;
   spec_sheet_url: string | null;
+  pricing: unknown;
+  specifications: unknown;
+  compatibility: unknown;
+  organization_id: string | null;
+  is_active: boolean;
+  preferred_pricing_index: number;
   created_at: string;
   updated_at: string;
 }
@@ -46,7 +53,7 @@ export class EquipmentService {
       .order('manufacturer', { ascending: true });
 
     if (error) throw error;
-    return this.mapRows((data as EquipmentDbRow[] | null) || []);
+    return this.mapRows((data as unknown as EquipmentDbRow[]) || []);
   }
 
   /**
@@ -60,7 +67,7 @@ export class EquipmentService {
       .order('manufacturer', { ascending: true });
 
     if (error) throw error;
-    return this.mapRows((data as EquipmentDbRow[] | null) || []);
+    return this.mapRows((data as unknown as EquipmentDbRow[]) || []);
   }
 
   /**
@@ -78,7 +85,7 @@ export class EquipmentService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return this.mapRow(data as EquipmentDbRow);
+    return this.mapRow(data as unknown as EquipmentDbRow);
   }
 
   /**
@@ -94,7 +101,7 @@ export class EquipmentService {
       .limit(50);
 
     if (error) throw error;
-    return this.mapRows((data as EquipmentDbRow[] | null) || []);
+    return this.mapRows((data as unknown as EquipmentDbRow[]) || []);
   }
 
   /**
@@ -108,11 +115,11 @@ export class EquipmentService {
       category: formData.category,
       subcategory: formData.subcategory,
       description: formData.description,
-      cost: formData.cost,
-      msrp: formData.msrp,
-      dimensions: formData.dimensions,
-      weight: formData.weight,
-      electrical: formData.electrical,
+      cost_cents: Math.round(formData.cost * 100),
+      msrp_cents: Math.round(formData.msrp * 100),
+      dimensions: formData.dimensions as unknown as Json,
+      weight_lbs: formData.weight,
+      electrical: (formData.electrical ?? null) as unknown as Json,
       platform_certifications: formData.platformCertifications,
     };
 
@@ -123,7 +130,7 @@ export class EquipmentService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as EquipmentDbRow);
+    return this.mapRow(data as unknown as EquipmentDbRow);
   }
 
   /**
@@ -139,10 +146,10 @@ export class EquipmentService {
     if (formData.category !== undefined) updateData.category = formData.category;
     if (formData.subcategory !== undefined) updateData.subcategory = formData.subcategory;
     if (formData.description !== undefined) updateData.description = formData.description;
-    if (formData.cost !== undefined) updateData.cost = formData.cost;
-    if (formData.msrp !== undefined) updateData.msrp = formData.msrp;
+    if (formData.cost !== undefined) updateData.cost_cents = Math.round(formData.cost * 100);
+    if (formData.msrp !== undefined) updateData.msrp_cents = Math.round(formData.msrp * 100);
     if (formData.dimensions !== undefined) updateData.dimensions = formData.dimensions;
-    if (formData.weight !== undefined) updateData.weight = formData.weight;
+    if (formData.weight !== undefined) updateData.weight_lbs = formData.weight;
     if (formData.electrical !== undefined) updateData.electrical = formData.electrical;
     if (formData.platformCertifications !== undefined) {
       updateData.platform_certifications = formData.platformCertifications;
@@ -156,7 +163,7 @@ export class EquipmentService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as EquipmentDbRow);
+    return this.mapRow(data as unknown as EquipmentDbRow);
   }
 
   /**
@@ -169,6 +176,40 @@ export class EquipmentService {
   }
 
   /**
+   * Find equipment by manufacturer and SKU within an organization
+   */
+  async findByManufacturerSku(
+    organizationId: string,
+    manufacturer: string,
+    sku: string
+  ): Promise<Equipment | null> {
+    const { data, error } = await supabase
+      .from(this.table)
+      .select('*')
+      .eq('organization_id', organizationId)
+      .eq('manufacturer', manufacturer)
+      .eq('sku', sku)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+    return this.mapRow(data as unknown as EquipmentDbRow);
+  }
+
+  /**
+   * Add distributor pricing to an equipment item (stub - updates pricing field)
+   */
+  async addPricing(
+    _equipmentId: string,
+    _pricing: { distributor: string; cost: number; msrp: number }
+  ): Promise<void> {
+    // TODO: Implement pricing update when pricing schema is finalized
+    // For now, this is a stub to allow imports to proceed
+  }
+
+  /**
    * Map multiple database rows to Equipment objects
    */
   private mapRows(rows: EquipmentDbRow[]): Equipment[] {
@@ -177,6 +218,7 @@ export class EquipmentService {
 
   /**
    * Map single database row (snake_case) to Equipment object (camelCase)
+   * Converts cents to dollars for cost/msrp
    */
   private mapRow(row: EquipmentDbRow): Equipment {
     return {
@@ -187,10 +229,10 @@ export class EquipmentService {
       category: row.category,
       subcategory: row.subcategory,
       description: row.description,
-      cost: row.cost,
-      msrp: row.msrp,
+      cost: row.cost_cents / 100,
+      msrp: row.msrp_cents / 100,
       dimensions: row.dimensions,
-      weight: row.weight,
+      weight: row.weight_lbs ?? 0,
       electrical: row.electrical ?? undefined,
       platformCertifications: row.platform_certifications ?? undefined,
       imageUrl: row.image_url ?? undefined,

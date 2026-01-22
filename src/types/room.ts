@@ -23,7 +23,7 @@ export type RoomType = (typeof ROOM_TYPES)[number];
 // Platform Constants
 // ============================================================================
 
-export const PLATFORMS = ['teams', 'zoom', 'webex', 'meet', 'multi', 'none'] as const;
+export const PLATFORMS = ['teams', 'zoom', 'webex', 'meet', 'multi', 'none', 'generic'] as const;
 
 export type Platform = (typeof PLATFORMS)[number];
 

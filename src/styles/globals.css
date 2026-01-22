@@ -6,7 +6,10 @@
 
 @import 'tailwindcss';
 
-/* Theme - Design system tokens */
+/* Tokens - Design system values (must come before theme) */
+@import './tokens/index.css';
+
+/* Theme - Tailwind configuration */
 @import './theme.css';
 
 /* Base - HTML element styles and resets */

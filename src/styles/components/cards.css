@@ -4,17 +4,18 @@
 
 @layer components {
   .card {
-    background-color: var(--color-bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    box-shadow: var(--shadow-card);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
   }
 
   .card-elevated {
-    background-color: var(--color-bg-elevated);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    box-shadow: var(--shadow-elevated);
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
   }
 
   /* Card padding variants */
@@ -23,11 +24,11 @@
   }
 
   .card-padding-sm {
-    padding: 12px;
+    padding: var(--spacing-3);
   }
 
   .card-padding-lg {
-    padding: 24px;
+    padding: var(--spacing-6);
   }
 
   /* Card state variants */
@@ -35,19 +36,22 @@
     transition:
       background-color 0.15s,
       border-color 0.15s,
-      box-shadow 0.15s;
+      box-shadow 0.2s,
+      transform 0.2s;
   }
 
   .card-hoverable:hover {
-    background-color: var(--color-bg-tertiary);
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-elevated);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
   }
 
   .card-selected {
-    border-color: var(--color-accent-gold);
+    border-color: var(--accent-primary);
     box-shadow:
-      var(--shadow-card),
-      0 0 0 1px var(--color-accent-gold);
+      var(--shadow-sm),
+      0 0 0 1px var(--accent-primary);
   }
 
   .card-interactive {
@@ -55,19 +59,20 @@
     transition:
       background-color 0.15s,
       border-color 0.15s,
-      box-shadow 0.15s;
+      box-shadow 0.2s,
+      transform 0.2s;
   }
 
   .card-interactive:hover {
-    background-color: var(--color-bg-tertiary);
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-elevated);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
   }
 
   .card-interactive:focus-visible {
     outline: none;
-    box-shadow:
-      0 0 0 2px var(--color-bg-primary),
-      0 0 0 4px var(--color-accent-blue);
+    box-shadow: var(--shadow-focus), var(--shadow-focus-ring);
   }
 
   /* Card slots */
@@ -75,9 +80,9 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    padding: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--border-default);
   }
 
   .card-header-content {
@@ -86,29 +91,28 @@
   }
 
   .card-title {
-    font-size: var(--text-md);
-    font-weight: var(--font-medium);
-    letter-spacing: var(--tracking-tight);
-    color: var(--color-text-primary);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
     margin: 0;
+    letter-spacing: -0.02em;
   }
 
   .card-description {
-    font-size: var(--text-sm);
-    font-weight: var(--font-normal);
-    color: var(--color-text-secondary);
-    margin: 4px 0 0 0;
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin: var(--spacing-1) 0 0 0;
   }
 
   .card-body {
-    padding: 16px;
+    padding: var(--spacing-4);
   }
 
   .card-footer {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    gap: var(--spacing-3);
+    padding: var(--spacing-4);
+    border-top: 1px solid var(--border-default);
   }
 }

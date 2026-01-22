@@ -76,6 +76,132 @@ export interface EquipmentFormData {
   platformCertifications?: string[];
 }
 
+// =============================================================================
+// Import Types
+// =============================================================================
+
+export type DestinationField =
+  | 'manufacturer'
+  | 'model'
+  | 'sku'
+  | 'category'
+  | 'subcategory'
+  | 'description'
+  | 'cost'
+  | 'msrp'
+  | 'map'
+  | 'contract'
+  | 'distributorSku'
+  | 'height'
+  | 'width'
+  | 'depth'
+  | 'weight'
+  | 'ignore'
+  | `specifications.${string}`;
+
+export interface ColumnMapping {
+  csvColumn: string;
+  destination: DestinationField;
+}
+
+export interface VendorTemplate {
+  id: string;
+  name: string;
+  type: 'distributor' | 'manufacturer' | 'generic';
+  filename: string;
+  headerPatterns: string[];
+  suggestedMappings: ColumnMapping[];
+}
+
+export interface ImportConfig {
+  organizationId: string;
+  distributorName: string;
+  columnMappings: ColumnMapping[];
+  skipDuplicates?: boolean;
+  updateExisting?: boolean;
+}
+
+export interface ValidationResult {
+  row: number;
+  severity: 'error' | 'warning' | 'info';
+  field: string;
+  message: string;
+  value?: unknown;
+}
+
+export interface EquipmentImportData {
+  manufacturer: string;
+  model: string;
+  sku: string;
+  category: EquipmentCategory;
+  subcategory: string;
+  description?: string;
+  cost: number;
+  msrp: number;
+  map?: number;
+  contract?: number;
+  distributorSku?: string;
+  distributor?: string;
+  height?: number;
+  width?: number;
+  depth?: number;
+  weight?: number;
+  specifications?: Record<string, string>;
+}
+
+export interface ParsedRow {
+  rowNumber: number;
+  data: Partial<EquipmentImportData>;
+  errors: ValidationResult[];
+  warnings: ValidationResult[];
+  status: 'valid' | 'warning' | 'error';
+  existingEquipmentId?: string;
+  action: 'create' | 'update';
+}
+
+export interface ImportPreview {
+  rows: ParsedRow[];
+  summary: {
+    total: number;
+    valid: number;
+    warnings: number;
+    errors: number;
+    toCreate: number;
+    toUpdate: number;
+  };
+}
+
+export interface ImportRecord {
+  id: string;
+  organizationId: string;
+  userId: string;
+  filename: string;
+  distributor: string;
+  totalRows: number;
+  createdCount: number;
+  updatedCount: number;
+  errorCount: number;
+  errors: { row: number; error: string }[];
+  columnMapping: Record<string, string>;
+  startedAt: string;
+  completedAt?: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+}
+
+export interface DistributorPricing {
+  distributor: string;
+  distributorSku: string;
+  cost: number;
+  msrp: number;
+  map?: number;
+  contract?: number;
+  lastUpdated: string;
+}
+
+// =============================================================================
+// Validation
+// =============================================================================
+
 /**
  * Runtime validation for Equipment objects
  * Checks all required fields and their types

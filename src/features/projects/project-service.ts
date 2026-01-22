@@ -103,7 +103,7 @@ export class ProjectService {
       name: formData.name,
       client_id: formData.clientId ?? null,
       client_name: formData.clientName,
-      status: formData.status || 'draft',
+      status: (formData.status || 'draft') as 'draft' | 'quoting' | 'client_review' | 'ordered' | 'in_progress' | 'completed' | 'on_hold' | 'cancelled',
       description: formData.description || null,
       user_id: userId,
     };
@@ -163,7 +163,6 @@ export class ProjectService {
     return {
       id: row.id,
       name: row.name,
-      clientId: row.client_id,
       clientName: row.client_name,
       status: row.status,
       rooms: [], // Rooms loaded separately via room service

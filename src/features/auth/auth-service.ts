@@ -483,12 +483,12 @@ export class AuthService {
   static async getOrganizationMembers(orgId: string): Promise<OrganizationMember[]> {
     const { data, error } = await supabase
       .from('organization_members')
-      .select('*, users (*)')
+      .select('*, users!organization_members_user_id_fkey (*)')
       .eq('org_id', orgId)
       .order('joined_at', { ascending: true });
 
     if (error) throw new Error(error.message);
-    return (data as (OrganizationMemberRow & { users?: UserRow | null })[]).map(
+    return (data as unknown as (OrganizationMemberRow & { users?: UserRow | null })[]).map(
       mapOrganizationMemberFromDb
     );
   }
@@ -519,12 +519,12 @@ export class AuthService {
         role: data.role,
         invited_by: data.invitedBy,
       })
-      .select('*, users (*)')
+      .select('*, users!organization_members_user_id_fkey (*)')
       .single();
 
     if (error) throw new Error(error.message);
     return mapOrganizationMemberFromDb(
-      memberRow as OrganizationMemberRow & { users?: UserRow | null }
+      memberRow as unknown as OrganizationMemberRow & { users?: UserRow | null }
     );
   }
 
@@ -539,12 +539,12 @@ export class AuthService {
       .from('organization_members')
       .update({ role })
       .eq('id', memberId)
-      .select('*, users (*)')
+      .select('*, users!organization_members_user_id_fkey (*)')
       .single();
 
     if (error) throw new Error(error.message);
     return mapOrganizationMemberFromDb(
-      data as OrganizationMemberRow & { users?: UserRow | null }
+      data as unknown as OrganizationMemberRow & { users?: UserRow | null }
     );
   }
 

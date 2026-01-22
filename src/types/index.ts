@@ -26,12 +26,14 @@ export interface Project extends Timestamps {
 }
 
 export type ProjectStatus =
+  | 'draft'
   | 'quoting'
   | 'client_review'
   | 'ordered'
   | 'in_progress'
   | 'on_hold'
-  | 'completed';
+  | 'completed'
+  | 'cancelled';
 
 // ============================================================================
 // Room Types
@@ -353,6 +355,7 @@ export interface AnnotationStyle {
 export type AppMode =
   | 'home'
   | 'projects'
+  | 'clients'
   | 'room_design'
   | 'drawings'
   | 'quoting'

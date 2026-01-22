@@ -38,6 +38,7 @@ const PLATFORM_LABELS: Record<Platform, string> = {
   meet: 'Google Meet',
   multi: 'Multi-Platform',
   none: 'None',
+  generic: 'Generic',
 };
 
 const ECOSYSTEM_LABELS: Record<Ecosystem, string> = {

@@ -24,11 +24,15 @@ describe('QuoteService', () => {
   const mockItem: QuoteItem = {
     id: 'item-1',
     equipmentId: 'equip-123',
+    name: 'Test Equipment',
+    category: 'video',
     quantity: 2,
     unitCost: 500,
     unitPrice: 750,
+    extendedCost: 1000,
+    extendedPrice: 1500,
     margin: 250,
-    total: 1500,
+    marginPercentage: 25,
     status: 'quoting',
   };
 
@@ -62,15 +66,20 @@ describe('QuoteService', () => {
     updatedAt: '2026-01-18T00:00:00Z',
   };
 
-  // Database row format (snake_case)
+  // Database row format (snake_case) - matches actual Supabase schema
+  // The `items` column stores version, sections, and totals as JSON
   const mockDbItem = {
     id: 'item-1',
     equipment_id: 'equip-123',
+    name: 'Test Equipment',
+    category: 'video',
     quantity: 2,
     unit_cost: 500,
     unit_price: 750,
+    extended_cost: 1000,
+    extended_price: 1500,
     margin: 250,
-    total: 1500,
+    margin_percentage: 25,
     status: 'quoting',
   };
 
@@ -96,10 +105,19 @@ describe('QuoteService', () => {
     id: 'quote-1',
     project_id: 'proj-123',
     room_id: 'room-456',
-    version: 1,
+    currency: 'USD',
+    items: {
+      version: 1,
+      sections: [mockDbSection],
+      totals: mockDbTotals,
+    },
+    notes: null,
     status: 'draft',
-    sections: [mockDbSection],
-    totals: mockDbTotals,
+    subtotal_cents: 200000,
+    tax_cents: 20000,
+    tax_rate: 0.1,
+    total_cents: 220000,
+    valid_until: null,
     created_at: '2026-01-18T00:00:00Z',
     updated_at: '2026-01-18T00:00:00Z',
   };
@@ -342,7 +360,15 @@ describe('QuoteService', () => {
     };
 
     it('should update a quote', async () => {
-      const updatedDbRow = { ...mockDbRow, status: 'quoting', version: 2 };
+      // version is stored inside the items JSON, not as a top-level field
+      const updatedDbRow = {
+        ...mockDbRow,
+        status: 'quoting',
+        items: {
+          ...mockDbRow.items,
+          version: 2,
+        },
+      };
       const mockSingle = vi.fn().mockResolvedValue({ data: updatedDbRow, error: null });
       const mockSelect = vi.fn().mockReturnValue({ single: mockSingle });
       const mockEq = vi.fn().mockReturnValue({ select: mockSelect });
@@ -460,8 +486,26 @@ describe('QuoteService', () => {
       expect(result[0].totals.marginPercentage).toBe(25);
     });
 
-    it('should handle null sections', async () => {
-      const rowWithNullSections = { ...mockDbRow, sections: null };
+    it('should handle null items (sections and totals)', async () => {
+      const rowWithNullItems = { ...mockDbRow, items: null };
+      const mockSelect = vi.fn().mockReturnValue({
+        order: vi.fn().mockResolvedValue({ data: [rowWithNullItems], error: null }),
+      });
+      vi.mocked(supabase.from).mockReturnValue({ select: mockSelect } as never);
+
+      const result = await service.getAll();
+
+      expect(result[0].sections).toEqual([]);
+      expect(result[0].totals.equipment).toBe(0);
+      expect(result[0].totals.labor).toBe(0);
+      expect(result[0].totals.total).toBe(0);
+    });
+
+    it('should handle null sections within items', async () => {
+      const rowWithNullSections = {
+        ...mockDbRow,
+        items: { ...mockDbRow.items, sections: null },
+      };
       const mockSelect = vi.fn().mockReturnValue({
         order: vi.fn().mockResolvedValue({ data: [rowWithNullSections], error: null }),
       });
@@ -472,8 +516,11 @@ describe('QuoteService', () => {
       expect(result[0].sections).toEqual([]);
     });
 
-    it('should handle null totals with defaults', async () => {
-      const rowWithNullTotals = { ...mockDbRow, totals: null };
+    it('should handle null totals within items with defaults', async () => {
+      const rowWithNullTotals = {
+        ...mockDbRow,
+        items: { ...mockDbRow.items, totals: null },
+      };
       const mockSelect = vi.fn().mockReturnValue({
         order: vi.fn().mockResolvedValue({ data: [rowWithNullTotals], error: null }),
       });

@@ -39,7 +39,7 @@ interface SimplePlacedEquipment {
 export function mapJsonToPlacedEquipment(json: Json): SimplePlacedEquipment[] {
   if (!json || !Array.isArray(json)) return [];
 
-  return (json as PlacedEquipmentJson[]).map((item) => ({
+  return (json as unknown as PlacedEquipmentJson[]).map((item) => ({
     id: item.id,
     equipmentId: item.equipmentId,
     position: {
@@ -75,7 +75,7 @@ export function mapPlacedEquipmentToJson(equipment: SimplePlacedEquipment[]): Js
 export function mapJsonToDrawingLayers(json: Json): DrawingLayer[] {
   if (!json || !Array.isArray(json)) return [];
 
-  return (json as DrawingLayerJson[]).map((layer) => ({
+  return (json as unknown as DrawingLayerJson[]).map((layer) => ({
     id: layer.id,
     name: layer.name,
     type: layer.type as DrawingLayer['type'],
@@ -128,7 +128,7 @@ export interface DrawingOverride {
 export function mapJsonToDrawingOverrides(json: Json): DrawingOverride[] {
   if (!json || !Array.isArray(json)) return [];
 
-  return (json as DrawingOverrideJson[]).map((override) => ({
+  return (json as unknown as DrawingOverrideJson[]).map((override) => ({
     elementId: override.elementId,
     property: override.property,
     value: override.value,
@@ -150,7 +150,7 @@ export function mapDrawingOverridesToJson(overrides: DrawingOverride[]): Json {
 export function mapJsonToRuleConditions(json: Json): RuleCondition[] {
   if (!json || !Array.isArray(json)) return [];
 
-  return (json as RuleConditionJson[]).map((cond) => ({
+  return (json as unknown as RuleConditionJson[]).map((cond) => ({
     field: cond.field,
     operator: cond.operator,
     value: cond.value,

@@ -174,7 +174,6 @@ export function OrganizationSettings({ orgId }: OrganizationSettingsProps) {
         orgId,
         email: inviteEmail.trim(),
         role: inviteRole,
-        invitedBy: user.id,
       },
       {
         onSuccess: () => {
@@ -194,16 +193,16 @@ export function OrganizationSettings({ orgId }: OrganizationSettingsProps) {
 
   const handleRoleChange = (member: OrganizationMember, role: OrgRole) => {
     updateMemberRoleMutation.mutate({
+      orgId,
       memberId: member.id,
       role,
-      orgId,
     });
   };
 
   const handleRemoveMember = () => {
     if (!memberToRemove) return;
     removeMemberMutation.mutate(
-      { memberId: memberToRemove.id, orgId },
+      { orgId, memberId: memberToRemove.id },
       {
         onSuccess: () => setMemberToRemove(null),
       }

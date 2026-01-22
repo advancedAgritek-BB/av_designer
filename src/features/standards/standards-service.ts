@@ -25,6 +25,9 @@ import {
   mapNodeRow,
   mapRuleRows,
   mapRuleRow,
+  mapFrontendNodeTypeToDb,
+  mapFrontendAspectToDb,
+  mapFrontendExpressionTypeToDb,
 } from './standards-db-types';
 
 // ============================================================================
@@ -103,7 +106,7 @@ export class StandardsService {
       .order('node_id', { ascending: true });
 
     if (error) throw error;
-    return mapStandardRows((data as StandardDbRow[] | null) ?? []);
+    return mapStandardRows((data as unknown as StandardDbRow[] | null) ?? []);
   }
 
   /**
@@ -120,7 +123,7 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return mapStandardRow(data as StandardDbRow);
+    return mapStandardRow(data as unknown as StandardDbRow);
   }
 
   /**
@@ -158,7 +161,7 @@ export class StandardsService {
       .single();
 
     if (error) throw error;
-    return mapStandardRow(data as StandardDbRow);
+    return mapStandardRow(data as unknown as StandardDbRow);
   }
 
   /**
@@ -183,7 +186,7 @@ export class StandardsService {
       .order('name', { ascending: true });
 
     if (error) throw error;
-    return mapNodeRows((data as StandardNodeDbRow[] | null) ?? []);
+    return mapNodeRows((data as unknown as StandardNodeDbRow[] | null) ?? []);
   }
 
   /**
@@ -200,7 +203,7 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return mapNodeRow(data as StandardNodeDbRow);
+    return mapNodeRow(data as unknown as StandardNodeDbRow);
   }
 
   /**
@@ -215,7 +218,7 @@ export class StandardsService {
       query = query.eq('parent_id', parentId);
     }
 
-    const { data, error } = await query.order('order', { ascending: true });
+    const { data, error } = await query.order('sort_order', { ascending: true });
 
     if (error) throw error;
     return mapNodeRows((data as unknown as StandardNodeDbRow[] | null) ?? []);
@@ -225,16 +228,11 @@ export class StandardsService {
    * Create a new node.
    */
   async createNode(input: CreateNodeInput): Promise<StandardNode> {
-    const insertData: {
-      name: string;
-      parent_id: string | null;
-      type: string;
-      order: number;
-    } = {
+    const insertData = {
       name: input.name,
       parent_id: input.parentId,
-      type: input.type,
-      order: input.order,
+      type: mapFrontendNodeTypeToDb(input.type),
+      sort_order: input.order,
     };
 
     const { data, error } = await supabase
@@ -251,16 +249,11 @@ export class StandardsService {
    * Update an existing node.
    */
   async updateNode(id: string, input: UpdateNodeInput): Promise<StandardNode> {
-    const updateData: {
-      name?: string;
-      parent_id?: string | null;
-      type?: string;
-      order?: number;
-    } = {};
+    const updateData: Record<string, unknown> = {};
     if (input.name !== undefined) updateData.name = input.name;
     if (input.parentId !== undefined) updateData.parent_id = input.parentId;
-    if (input.type !== undefined) updateData.type = input.type;
-    if (input.order !== undefined) updateData.order = input.order;
+    if (input.type !== undefined) updateData.type = mapFrontendNodeTypeToDb(input.type);
+    if (input.order !== undefined) updateData.sort_order = input.order;
 
     const { data, error } = await supabase
       .from(this.nodesTable)
@@ -295,7 +288,7 @@ export class StandardsService {
       .order('priority', { ascending: false });
 
     if (error) throw error;
-    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as unknown as RuleDbRow[] | null) ?? []);
   }
 
   /**
@@ -312,21 +305,22 @@ export class StandardsService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return mapRuleRow(data as RuleDbRow);
+    return mapRuleRow(data as unknown as RuleDbRow);
   }
 
   /**
    * Fetch rules by aspect.
    */
   async getRulesByAspect(aspect: RuleAspect): Promise<Rule[]> {
+    const dbAspect = mapFrontendAspectToDb(aspect);
     const { data, error } = await supabase
       .from(this.rulesTable)
       .select('*')
-      .eq('aspect', aspect)
+      .eq('aspect', dbAspect)
       .order('priority', { ascending: false });
 
     if (error) throw error;
-    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as unknown as RuleDbRow[] | null) ?? []);
   }
 
   /**
@@ -340,27 +334,18 @@ export class StandardsService {
       .limit(50);
 
     if (error) throw error;
-    return mapRuleRows((data as RuleDbRow[] | null) ?? []);
+    return mapRuleRows((data as unknown as RuleDbRow[] | null) ?? []);
   }
 
   /**
    * Create a new rule.
    */
   async createRule(input: CreateRuleInput): Promise<Rule> {
-    const insertData: {
-      name: string;
-      description: string;
-      aspect: string;
-      expression_type: string;
-      conditions: Json;
-      expression: string;
-      priority: number;
-      is_active: boolean;
-    } = {
+    const insertData = {
       name: input.name,
       description: input.description,
-      aspect: input.aspect,
-      expression_type: input.expressionType,
+      aspect: mapFrontendAspectToDb(input.aspect),
+      expression_type: mapFrontendExpressionTypeToDb(input.expressionType),
       conditions: input.conditions as unknown as Json,
       expression: input.expression,
       priority: input.priority,
@@ -381,21 +366,12 @@ export class StandardsService {
    * Update an existing rule.
    */
   async updateRule(id: string, input: UpdateRuleInput): Promise<Rule> {
-    const updateData: {
-      name?: string;
-      description?: string;
-      aspect?: string;
-      expression_type?: string;
-      conditions?: Json;
-      expression?: string;
-      priority?: number;
-      is_active?: boolean;
-    } = {};
+    const updateData: Record<string, unknown> = {};
     if (input.name !== undefined) updateData.name = input.name;
     if (input.description !== undefined) updateData.description = input.description;
-    if (input.aspect !== undefined) updateData.aspect = input.aspect;
+    if (input.aspect !== undefined) updateData.aspect = mapFrontendAspectToDb(input.aspect);
     if (input.expressionType !== undefined)
-      updateData.expression_type = input.expressionType;
+      updateData.expression_type = mapFrontendExpressionTypeToDb(input.expressionType);
     if (input.conditions !== undefined)
       updateData.conditions = input.conditions as unknown as Json;
     if (input.expression !== undefined) updateData.expression = input.expression;

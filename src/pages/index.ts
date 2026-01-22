@@ -5,6 +5,9 @@
  */
 export { HomePage } from './HomePage';
 export { ProjectsPage } from './ProjectsPage';
+export { ProjectDetailPage } from './ProjectDetailPage';
+export { ClientsPage } from './ClientsPage';
+export { ClientDetailPage } from './ClientDetailPage';
 export { EquipmentPage } from './EquipmentPage';
 export { StandardsPage } from './StandardsPage';
 export { TemplatesPage } from './TemplatesPage';

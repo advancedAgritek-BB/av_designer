@@ -64,6 +64,18 @@ const NotFoundPage = lazy(() =>
   import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
 
+const ClientsPage = lazy(() =>
+  import('@/pages/ClientsPage').then((m) => ({ default: m.ClientsPage }))
+);
+
+const ClientDetailPage = lazy(() =>
+  import('@/pages/ClientDetailPage').then((m) => ({ default: m.ClientDetailPage }))
+);
+
+const ProjectDetailPage = lazy(() =>
+  import('@/pages/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage }))
+);
+
 const LoginPage = lazy(() =>
   import('@/features/auth').then((m) => ({ default: m.LoginPage }))
 );
@@ -101,6 +113,9 @@ export const RouteConfig = [
   { path: '/signup', element: <SignupPage /> },
   { path: '/auth/callback', element: <AuthCallbackPage /> },
   { path: '/projects', element: <ProjectsPage /> },
+  { path: '/projects/:projectId', element: <ProjectDetailPage /> },
+  { path: '/clients', element: <ClientsPage /> },
+  { path: '/clients/:clientId', element: <ClientDetailPage /> },
   { path: '/equipment', element: <EquipmentPage /> },
   { path: '/standards', element: <StandardsPage /> },
   { path: '/templates', element: <TemplatesPage /> },
@@ -128,6 +143,9 @@ export function AppRoutes() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="/clients" element={<ClientsPage />} />
+        <Route path="/clients/:clientId" element={<ClientDetailPage />} />
         <Route path="/equipment" element={<EquipmentPage />} />
         <Route path="/standards" element={<StandardsPage />} />
         <Route path="/templates" element={<TemplatesPage />} />

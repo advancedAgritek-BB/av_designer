@@ -1,9 +1,7 @@
 # AV Designer Supabase Configuration
 # See: https://supabase.com/docs/guides/cli/config
 
-[project]
-id = "av-designer"
-name = "AV Designer MVP"
+project_id = "av-designer"
 
 [api]
 # Port to use for the API URL.

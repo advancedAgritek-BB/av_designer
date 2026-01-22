@@ -314,13 +314,16 @@ describe('StandardsService', () => {
 
   describe('getRules', () => {
     it('fetches all rules', async () => {
+      // Mock data uses database enum values (snake_case)
+      // DB 'comparison' maps to frontend 'constraint'
+      // DB 'compatibility' maps to frontend 'equipment_selection'
       const mockRules = [
         {
           id: 'rule-1',
           name: 'Teams Display',
           description: 'Display rule',
-          aspect: 'equipment_selection',
-          expression_type: 'constraint',
+          aspect: 'compatibility', // DB enum value
+          expression_type: 'comparison', // DB enum value
           conditions: [],
           expression: 'x >= 0',
           priority: 80,
@@ -335,7 +338,9 @@ describe('StandardsService', () => {
 
       expect(mockFrom).toHaveBeenCalledWith('rules');
       expect(result).toHaveLength(1);
+      // Frontend receives mapped values
       expect(result[0].expressionType).toBe('constraint');
+      expect(result[0].aspect).toBe('equipment_selection');
       expect(result[0].isActive).toBe(true);
     });
   });
@@ -347,8 +352,8 @@ describe('StandardsService', () => {
           id: 'rule-1',
           name: 'Teams Display',
           description: 'Display rule',
-          aspect: 'equipment_selection',
-          expression_type: 'constraint',
+          aspect: 'compatibility', // DB enum value
+          expression_type: 'comparison', // DB enum value
           conditions: [],
           expression: 'x >= 0',
           priority: 80,
@@ -359,9 +364,11 @@ describe('StandardsService', () => {
       ];
       mockOrder.mockResolvedValueOnce({ data: mockRules, error: null });
 
+      // Frontend passes 'equipment_selection', service converts to DB 'compatibility'
       const result = await service.getRulesByAspect('equipment_selection');
 
-      expect(mockEq).toHaveBeenCalledWith('aspect', 'equipment_selection');
+      // Service should query with the DB enum value
+      expect(mockEq).toHaveBeenCalledWith('aspect', 'compatibility');
       expect(result).toHaveLength(1);
     });
   });
@@ -373,8 +380,8 @@ describe('StandardsService', () => {
           id: 'rule-1',
           name: 'Teams Display',
           description: 'Display rule',
-          aspect: 'equipment_selection',
-          expression_type: 'constraint',
+          aspect: 'compatibility', // DB enum value
+          expression_type: 'comparison', // DB enum value
           conditions: [],
           expression: 'x >= 0',
           priority: 80,
@@ -490,12 +497,13 @@ describe('StandardsService', () => {
     });
 
     it('maps snake_case to camelCase for rules', async () => {
+      // Use DB enum values: 'comparison' maps to 'constraint', 'compatibility' maps to 'equipment_selection'
       const mockRule = {
         id: 'rule-1',
         name: 'Test',
         description: 'Desc',
-        aspect: 'equipment_selection',
-        expression_type: 'constraint',
+        aspect: 'compatibility', // DB enum value
+        expression_type: 'comparison', // DB enum value
         conditions: [],
         expression: 'x >= 0',
         priority: 50,
@@ -507,24 +515,30 @@ describe('StandardsService', () => {
 
       const result = await service.getRuleById('rule-1');
 
+      // Frontend receives mapped values
       expect(result?.expressionType).toBe('constraint');
+      expect(result?.aspect).toBe('equipment_selection');
       expect(result?.isActive).toBe(true);
       expect(result?.createdAt).toBe('2026-01-18T00:00:00Z');
     });
 
     it('maps snake_case to camelCase for nodes', async () => {
+      // Use DB column names: type is 'category'/'subcategory'/'item', sort_order not order
       const mockNode = {
         id: 'node-1',
         name: 'Test',
+        description: null,
         parent_id: 'parent-1',
-        type: 'folder',
-        order: 1,
+        type: 'category', // DB enum value, maps to frontend 'folder'
+        sort_order: 1, // DB column name
       };
       mockSingle.mockResolvedValueOnce({ data: mockNode, error: null });
 
       const result = await service.getNodeById('node-1');
 
       expect(result?.parentId).toBe('parent-1');
+      expect(result?.type).toBe('folder'); // Frontend value
+      expect(result?.order).toBe(1);
     });
   });
 

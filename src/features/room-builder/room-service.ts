@@ -26,6 +26,7 @@ interface PlacedEquipmentDbRow {
 
 /**
  * Database row type with snake_case columns
+ * Note: placed_equipment is Json in DB, we cast it to our typed array
  */
 interface RoomDbRow {
   id: string;
@@ -35,10 +36,12 @@ interface RoomDbRow {
   width: number;
   length: number;
   ceiling_height: number;
-  platform: Platform;
-  ecosystem: Ecosystem;
-  tier: QualityTier;
-  placed_equipment: PlacedEquipmentDbRow[];
+  platform: Platform | null;
+  ecosystem: Ecosystem | null;
+  tier: QualityTier | null;
+  placed_equipment: Json; // JSONB in database
+  notes: string | null;
+  location_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -59,7 +62,7 @@ export class RoomService {
       .order('name', { ascending: true });
 
     if (error) throw error;
-    return this.mapRows((data as RoomDbRow[] | null) || []);
+    return this.mapRows((data as unknown as RoomDbRow[]) || []);
   }
 
   /**
@@ -73,7 +76,7 @@ export class RoomService {
       .order('name', { ascending: true });
 
     if (error) throw error;
-    return this.mapRows((data as RoomDbRow[] | null) || []);
+    return this.mapRows((data as unknown as RoomDbRow[]) || []);
   }
 
   /**
@@ -91,13 +94,16 @@ export class RoomService {
       if (error.code === 'PGRST116') return null;
       throw error;
     }
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
    * Create new room
    */
   async create(projectId: string, formData: RoomFormData): Promise<Room> {
+    // Map 'generic' platform to 'none' for database compatibility
+    const dbPlatform = formData.platform === 'generic' ? 'none' : formData.platform;
+
     const insertData = {
       project_id: projectId,
       name: formData.name,
@@ -105,7 +111,7 @@ export class RoomService {
       width: formData.width,
       length: formData.length,
       ceiling_height: formData.ceilingHeight,
-      platform: formData.platform,
+      platform: dbPlatform as 'teams' | 'zoom' | 'webex' | 'meet' | 'multi' | 'none',
       ecosystem: formData.ecosystem,
       tier: formData.tier,
       placed_equipment: [],
@@ -118,7 +124,7 @@ export class RoomService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
@@ -145,7 +151,7 @@ export class RoomService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
@@ -189,7 +195,7 @@ export class RoomService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
@@ -220,7 +226,7 @@ export class RoomService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
@@ -261,7 +267,24 @@ export class RoomService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as RoomDbRow);
+    return this.mapRow(data as unknown as RoomDbRow);
+  }
+
+  /**
+   * Set all placed equipment for a room (replaces existing)
+   */
+  async setPlacedEquipment(roomId: string, equipment: PlacedEquipment[]): Promise<Room> {
+    const dbEquipment = equipment.map((pe) => this.mapPlacedEquipmentToDb(pe));
+
+    const { data, error } = await supabase
+      .from(this.table)
+      .update({ placed_equipment: dbEquipment as unknown as Json })
+      .eq('id', roomId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return this.mapRow(data as unknown as RoomDbRow);
   }
 
   /**
@@ -275,6 +298,9 @@ export class RoomService {
    * Map single database row (snake_case) to Room object (camelCase)
    */
   private mapRow(row: RoomDbRow): Room {
+    // Cast placed_equipment from Json to typed array
+    const placedEquipmentArray = (row.placed_equipment || []) as unknown as PlacedEquipmentDbRow[];
+
     return {
       id: row.id,
       projectId: row.project_id,
@@ -283,10 +309,10 @@ export class RoomService {
       width: row.width,
       length: row.length,
       ceilingHeight: row.ceiling_height,
-      platform: row.platform,
-      ecosystem: row.ecosystem,
-      tier: row.tier,
-      placedEquipment: (row.placed_equipment || []).map((pe) =>
+      platform: row.platform ?? 'generic',
+      ecosystem: row.ecosystem ?? 'mixed',
+      tier: row.tier ?? 'standard',
+      placedEquipment: placedEquipmentArray.map((pe) =>
         this.mapPlacedEquipment(pe)
       ),
       createdAt: row.created_at,

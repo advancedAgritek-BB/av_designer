@@ -11,6 +11,7 @@ interface HeaderProps {
 const MODE_LABELS: Record<AppMode, string> = {
   home: 'Home',
   projects: 'Projects',
+  clients: 'Clients',
   room_design: 'Room Design',
   drawings: 'Drawings',
   quoting: 'Quoting',

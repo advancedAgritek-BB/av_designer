@@ -281,9 +281,11 @@ describe('EquipmentService', () => {
         update: mockUpdate,
       } as unknown as ReturnType<typeof supabase.from>);
 
+      // cost is passed as dollars, service converts to cents
       const result = await service.update('1', { cost: 2999 });
 
-      expect(mockUpdate).toHaveBeenCalledWith({ cost: 2999 });
+      // Service should convert dollars to cents
+      expect(mockUpdate).toHaveBeenCalledWith({ cost_cents: 299900 });
       expect(mockEq).toHaveBeenCalledWith('id', '1');
       expect(result.manufacturer).toBe('Shure');
     });

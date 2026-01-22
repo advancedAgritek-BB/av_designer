@@ -775,8 +775,8 @@ export class EquipmentImportService {
           await equipmentService.update(row.existingEquipmentId, formData);
           updated++;
         } else {
-          // Create new
-          await equipmentService.create(formData, config.organizationId, pricing);
+          // Create new - equipmentService.create only takes formData
+          await equipmentService.create(formData);
           created++;
         }
       } catch (error) {

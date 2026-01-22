@@ -92,7 +92,7 @@ export function ImportModal({
       const config: ImportConfig = {
         columnMappings,
         distributorName,
-        duplicateHandling: 'update',
+        updateExisting: true,
         organizationId,
       };
 
@@ -127,7 +127,7 @@ export function ImportModal({
       const config: ImportConfig = {
         columnMappings,
         distributorName,
-        duplicateHandling: 'update',
+        updateExisting: true,
         organizationId,
       };
 

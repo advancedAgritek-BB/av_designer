@@ -6,6 +6,7 @@
  */
 
 import { supabase } from '@/lib/supabase';
+import type { TablesInsert } from '@/lib/database.types';
 import type {
   Quote,
   QuoteSection,
@@ -16,7 +17,7 @@ import type {
 } from '@/types/quote';
 
 // ============================================================================
-// Database Row Types (snake_case)
+// Database Row Types (snake_case) - matches actual Supabase schema
 // ============================================================================
 
 interface QuoteItemDbRow {
@@ -53,14 +54,30 @@ interface QuoteTotalsDbRow {
   margin_percentage: number;
 }
 
+interface QuoteItemsJson {
+  version: number;
+  sections: QuoteSectionDbRow[];
+  totals: QuoteTotalsDbRow;
+}
+
+/**
+ * Database row type for quotes table.
+ * The `items` column stores the full quote structure as JSON including
+ * sections, items, and computed totals (version, sections, totals).
+ */
 interface QuoteDbRow {
   id: string;
   project_id: string;
   room_id: string;
-  version: number;
-  status: QuoteStatus;
-  sections: QuoteSectionDbRow[] | null;
-  totals: QuoteTotalsDbRow | null;
+  currency: string;
+  items: QuoteItemsJson | null;
+  notes: string | null;
+  status: string | null;
+  subtotal_cents: number;
+  tax_cents: number;
+  tax_rate: number;
+  total_cents: number;
+  valid_until: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -95,7 +112,7 @@ export class QuoteService {
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
-    return this.mapRows((data as QuoteDbRow[] | null) || []);
+    return this.mapRows((data as unknown as QuoteDbRow[] | null) || []);
   }
 
   /**
@@ -109,7 +126,7 @@ export class QuoteService {
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
-    return this.mapRows((data as QuoteDbRow[] | null) || []);
+    return this.mapRows((data as unknown as QuoteDbRow[] | null) || []);
   }
 
   /**
@@ -123,7 +140,7 @@ export class QuoteService {
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
-    return this.mapRows((data as QuoteDbRow[] | null) || []);
+    return this.mapRows((data as unknown as QuoteDbRow[] | null) || []);
   }
 
   /**
@@ -138,7 +155,7 @@ export class QuoteService {
 
     if (error) throw error;
     if (!data) return null;
-    return this.mapRow(data as QuoteDbRow);
+    return this.mapRow(data as unknown as QuoteDbRow);
   }
 
   /**
@@ -148,12 +165,12 @@ export class QuoteService {
     const dbInput = this.toDbRow(input);
     const { data, error } = await supabase
       .from(this.table)
-      .insert(dbInput)
+      .insert(dbInput as unknown as TablesInsert<'quotes'>)
       .select()
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as QuoteDbRow);
+    return this.mapRow(data as unknown as QuoteDbRow);
   }
 
   /**
@@ -169,7 +186,7 @@ export class QuoteService {
       .single();
 
     if (error) throw error;
-    return this.mapRow(data as QuoteDbRow);
+    return this.mapRow(data as unknown as QuoteDbRow);
   }
 
   /**
@@ -190,14 +207,17 @@ export class QuoteService {
   }
 
   private mapRow(row: QuoteDbRow): Quote {
+    const itemsData = row.items;
+    const status = (row.status as QuoteStatus) || 'draft';
+
     return {
       id: row.id,
       projectId: row.project_id,
       roomId: row.room_id,
-      version: row.version,
-      status: row.status,
-      sections: this.mapSections(row.sections),
-      totals: this.mapTotals(row.totals),
+      version: itemsData?.version ?? 1,
+      status,
+      sections: this.mapSections(itemsData?.sections ?? null),
+      totals: this.mapTotals(itemsData?.totals ?? null),
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     };
@@ -266,10 +286,19 @@ export class QuoteService {
     return {
       project_id: input.projectId,
       room_id: input.roomId,
-      version: input.version,
+      currency: 'USD',
+      items: {
+        version: input.version,
+        sections: this.sectionsToDb(input.sections),
+        totals: this.totalsToDb(input.totals),
+      },
+      notes: null,
       status: input.status,
-      sections: this.sectionsToDb(input.sections),
-      totals: this.totalsToDb(input.totals),
+      subtotal_cents: Math.round(input.totals.subtotal * 100),
+      tax_cents: Math.round(input.totals.tax * 100),
+      tax_rate: 0,
+      total_cents: Math.round(input.totals.total * 100),
+      valid_until: null,
     };
   }
 
@@ -278,11 +307,30 @@ export class QuoteService {
 
     if (updates.projectId !== undefined) dbUpdates.project_id = updates.projectId;
     if (updates.roomId !== undefined) dbUpdates.room_id = updates.roomId;
-    if (updates.version !== undefined) dbUpdates.version = updates.version;
     if (updates.status !== undefined) dbUpdates.status = updates.status;
-    if (updates.sections !== undefined)
-      dbUpdates.sections = this.sectionsToDb(updates.sections);
-    if (updates.totals !== undefined) dbUpdates.totals = this.totalsToDb(updates.totals);
+
+    // If sections or totals or version are updated, rebuild the items JSON
+    if (
+      updates.sections !== undefined ||
+      updates.totals !== undefined ||
+      updates.version !== undefined
+    ) {
+      // We need to build the full items object, so we need all parts
+      // This assumes partial updates will include related fields together
+      const itemsUpdate: Record<string, unknown> = {};
+      if (updates.version !== undefined) itemsUpdate.version = updates.version;
+      if (updates.sections !== undefined)
+        itemsUpdate.sections = this.sectionsToDb(updates.sections);
+      if (updates.totals !== undefined) itemsUpdate.totals = this.totalsToDb(updates.totals);
+      dbUpdates.items = itemsUpdate;
+
+      // Also update the denormalized cents fields if totals changed
+      if (updates.totals !== undefined) {
+        dbUpdates.subtotal_cents = Math.round(updates.totals.subtotal * 100);
+        dbUpdates.tax_cents = Math.round(updates.totals.tax * 100);
+        dbUpdates.total_cents = Math.round(updates.totals.total * 100);
+      }
+    }
 
     return dbUpdates;
   }
