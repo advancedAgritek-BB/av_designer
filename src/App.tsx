@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Shell } from '@/components/layout';
 import { AppRoutes, getModeByPath } from '@/router';
 import { useAppStore } from '@/stores/app-store';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Create QueryClient outside component to avoid re-creation on render
 const queryClient = new QueryClient({
@@ -70,13 +71,16 @@ function AppContent() {
  * Application Root
  *
  * Sets up QueryClient, Router, and renders the main content.
+ * Wrapped in ErrorBoundary for graceful error handling.
  */
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <HashRouter>
-        <AppContent />
-      </HashRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <AppContent />
+        </HashRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

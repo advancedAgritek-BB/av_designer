@@ -17,6 +17,7 @@
 @import './components/buttons.css';
 @import './components/inputs.css';
 @import './components/pills.css';
+@import './components/error-boundary.css';
 
 /* Layout - Page structure components */
 @import './layout/sidebar.css';
