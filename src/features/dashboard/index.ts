@@ -8,4 +8,5 @@ export { useDashboardData } from './hooks/use-dashboard-data';
 export { SummaryStatsCards } from './components/SummaryStatsCards';
 export { ProjectPipeline } from './components/ProjectPipeline';
 export { NotificationsPanel } from './components/NotificationsPanel';
+export { QuotePipelinePanel } from './components/QuotePipelinePanel';
 export type { DashboardStats, QuotePipelineItem, DashboardData } from './hooks/use-dashboard-data';
