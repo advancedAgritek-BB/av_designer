@@ -6,17 +6,14 @@
  */
 
 import { Link, useNavigate } from 'react-router-dom';
-import type {
-  ProjectExtended,
-  ProjectStatusExtended,
-} from '@/features/projects/project-types';
+import type { Project, ProjectStatus } from '@/types';
 
 // ============================================================================
 // Types
 // ============================================================================
 
 interface RecentProjectsProps {
-  projects: ProjectExtended[];
+  projects: Project[];
 }
 
 // ============================================================================
@@ -26,15 +23,15 @@ interface RecentProjectsProps {
 /**
  * Get the appropriate CSS class for a project status pill
  */
-function getStatusPillClass(status: ProjectStatusExtended): string {
+function getStatusPillClass(status: ProjectStatus): string {
   return `dashboard-status-pill dashboard-status-${status}`;
 }
 
 /**
  * Format a status enum value to a human-readable label
  */
-function formatStatusLabel(status: ProjectStatusExtended): string {
-  const labels: Record<ProjectStatusExtended, string> = {
+function formatStatusLabel(status: ProjectStatus): string {
+  const labels: Record<ProjectStatus, string> = {
     draft: 'Draft',
     quoting: 'Quoting',
     client_review: 'Client Review',
@@ -86,7 +83,7 @@ function formatRelativeTime(dateString: string): string {
  * Individual project card in the grid
  */
 interface ProjectCardProps {
-  project: ProjectExtended;
+  project: Project;
   onClick: () => void;
 }
 

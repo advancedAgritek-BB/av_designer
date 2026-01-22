@@ -1,95 +1,118 @@
 /**
- * Home Page
+ * Home Page - Dashboard
  *
- * Welcome page with design system demo content
+ * Main dashboard view with stats, projects, quotes, and activity.
+ * Integrates all dashboard components into a unified layout.
  */
-import { Button, Input, Card, CardHeader, CardBody } from '@/components/ui';
+
+import { useNavigate } from 'react-router-dom';
+import {
+  useDashboardData,
+  QuickActionsBar,
+  SummaryStatsCards,
+  ProjectPipeline,
+  NotificationsPanel,
+  QuotePipelinePanel,
+  RecentProjects,
+} from '@/features/dashboard';
+import type { ProjectStatusExtended } from '@/features/projects/project-types';
+import type { QuoteStatus } from '@/types/quote';
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Stat keys matching the SummaryStatsCards component expectations
+ */
+type StatKey = 'activeProjects' | 'totalQuotes' | 'pendingApprovalCount' | 'notificationCount';
+
+// ============================================================================
+// Component
+// ============================================================================
 
 export function HomePage() {
+  const navigate = useNavigate();
+  const {
+    stats,
+    quotePipeline,
+    recentProjects,
+    unreadNotifications,
+    isLoading,
+  } = useDashboardData();
+
+  /**
+   * Handle clicks on summary stat cards to navigate to relevant views
+   */
+  const handleStatClick = (stat: StatKey) => {
+    switch (stat) {
+      case 'activeProjects':
+        navigate('/projects');
+        break;
+      case 'totalQuotes':
+      case 'pendingApprovalCount':
+        navigate('/projects?filter=quotes');
+        break;
+      case 'notificationCount':
+        document.getElementById('notifications-panel')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      default:
+        navigate('/projects');
+    }
+  };
+
+  /**
+   * Handle clicks on project pipeline status to filter projects
+   */
+  const handleProjectStatusClick = (status: ProjectStatusExtended) => {
+    navigate(`/projects?status=${status}`);
+  };
+
+  /**
+   * Handle clicks on quote pipeline status to filter projects by quote status
+   */
+  const handleQuoteStatusClick = (status: QuoteStatus) => {
+    navigate(`/projects?quoteStatus=${status}`);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="dashboard" data-testid="home-page">
+        <div className="dashboard-loading">
+          <span className="text-text-secondary">Loading dashboard...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div data-testid="home-page" className="max-w-4xl space-y-6">
-      <h1 className="text-2xl font-semibold text-text-primary">Welcome to AV Designer</h1>
-      <p className="text-text-secondary">
-        Design system initialized with Tailwind CSS. Use the sidebar to navigate.
-      </p>
+    <div className="dashboard" data-testid="home-page">
+      <QuickActionsBar />
 
-      <Card>
-        <CardHeader title="Button Variants" description="Primary design system buttons" />
-        <CardBody>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="danger">Danger</Button>
-            <Button variant="primary" loading>
-              Loading
-            </Button>
-            <Button variant="primary" disabled>
-              Disabled
-            </Button>
-          </div>
-        </CardBody>
-      </Card>
+      <SummaryStatsCards stats={stats} onStatClick={handleStatClick} />
 
-      <Card>
-        <CardHeader
-          title="Input Component"
-          description="Form input with various states"
-        />
-        <CardBody>
-          <div className="grid gap-4 max-w-md">
-            <Input label="Default Input" placeholder="Enter text..." />
-            <Input
-              label="With Helper Text"
-              placeholder="Enter your email"
-              helperText="We'll never share your email"
+      <div className="dashboard-grid">
+        <div className="dashboard-main">
+          <ProjectPipeline
+            projectsByStatus={stats.projectsByStatus}
+            onStatusClick={handleProjectStatusClick}
+          />
+          <RecentProjects projects={recentProjects} />
+        </div>
+
+        <div className="dashboard-sidebar">
+          <div id="notifications-panel">
+            <NotificationsPanel
+              notifications={unreadNotifications}
+              unreadCount={stats.notificationCount}
             />
-            <Input
-              label="Error State"
-              placeholder="Enter password"
-              error="Password must be at least 8 characters"
-            />
-            <Input label="Disabled Input" placeholder="Cannot edit" disabled />
           </div>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader title="Status Pills" description="Project status indicators" />
-        <CardBody>
-          <div className="flex flex-wrap gap-2">
-            <span className="pill pill-quoting">Quoting</span>
-            <span className="pill pill-review">Client Review</span>
-            <span className="pill pill-ordered">Ordered</span>
-            <span className="pill pill-progress">In Progress</span>
-            <span className="pill pill-hold">On Hold</span>
-          </div>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader title="Color Palette" description="Design system colors" />
-        <CardBody>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <div className="h-12 bg-bg-primary border border-white/10 rounded-md" />
-              <p className="text-xs text-text-tertiary">bg-primary</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-12 bg-bg-secondary rounded-md" />
-              <p className="text-xs text-text-tertiary">bg-secondary</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-12 bg-bg-tertiary rounded-md" />
-              <p className="text-xs text-text-tertiary">bg-tertiary</p>
-            </div>
-            <div className="space-y-2">
-              <div className="h-12 bg-accent-gold rounded-md" />
-              <p className="text-xs text-text-tertiary">accent-gold</p>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
+          <QuotePipelinePanel
+            pipeline={quotePipeline}
+            onStatusClick={handleQuoteStatusClick}
+          />
+        </div>
+      </div>
     </div>
   );
 }
