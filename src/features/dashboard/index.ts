@@ -10,4 +10,5 @@ export { ProjectPipeline } from './components/ProjectPipeline';
 export { NotificationsPanel } from './components/NotificationsPanel';
 export { QuotePipelinePanel } from './components/QuotePipelinePanel';
 export { RecentProjects } from './components/RecentProjects';
+export { QuickActionsBar } from './components/QuickActionsBar';
 export type { DashboardStats, QuotePipelineItem, DashboardData } from './hooks/use-dashboard-data';
