@@ -1,10 +1,12 @@
 import { useState, useCallback, useId } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EquipmentCard } from './EquipmentCard';
 import {
   useEquipmentList,
   useEquipmentByCategory,
   useEquipmentSearch,
 } from '../use-equipment';
+import { Button } from '@/components/ui';
 import { EQUIPMENT_CATEGORIES } from '@/types/equipment';
 import type { Equipment, EquipmentCategory } from '@/types/equipment';
 
@@ -35,6 +37,7 @@ export function EquipmentList({
   onSelect,
   onFavoriteToggle,
 }: EquipmentListProps) {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const tabPanelId = useId();
@@ -114,12 +117,21 @@ export function EquipmentList({
       {/* Header */}
       <div className="equipment-list-header">
         <div className="equipment-list-title-row">
-          <h1 className="equipment-list-title">Equipment</h1>
-          {!isLoading && !isError && (
-            <span className="equipment-list-count">
-              {itemCount} {itemCount === 1 ? 'item' : 'items'}
-            </span>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
+            <h1 className="equipment-list-title">Equipment</h1>
+            {!isLoading && !isError && (
+              <span className="equipment-list-count">
+                {itemCount} {itemCount === 1 ? 'item' : 'items'}
+              </span>
+            )}
+          </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => navigate('/equipment/import')}
+          >
+            Import Equipment
+          </Button>
         </div>
 
         {/* Search */}

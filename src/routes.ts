@@ -25,6 +25,7 @@ export const ROUTES = {
   QUOTING: '/rooms/:roomId/quotes',
   STANDARDS: '/standards',
   EQUIPMENT: '/equipment',
+  EQUIPMENT_IMPORT: '/equipment/import',
   TEMPLATES: '/templates',
   SETTINGS: '/settings',
 } as const;
@@ -104,6 +105,7 @@ export function isValidRoute(path: string): boolean {
     '/clients',
     '/standards',
     '/equipment',
+    '/equipment/import',
     '/templates',
     '/settings',
   ];

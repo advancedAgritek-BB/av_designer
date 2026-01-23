@@ -6,10 +6,12 @@ pub mod commands;
 pub mod database;
 pub mod drawings;
 pub mod export;
+pub mod import;
 
 use commands::{get_app_info, greet};
 use drawings::generate_electrical;
 use export::export_to_pdf;
+use import::{detect_headers, parse_import_file, validate_import_rows};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -28,7 +30,10 @@ pub fn run() {
             greet,
             get_app_info,
             generate_electrical,
-            export_to_pdf
+            export_to_pdf,
+            parse_import_file,
+            detect_headers,
+            validate_import_rows
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

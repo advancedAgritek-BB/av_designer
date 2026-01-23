@@ -34,6 +34,10 @@ const EquipmentPage = lazy(() =>
   import('@/pages/EquipmentPage').then((m) => ({ default: m.EquipmentPage }))
 );
 
+const EquipmentImportPage = lazy(() =>
+  import('@/features/import').then((m) => ({ default: m.ImportPage }))
+);
+
 const StandardsPage = lazy(() =>
   import('@/pages/StandardsPage').then((m) => ({ default: m.StandardsPage }))
 );
@@ -117,6 +121,7 @@ export const RouteConfig = [
   { path: '/clients', element: <ClientsPage /> },
   { path: '/clients/:clientId', element: <ClientDetailPage /> },
   { path: '/equipment', element: <EquipmentPage /> },
+  { path: '/equipment/import', element: <EquipmentImportPage /> },
   { path: '/standards', element: <StandardsPage /> },
   { path: '/templates', element: <TemplatesPage /> },
   { path: '/settings', element: <SettingsPage /> },
@@ -147,6 +152,7 @@ export function AppRoutes() {
         <Route path="/clients" element={<ClientsPage />} />
         <Route path="/clients/:clientId" element={<ClientDetailPage />} />
         <Route path="/equipment" element={<EquipmentPage />} />
+        <Route path="/equipment/import" element={<EquipmentImportPage />} />
         <Route path="/standards" element={<StandardsPage />} />
         <Route path="/templates" element={<TemplatesPage />} />
         <Route path="/settings" element={<SettingsPage />} />
